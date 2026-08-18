@@ -176,6 +176,7 @@ jobs:
             RESULT=$(aws ec2 run-instances \
               --image-id "$TEST_AMI" \
               --instance-type "$TYPE" \
+              --credit-specification CpuCredits=standard \
               --count 1 \
               --dry-run 2>&1 || true)
 
