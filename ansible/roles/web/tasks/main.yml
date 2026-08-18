@@ -54,22 +54,13 @@
     group: www-data
     mode: "0755"
 
-- name: Copy application code to server
+- name: Copy entire application directory to server
   ansible.builtin.copy:
-    src: "{{ playbook_dir }}/../app/index.js"
-    dest: /opt/myapp/index.js
+    src: "{{ playbook_dir }}/../app/"
+    dest: /opt/myapp/
     owner: www-data
     group: www-data
-    mode: "0644"
-  notify: Restart Node App
-
-- name: Copy package.json for the application
-  ansible.builtin.copy:
-    src: "{{ playbook_dir }}/../app/package.json"
-    dest: /opt/myapp/package.json
-    owner: www-data
-    group: www-data
-    mode: "0644"
+    mode: "0755"
   notify: Restart Node App
 
 - name: Install Node.js dependencies
