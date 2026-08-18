@@ -31,3 +31,9 @@ output "web_url" {
   description = "URL สำหรับเข้าถึง Web Application"
   value       = "http://${aws_instance.web.public_ip}"
 }
+
+output "private_key_pem" {
+  description = "SSH Private Key สำหรับเข้า EC2 (sensitive)"
+  value       = tls_private_key.ssh_key.private_key_openssh
+  sensitive   = true
+}

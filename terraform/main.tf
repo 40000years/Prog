@@ -18,6 +18,25 @@ data "aws_ssm_parameter" "ubuntu" {
 }
 
 # ============================================================
+# SSH Key Pair - สร้าง Key อัตโนมัติ ไม่ต้องอัปโหลด manual
+# ============================================================
+
+resource "tls_private_key" "ssh_key" {
+  algorithm = "ED25519"
+}
+
+resource "aws_key_pair" "deployer" {
+  key_name   = "${var.project_name}-key"
+  public_key = tls_private_key.ssh_key.public_key_openssh
+
+  tags = {
+    Name    = "${var.project_name}-key"
+    Project = var.project_name
+  }
+}
+
+
+# ============================================================
 # VPC & Networking
 # ============================================================
 
@@ -166,7 +185,7 @@ resource "aws_instance" "web" {
   instance_type          = var.instance_type
   subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  key_name               = var.key_name
+  key_name               = aws_key_pair.deployer.key_name
 
   # t4g.micro ใช้ unlimited by default, standard ต้องระบุเฉพาะ non-Graviton เท่านั้น
   dynamic "credit_specification" {
@@ -189,7 +208,7 @@ resource "aws_instance" "db" {
   instance_type          = var.instance_type
   subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.db_sg.id]
-  key_name               = var.key_name
+  key_name               = aws_key_pair.deployer.key_name
 
   dynamic "credit_specification" {
     for_each = local.is_graviton ? [] : [1]

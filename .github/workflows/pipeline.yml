@@ -111,6 +111,27 @@ jobs:
           echo "   (บางครั้ง Access Key ใน GitHub Secrets อาจมาจากคนละ Account กัน)"
           echo "====================================="
 
+      - name: Create S3 bucket for Terraform state (ถ้ายังไม่มี)
+        run: |
+          BUCKET="mega-automation-lab-tfstate"
+          REGION="ap-southeast-7"
+          if aws s3api head-bucket --bucket "$BUCKET" 2>/dev/null; then
+            echo "✅ S3 bucket '$BUCKET' already exists"
+          else
+            echo "🪣 Creating S3 bucket '$BUCKET'..."
+            aws s3api create-bucket \
+              --bucket "$BUCKET" \
+              --region "$REGION" \
+              --create-bucket-configuration LocationConstraint="$REGION"
+            aws s3api put-bucket-versioning \
+              --bucket "$BUCKET" \
+              --versioning-configuration Status=Enabled
+            aws s3api put-bucket-encryption \
+              --bucket "$BUCKET" \
+              --server-side-encryption-configuration '{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"}}]}'
+            echo "✅ Bucket created successfully"
+          fi
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
@@ -263,16 +284,20 @@ jobs:
         run: |
           ansible-galaxy collection install amazon.aws community.postgresql community.general
 
-      - name: Setup SSH Private Key
+      - name: Setup Terraform (for key extraction)
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
+      - name: Setup SSH Private Key (from Terraform state)
+        working-directory: ./terraform
         run: |
-          # ใช้ printf แทน echo เพื่อรักษา newlines ใน PEM key
-          printf '%s' "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/id_rsa
+          terraform init -input=false
+          terraform output -raw private_key_pem > /tmp/id_rsa
           chmod 600 /tmp/id_rsa
-          # ตรวจสอบว่า key format ถูกต้อง
           echo "--- Key file info ---"
           head -1 /tmp/id_rsa
-          echo "Lines: $(wc -l < /tmp/id_rsa)"
-          ssh-keygen -l -f /tmp/id_rsa && echo "✅ Key is valid" || echo "❌ Key is INVALID - check SSH_PRIVATE_KEY secret format"
+          ssh-keygen -l -f /tmp/id_rsa && echo "✅ Key is valid" || echo "❌ Key is INVALID"
 
       # รอให้ EC2 instances พร้อมรับ SSH (ใหม่ ๆ อาจยังบูตไม่เสร็จ)
       - name: Wait for EC2 instances to be ready
