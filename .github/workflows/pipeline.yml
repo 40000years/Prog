@@ -71,14 +71,11 @@ jobs:
         run: ansible-playbook playbook.yml --syntax-check
 
       # --- Security Scan ---
-      - name: Install tfsec (Terraform Security Scanner)
-        run: |
-          curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
-
-      - name: Run tfsec
-        working-directory: ./terraform
-        run: tfsec . --soft-fail
-        continue-on-error: true  # Warning เฉยๆ ไม่ block pipeline
+      - name: Run tfsec (Terraform Security Scanner)
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: ./terraform
+          soft_fail: true
 
   # ============================================================
   # Job 2: Infrastructure Provisioning (สร้าง Infrastructure)
