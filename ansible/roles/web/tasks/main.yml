@@ -22,15 +22,19 @@
 
 - name: Add NodeSource GPG key
   ansible.builtin.shell: |
+    set -o pipefail
     mkdir -p /etc/apt/keyrings
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
   args:
+    executable: /bin/bash
     creates: /etc/apt/keyrings/nodesource.gpg
 
 - name: Add NodeSource repository (Node.js 20 LTS)
   ansible.builtin.shell: |
+    set -o pipefail
     echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
   args:
+    executable: /bin/bash
     creates: /etc/apt/sources.list.d/nodesource.list
 
 - name: Update apt cache after adding NodeSource
@@ -84,6 +88,7 @@
   community.general.npm:
     path: /opt/myapp
     state: present
+  become: true
   become_user: root
 
 - name: Create systemd service for Node.js app

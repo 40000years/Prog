@@ -38,12 +38,14 @@
   notify: Restart PostgreSQL
 
 - name: Create application database
+  become: true
   become_user: postgres
   community.postgresql.postgresql_db:
     name: myapp_db
     state: present
 
 - name: Create application database user
+  become: true
   become_user: postgres
   community.postgresql.postgresql_user:
     name: myapp_user
@@ -51,6 +53,7 @@
     state: present
 
 - name: Grant privileges to application database user
+  become: true
   become_user: postgres
   community.postgresql.postgresql_privs:
     db: myapp_db
