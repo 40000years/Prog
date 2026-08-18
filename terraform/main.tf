@@ -7,9 +7,9 @@
 # ============================================================
 
 locals {
-  # t4g = Graviton ARM64, อื่นๆ = amd64
+  # t4g = Graviton ARM64, อื่นๆ = amd64 (x86_64)
   is_graviton = startswith(var.instance_type, "t4g") || startswith(var.instance_type, "m6g") || startswith(var.instance_type, "c6g")
-  arch        = local.is_graviton ? "arm64" : "amd64"
+  arch        = local.is_graviton ? "arm64" : "x86_64"
   ami_name    = local.is_graviton ? "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-server-*" : "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
 }
 
