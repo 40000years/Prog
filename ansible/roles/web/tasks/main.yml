@@ -1,0 +1,147 @@
+# ============================================================
+# Web Role - Tasks: ติดตั้ง Nginx + Node.js + Deploy App
+# ============================================================
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Install Node.js prerequisites
+  apt:
+    name:
+      - curl
+      - ca-certificates
+      - gnupg
+    state: present
+
+- name: Add NodeSource GPG key
+  shell: |
+    mkdir -p /etc/apt/keyrings
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+  args:
+    creates: /etc/apt/keyrings/nodesource.gpg
+
+- name: Add NodeSource repository (Node.js 20 LTS)
+  shell: |
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+  args:
+    creates: /etc/apt/sources.list.d/nodesource.list
+
+- name: Update apt cache after adding NodeSource
+  apt:
+    update_cache: yes
+
+- name: Install Node.js
+  apt:
+    name: nodejs
+    state: present
+
+- name: Create application directory
+  file:
+    path: /opt/myapp
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "0755"
+
+- name: Copy application code to server
+  copy:
+    src: "{{ playbook_dir }}/../app/index.js"
+    dest: /opt/myapp/index.js
+    owner: www-data
+    group: www-data
+    mode: "0644"
+  notify: Restart Node App
+
+- name: Create package.json for the application
+  copy:
+    content: |
+      {
+        "name": "mega-automation-app",
+        "version": "1.0.0",
+        "description": "My Mega Automation Lab Web Application",
+        "main": "index.js",
+        "scripts": {
+          "start": "node index.js"
+        },
+        "dependencies": {
+          "express": "^4.18.2"
+        }
+      }
+    dest: /opt/myapp/package.json
+    owner: www-data
+    group: www-data
+    mode: "0644"
+  notify: Restart Node App
+
+- name: Install Node.js dependencies
+  community.general.npm:
+    path: /opt/myapp
+    state: present
+  become_user: root
+
+- name: Create systemd service for Node.js app
+  copy:
+    content: |
+      [Unit]
+      Description=Mega Automation Lab Node.js App
+      After=network.target
+
+      [Service]
+      Type=simple
+      User=www-data
+      WorkingDirectory=/opt/myapp
+      ExecStart=/usr/bin/node /opt/myapp/index.js
+      Restart=on-failure
+      RestartSec=10
+      Environment=NODE_ENV=production
+      Environment=PORT=3000
+
+      [Install]
+      WantedBy=multi-user.target
+    dest: /etc/systemd/system/myapp.service
+    mode: "0644"
+  notify: Restart Node App
+
+- name: Configure Nginx as reverse proxy
+  copy:
+    content: |
+      server {
+          listen 80 default_server;
+          listen [::]:80 default_server;
+          server_name _;
+
+          location / {
+              proxy_pass http://127.0.0.1:3000;
+              proxy_http_version 1.1;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection 'upgrade';
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+              proxy_cache_bypass $http_upgrade;
+          }
+      }
+    dest: /etc/nginx/sites-available/default
+    mode: "0644"
+  notify: Restart Nginx
+
+- name: Enable and start Nginx
+  systemd:
+    name: nginx
+    enabled: yes
+    state: started
+
+- name: Enable and start Node.js app
+  systemd:
+    name: myapp
+    enabled: yes
+    state: started
+    daemon_reload: yes

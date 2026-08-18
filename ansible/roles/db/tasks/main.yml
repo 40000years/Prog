@@ -1,0 +1,53 @@
+# ============================================================
+# DB Role - Tasks: ติดตั้ง PostgreSQL
+# ============================================================
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install PostgreSQL and dependencies
+  apt:
+    name:
+      - postgresql
+      - postgresql-contrib
+      - python3-psycopg2  # จำเป็นสำหรับ Ansible postgresql modules
+    state: present
+
+- name: Ensure PostgreSQL is started and enabled
+  systemd:
+    name: postgresql
+    enabled: yes
+    state: started
+
+- name: Configure PostgreSQL to listen on all interfaces
+  lineinfile:
+    path: /etc/postgresql/14/main/postgresql.conf
+    regexp: "^#?listen_addresses"
+    line: "listen_addresses = '*'"
+    state: present
+  notify: Restart PostgreSQL
+
+- name: Allow connections from VPC subnet in pg_hba.conf
+  lineinfile:
+    path: /etc/postgresql/14/main/pg_hba.conf
+    line: "host    all             all             10.0.0.0/16             md5"
+    state: present
+    insertafter: "^# IPv4 local connections"
+  notify: Restart PostgreSQL
+
+- name: Create application database
+  become_user: postgres
+  community.postgresql.postgresql_db:
+    name: myapp_db
+    state: present
+
+- name: Create application database user
+  become_user: postgres
+  community.postgresql.postgresql_user:
+    name: myapp_user
+    password: "{{ db_password | default('SuperSecretPass123!') }}"
+    db: myapp_db
+    priv: "ALL"
+    state: present

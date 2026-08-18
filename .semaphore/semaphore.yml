@@ -1,0 +1,96 @@
+# ============================================================
+# Semaphore CI Pipeline (Backup / Alternative)
+# ============================================================
+# หมายเหตุ: Pipeline หลักใช้ GitHub Actions (.github/workflows/pipeline.yml)
+# ไฟล์นี้เป็นตัวอย่างสำหรับ Semaphore CI กรณีต้องการใช้แทน
+
+version: v1.0
+name: "Mega Automation Pipeline"
+
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2204
+
+blocks:
+  # Block 1: Code Validation
+  - name: "🔍 Code Validation"
+    task:
+      jobs:
+        - name: Terraform Validation
+          commands:
+            - checkout
+            - sem-version terraform 1.9.0
+            - cd terraform
+            - terraform fmt -check -recursive
+            - terraform init -backend=false
+            - terraform validate
+
+        - name: Ansible Validation
+          commands:
+            - checkout
+            - pip install ansible ansible-lint
+            - cd ansible
+            - ansible-lint playbook.yml || true
+            - ansible-playbook playbook.yml --syntax-check
+
+  # Block 2: Infrastructure Provisioning
+  - name: "🏗️ Infrastructure Provisioning"
+    task:
+      secrets:
+        - name: aws-credentials
+      jobs:
+        - name: Terraform Apply
+          commands:
+            - checkout
+            - sem-version terraform 1.9.0
+            - cd terraform
+            - terraform init
+            - terraform plan -out=tfplan
+            - terraform apply -auto-approve tfplan
+            - terraform output -json > /tmp/tf_outputs.json
+
+  # Block 3: Configuration & Deployment
+  - name: "⚙️ Configuration & Deployment"
+    task:
+      secrets:
+        - name: aws-credentials
+        - name: ssh-key
+      jobs:
+        - name: Ansible Playbook
+          commands:
+            - checkout
+            - pip install ansible boto3 botocore
+            - ansible-galaxy collection install amazon.aws community.postgresql community.general
+            - echo "$SSH_PRIVATE_KEY" > /tmp/id_rsa
+            - chmod 600 /tmp/id_rsa
+            - sleep 60  # รอ EC2 boot
+            - cd ansible
+            - ansible-playbook -i inventory/aws_ec2.yml playbook.yml --private-key /tmp/id_rsa -u ubuntu -v
+            - rm -f /tmp/id_rsa
+
+  # Block 4: Smoke Test
+  - name: "🧪 Smoke Test"
+    task:
+      secrets:
+        - name: aws-credentials
+      jobs:
+        - name: HTTP Health Check
+          commands:
+            - checkout
+            - sleep 30
+            - |
+              WEB_IP=$(cd terraform && terraform output -raw web_server_public_ip)
+              HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "http://${WEB_IP}")
+              if [ "$HTTP_STATUS" = "200" ]; then
+                echo "✅ Smoke test passed! HTTP Status: ${HTTP_STATUS}"
+              else
+                echo "❌ Smoke test failed! HTTP Status: ${HTTP_STATUS}"
+                exit 1
+              fi
+
+promotions:
+  - name: Deploy to Production
+    pipeline_file: deploy.yml
+    auto_promote:
+      when: result = 'passed'

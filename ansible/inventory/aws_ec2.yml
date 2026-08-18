@@ -1,0 +1,27 @@
+# ============================================================
+# AWS EC2 Dynamic Inventory Plugin
+# ============================================================
+# Ansible จะดึง EC2 instances จาก AWS โดยอัตโนมัติ
+# และจัดกลุ่มตาม Tag ที่กำหนดไว้ใน Terraform
+
+plugin: amazon.aws.aws_ec2
+
+# Region ที่จะค้นหา EC2 instances
+regions:
+  - ap-southeast-1
+
+# กรอง EC2 ที่เป็นของ Project นี้เท่านั้น (ตรงกับ Tag ใน Terraform)
+filters:
+  tag:Project: mega-automation-lab
+  instance-state-name: running
+
+# จัดกลุ่ม EC2 ตาม Tag
+# เช่น Tag Role=web จะเข้ากลุ่ม tag_Role_web
+keyed_groups:
+  - key: tags.Role
+    prefix: tag_Role
+    separator: "_"
+
+# ใช้ Public IP ในการเชื่อมต่อ (เพราะเรา SSH จากภายนอก AWS)
+compose:
+  ansible_host: public_ip_address

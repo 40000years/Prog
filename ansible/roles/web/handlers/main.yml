@@ -1,0 +1,14 @@
+# ============================================================
+# Web Role - Handlers
+# ============================================================
+
+- name: Restart Nginx
+  systemd:
+    name: nginx
+    state: restarted
+
+- name: Restart Node App
+  systemd:
+    name: myapp
+    state: restarted
+    daemon_reload: yes
