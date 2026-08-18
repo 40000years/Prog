@@ -18,10 +18,10 @@ terraform {
 
   # S3 Backend - เก็บ state เพื่อไม่ให้สร้าง EC2 ใหม่ทุก push
   backend "s3" {
-    bucket         = "mega-automation-lab-tfstate"
-    key            = "terraform.tfstate"
-    region         = "ap-southeast-7"
-    encrypt        = true
+    bucket  = "mega-automation-lab-tfstate"
+    key     = "terraform.tfstate"
+    region  = "ap-southeast-7"
+    encrypt = true
   }
 }
 
