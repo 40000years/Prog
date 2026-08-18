@@ -113,41 +113,84 @@ jobs:
         working-directory: ./terraform
         run: terraform init
 
-      # ค้นหา instance type ที่ใช้ได้จริงใน account + region นี้
-      - name: Detect free-tier eligible instance type
+      - name: Detect workable instance type (dry-run)
         id: detect_instance
         run: |
           echo "====================================="
-          echo "🔍 Checking free-tier eligible instance types in ap-southeast-7..."
-          echo "====================================="
-          TYPES=$(aws ec2 describe-instance-types \
+          echo "🔍 Querying which types are free-tier eligible (metadata)..."
+          FREE_TIER_TYPES=$(aws ec2 describe-instance-types \
             --filters "Name=free-tier-eligible,Values=true" \
             --query "InstanceTypes[].InstanceType" \
-            --output text 2>/dev/null || echo "")
-          echo "Found free-tier eligible types: ${TYPES}"
+            --output text 2>/dev/null || echo "none")
+          echo "Free-tier eligible types (metadata): ${FREE_TIER_TYPES}"
           echo "====================================="
 
-          # เลือก instance type ที่ต้องการ (เรียงตามลำดับความต้องการ)
+          echo "🧪 Testing instance types with actual DRY-RUN..."
+          echo "====================================="
+
+          # หา AMI สำหรับทดสอบ
+          AMI_AMD64=$(aws ec2 describe-images \
+            --owners 099720109477 \
+            --filters \
+              "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*" \
+              "Name=state,Values=available" "Name=architecture,Values=x86_64" \
+            --query "sort_by(Images, &CreationDate)[-1].ImageId" \
+            --output text 2>/dev/null || echo "")
+
+          AMI_ARM64=$(aws ec2 describe-images \
+            --owners 099720109477 \
+            --filters \
+              "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-server-*" \
+              "Name=state,Values=available" "Name=architecture,Values=arm64" \
+            --query "sort_by(Images, &CreationDate)[-1].ImageId" \
+            --output text 2>/dev/null || echo "")
+
+          echo "amd64 AMI: ${AMI_AMD64}"
+          echo "arm64 AMI: ${AMI_ARM64}"
+          echo "====================================="
+
           SELECTED=""
-          for TYPE in t4g.micro t3.micro t2.micro t4g.small t3.small; do
-            if echo "$TYPES" | grep -qw "$TYPE"; then
+
+          # ทดสอบทีละ type ด้วย dry-run จริงๆ
+          for TYPE in t4g.micro t4g.small t3.micro t2.micro t3.small t3a.micro t3a.small; do
+            # เลือก AMI ตาม architecture
+            if echo "$TYPE" | grep -q "^t4g"; then
+              TEST_AMI="$AMI_ARM64"
+            else
+              TEST_AMI="$AMI_AMD64"
+            fi
+
+            if [ -z "$TEST_AMI" ]; then
+              echo "⏭️  $TYPE: skipped (no AMI for arch)"
+              continue
+            fi
+
+            RESULT=$(aws ec2 run-instances \
+              --image-id "$TEST_AMI" \
+              --instance-type "$TYPE" \
+              --count 1 \
+              --dry-run 2>&1 || true)
+
+            if echo "$RESULT" | grep -q "DryRunOperation"; then
+              echo "✅ $TYPE: ALLOWED"
               SELECTED="$TYPE"
               break
+            else
+              ERR=$(echo "$RESULT" | grep -oE 'api error [^:]+: [^(]+' | head -1)
+              echo "❌ $TYPE: BLOCKED — ${ERR}"
             fi
           done
 
-          # ถ้าไม่พบเลย ใช้ตัวแรกที่มี
-          if [ -z "$SELECTED" ] && [ -n "$TYPES" ]; then
-            SELECTED=$(echo "$TYPES" | awk '{print $1}')
-          fi
-
-          # ถ้ายังไม่ได้ fallback เป็น t3.micro
+          echo "====================================="
           if [ -z "$SELECTED" ]; then
+            echo "⚠️  WARNING: No working instance type found via dry-run!"
+            echo "   ต้องตรวจสอบสิทธิ์ของ AWS account นี้"
+            echo "   Falling back to t3.micro (pipeline may fail)"
             SELECTED="t3.micro"
-            echo "⚠️  No free-tier eligible type found, falling back to ${SELECTED}"
+          else
+            echo "🎯 Selected instance type: ${SELECTED}"
           fi
-
-          echo "✅ Selected instance type: ${SELECTED}"
+          echo "====================================="
           echo "TF_VAR_instance_type=${SELECTED}" >> $GITHUB_ENV
 
       - name: Terraform Plan
