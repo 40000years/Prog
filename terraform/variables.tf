@@ -5,7 +5,7 @@
 variable "aws_region" {
   description = "AWS Region ที่จะสร้าง Infrastructure"
   type        = string
-  default     = "ap-southeast-1" # Singapore (ใกล้ไทยที่สุด)
+  default     = "ap-southeast-7" # Thailand
 }
 
 variable "vpc_cidr" {
@@ -30,12 +30,6 @@ variable "key_name" {
   description = "ชื่อ AWS Key Pair สำหรับ SSH เข้า EC2"
   type        = string
   default     = "my-automation-key"
-}
-
-variable "ami_id" {
-  description = "AMI ID สำหรับ Ubuntu 22.04 LTS (ap-southeast-1)"
-  type        = string
-  default     = "ami-078c1149d8ad719a7" # Ubuntu 22.04 LTS ap-southeast-1
 }
 
 variable "project_name" {
