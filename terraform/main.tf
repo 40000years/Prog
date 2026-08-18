@@ -7,30 +7,14 @@
 # ============================================================
 
 locals {
-  # t4g = Graviton ARM64, อื่นๆ = amd64 (x86_64)
-  is_graviton = startswith(var.instance_type, "t4g") || startswith(var.instance_type, "m6g") || startswith(var.instance_type, "c6g")
-  arch        = local.is_graviton ? "arm64" : "x86_64"
-  ami_name    = local.is_graviton ? "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-server-*" : "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
+  # t4g = Graviton ARM64, อื่นๆ = amd64
+  is_graviton  = startswith(var.instance_type, "t4g") || startswith(var.instance_type, "m6g") || startswith(var.instance_type, "c6g")
+  arch         = local.is_graviton ? "arm64" : "amd64"
+  ssm_ami_path = "/aws/service/canonical/ubuntu/server/22.04/stable/current/${local.arch}/hvm/ebs-gp2/ami-id"
 }
 
-data "aws_ami" "ubuntu" {
-  most_recent = true
-  owners      = ["099720109477"] # Canonical (Ubuntu)
-
-  filter {
-    name   = "name"
-    values = [local.ami_name]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = [local.arch]
-  }
+data "aws_ssm_parameter" "ubuntu" {
+  name = local.ssm_ami_path
 }
 
 # ============================================================
@@ -178,7 +162,7 @@ resource "aws_security_group" "db_sg" {
 # ============================================================
 
 resource "aws_instance" "web" {
-  ami                    = data.aws_ami.ubuntu.id
+  ami                    = data.aws_ssm_parameter.ubuntu.value
   instance_type          = var.instance_type
   subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
@@ -197,7 +181,7 @@ resource "aws_instance" "web" {
 }
 
 resource "aws_instance" "db" {
-  ami                    = data.aws_ami.ubuntu.id
+  ami                    = data.aws_ssm_parameter.ubuntu.value
   instance_type          = var.instance_type
   subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.db_sg.id]
