@@ -176,7 +176,6 @@ jobs:
             RESULT=$(aws ec2 run-instances \
               --image-id "$TEST_AMI" \
               --instance-type "$TYPE" \
-              --credit-specification CpuCredits=standard \
               --count 1 \
               --dry-run 2>&1 || true)
 
@@ -193,9 +192,8 @@ jobs:
           echo "====================================="
           if [ -z "$SELECTED" ]; then
             echo "⚠️  WARNING: No working instance type found via dry-run!"
-            echo "   ต้องตรวจสอบสิทธิ์ของ AWS account นี้"
-            echo "   Falling back to t3.micro (pipeline may fail)"
-            SELECTED="t3.micro"
+            echo "   Falling back to t4g.micro (ARM64 Graviton)"
+            SELECTED="t4g.micro"
           else
             echo "🎯 Selected instance type: ${SELECTED}"
           fi

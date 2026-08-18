@@ -7,7 +7,7 @@
 # ============================================================
 
 locals {
-  # t4g = Graviton ARM64, อื่นๆ = amd64
+  # t4g/m6g/c6g = Graviton ARM64, others = amd64
   is_graviton  = startswith(var.instance_type, "t4g") || startswith(var.instance_type, "m6g") || startswith(var.instance_type, "c6g")
   arch         = local.is_graviton ? "arm64" : "amd64"
   ssm_ami_path = "/aws/service/canonical/ubuntu/server/22.04/stable/current/${local.arch}/hvm/ebs-gp2/ami-id"
@@ -168,8 +168,12 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [aws_security_group.web_sg.id]
   key_name               = var.key_name
 
-  credit_specification {
-    cpu_credits = "standard"
+  # t4g.micro ใช้ unlimited by default, standard ต้องระบุเฉพาะ non-Graviton เท่านั้น
+  dynamic "credit_specification" {
+    for_each = local.is_graviton ? [] : [1]
+    content {
+      cpu_credits = "standard"
+    }
   }
 
   # ใส่ Tag ให้ Ansible ใช้ Dynamic Inventory ดึงไปใช้งาน
@@ -187,8 +191,11 @@ resource "aws_instance" "db" {
   vpc_security_group_ids = [aws_security_group.db_sg.id]
   key_name               = var.key_name
 
-  credit_specification {
-    cpu_credits = "standard"
+  dynamic "credit_specification" {
+    for_each = local.is_graviton ? [] : [1]
+    content {
+      cpu_credits = "standard"
+    }
   }
 
   # ใส่ Tag ให้ Ansible ใช้ Dynamic Inventory ดึงไปใช้งาน
