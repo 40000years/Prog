@@ -184,6 +184,10 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [aws_security_group.web_sg.id]
   key_name               = var.key_name
 
+  credit_specification {
+    cpu_credits = "standard"
+  }
+
   # ใส่ Tag ให้ Ansible ใช้ Dynamic Inventory ดึงไปใช้งาน
   tags = {
     Name    = "WebServer"
@@ -198,6 +202,10 @@ resource "aws_instance" "db" {
   subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.db_sg.id]
   key_name               = var.key_name
+
+  credit_specification {
+    cpu_credits = "standard"
+  }
 
   # ใส่ Tag ให้ Ansible ใช้ Dynamic Inventory ดึงไปใช้งาน
   tags = {
