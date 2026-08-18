@@ -265,8 +265,14 @@ jobs:
 
       - name: Setup SSH Private Key
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/id_rsa
+          # ใช้ printf แทน echo เพื่อรักษา newlines ใน PEM key
+          printf '%s' "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/id_rsa
           chmod 600 /tmp/id_rsa
+          # ตรวจสอบว่า key format ถูกต้อง
+          echo "--- Key file info ---"
+          head -1 /tmp/id_rsa
+          echo "Lines: $(wc -l < /tmp/id_rsa)"
+          ssh-keygen -l -f /tmp/id_rsa && echo "✅ Key is valid" || echo "❌ Key is INVALID - check SSH_PRIVATE_KEY secret format"
 
       # รอให้ EC2 instances พร้อมรับ SSH (ใหม่ ๆ อาจยังบูตไม่เสร็จ)
       - name: Wait for EC2 instances to be ready
