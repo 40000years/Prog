@@ -103,6 +103,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-southeast-7
 
+      - name: Debug AWS Account Identity
+        run: |
+          echo "====================================="
+          echo "🔐 Checking AWS Identity..."
+          aws sts get-caller-identity
+          echo "====================================="
+          echo "💡 โปรดตรวจสอบว่า Account ID ที่แสดงด้านบน ตรงกับเลข Account ID"
+          echo "   ที่คุณล็อกอินอยู่ในหน้าเว็บ AWS Console หรือไม่"
+          echo "   (บางครั้ง Access Key ใน GitHub Secrets อาจมาจากคนละ Account กัน)"
+          echo "====================================="
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
