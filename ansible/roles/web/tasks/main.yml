@@ -63,21 +63,9 @@
     mode: "0644"
   notify: Restart Node App
 
-- name: Create package.json for the application
+- name: Copy package.json for the application
   ansible.builtin.copy:
-    content: |
-      {
-        "name": "mega-automation-app",
-        "version": "1.0.0",
-        "description": "My Mega Automation Lab Web Application",
-        "main": "index.js",
-        "scripts": {
-          "start": "node index.js"
-        },
-        "dependencies": {
-          "express": "^4.18.2"
-        }
-      }
+    src: "{{ playbook_dir }}/../app/package.json"
     dest: /opt/myapp/package.json
     owner: www-data
     group: www-data
@@ -107,6 +95,10 @@
       RestartSec=10
       Environment=NODE_ENV=production
       Environment=PORT=3000
+      Environment=DB_HOST={{ hostvars[groups['db'][0]]['private_ip_address'] | default('localhost') }}
+      Environment=DB_NAME=myapp_db
+      Environment=DB_USER=myapp_user
+      Environment=DB_PASSWORD={{ db_password | default('SuperSecretPass123!') }}
 
       [Install]
       WantedBy=multi-user.target
