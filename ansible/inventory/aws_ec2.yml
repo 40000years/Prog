@@ -8,7 +8,7 @@ plugin: amazon.aws.aws_ec2
 
 # Region ที่จะค้นหา EC2 instances
 regions:
-  - ap-southeast-7
+  - ap-southeast-1
 
 # กรอง EC2 ที่เป็นของ Project นี้เท่านั้น (ตรงกับ Tag ใน Terraform)
 filters:

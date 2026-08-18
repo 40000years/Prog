@@ -5,7 +5,7 @@
 variable "aws_region" {
   description = "AWS Region ที่จะสร้าง Infrastructure"
   type        = string
-  default     = "ap-southeast-7" # Thailand
+  default     = "ap-southeast-1" # Singapore
 }
 
 variable "vpc_cidr" {
@@ -23,7 +23,7 @@ variable "public_subnet_cidr" {
 variable "instance_type" {
   description = "ประเภท EC2 Instance"
   type        = string
-  default     = "t3.micro"
+  default     = "t2.micro"
 }
 
 variable "key_name" {
