@@ -95,7 +95,7 @@
       RestartSec=10
       Environment=NODE_ENV=production
       Environment=PORT=3000
-      Environment=DB_HOST={{ hostvars[groups['db'][0]]['private_ip_address'] | default('localhost') }}
+      Environment=DB_HOST={{ (groups['tag_Role_db'] is defined and groups['tag_Role_db'] | length > 0) | ternary(hostvars[groups['tag_Role_db'][0]]['private_ip_address'] | default('127.0.0.1', true), '127.0.0.1') }}
       Environment=DB_NAME=myapp_db
       Environment=DB_USER=myapp_user
       Environment=DB_PASSWORD={{ db_password | default('SuperSecretPass123!') }}
