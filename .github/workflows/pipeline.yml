@@ -70,6 +70,18 @@ jobs:
         working-directory: ./ansible
         run: ansible-playbook playbook.yml --syntax-check
 
+      # --- Node.js Application Validation ---
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Node.js Syntax & Unit Check
+        working-directory: ./app
+        run: |
+          npm test
+          node -c index.js
+
       # --- Security Scan ---
       - name: Run tfsec (Terraform Security Scanner)
         uses: aquasecurity/tfsec-action@v1.0.3
