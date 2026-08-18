@@ -3,12 +3,12 @@
 # ============================================================
 
 - name: Restart Nginx
-  systemd:
+  ansible.builtin.systemd:
     name: nginx
     state: restarted
 
 - name: Restart Node App
-  systemd:
+  ansible.builtin.systemd:
     name: myapp
     state: restarted
-    daemon_reload: yes
+    daemon_reload: true

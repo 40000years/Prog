@@ -3,12 +3,12 @@
 # ============================================================
 
 - name: Update apt cache
-  apt:
-    update_cache: yes
+  ansible.builtin.apt:
+    update_cache: true
     cache_valid_time: 3600
 
 - name: Install PostgreSQL and dependencies
-  apt:
+  ansible.builtin.apt:
     name:
       - postgresql
       - postgresql-contrib
@@ -16,13 +16,13 @@
     state: present
 
 - name: Ensure PostgreSQL is started and enabled
-  systemd:
+  ansible.builtin.systemd:
     name: postgresql
-    enabled: yes
+    enabled: true
     state: started
 
 - name: Configure PostgreSQL to listen on all interfaces
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/postgresql/14/main/postgresql.conf
     regexp: "^#?listen_addresses"
     line: "listen_addresses = '*'"
@@ -30,7 +30,7 @@
   notify: Restart PostgreSQL
 
 - name: Allow connections from VPC subnet in pg_hba.conf
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/postgresql/14/main/pg_hba.conf
     line: "host    all             all             10.0.0.0/16             md5"
     state: present
@@ -48,6 +48,13 @@
   community.postgresql.postgresql_user:
     name: myapp_user
     password: "{{ db_password | default('SuperSecretPass123!') }}"
+    state: present
+
+- name: Grant privileges to application database user
+  become_user: postgres
+  community.postgresql.postgresql_privs:
     db: myapp_db
-    priv: "ALL"
+    role: myapp_user
+    privs: ALL
+    type: database
     state: present

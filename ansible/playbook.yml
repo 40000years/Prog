@@ -7,7 +7,7 @@
 # ----------------------------------------------------------
 - name: Setup Database Server
   hosts: tag_Role_db
-  become: yes
+  become: true
   roles:
     - db
 
@@ -16,6 +16,6 @@
 # ----------------------------------------------------------
 - name: Setup Web Server
   hosts: tag_Role_web
-  become: yes
+  become: true
   roles:
     - web

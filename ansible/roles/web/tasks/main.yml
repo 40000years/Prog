@@ -3,17 +3,17 @@
 # ============================================================
 
 - name: Update apt cache
-  apt:
-    update_cache: yes
+  ansible.builtin.apt:
+    update_cache: true
     cache_valid_time: 3600
 
 - name: Install Nginx
-  apt:
+  ansible.builtin.apt:
     name: nginx
     state: present
 
 - name: Install Node.js prerequisites
-  apt:
+  ansible.builtin.apt:
     name:
       - curl
       - ca-certificates
@@ -21,29 +21,29 @@
     state: present
 
 - name: Add NodeSource GPG key
-  shell: |
+  ansible.builtin.shell: |
     mkdir -p /etc/apt/keyrings
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
   args:
     creates: /etc/apt/keyrings/nodesource.gpg
 
 - name: Add NodeSource repository (Node.js 20 LTS)
-  shell: |
+  ansible.builtin.shell: |
     echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
   args:
     creates: /etc/apt/sources.list.d/nodesource.list
 
 - name: Update apt cache after adding NodeSource
-  apt:
-    update_cache: yes
+  ansible.builtin.apt:
+    update_cache: true
 
 - name: Install Node.js
-  apt:
+  ansible.builtin.apt:
     name: nodejs
     state: present
 
 - name: Create application directory
-  file:
+  ansible.builtin.file:
     path: /opt/myapp
     state: directory
     owner: www-data
@@ -51,7 +51,7 @@
     mode: "0755"
 
 - name: Copy application code to server
-  copy:
+  ansible.builtin.copy:
     src: "{{ playbook_dir }}/../app/index.js"
     dest: /opt/myapp/index.js
     owner: www-data
@@ -60,7 +60,7 @@
   notify: Restart Node App
 
 - name: Create package.json for the application
-  copy:
+  ansible.builtin.copy:
     content: |
       {
         "name": "mega-automation-app",
@@ -87,7 +87,7 @@
   become_user: root
 
 - name: Create systemd service for Node.js app
-  copy:
+  ansible.builtin.copy:
     content: |
       [Unit]
       Description=Mega Automation Lab Node.js App
@@ -110,7 +110,7 @@
   notify: Restart Node App
 
 - name: Configure Nginx as reverse proxy
-  copy:
+  ansible.builtin.copy:
     content: |
       server {
           listen 80 default_server;
@@ -134,14 +134,14 @@
   notify: Restart Nginx
 
 - name: Enable and start Nginx
-  systemd:
+  ansible.builtin.systemd:
     name: nginx
-    enabled: yes
+    enabled: true
     state: started
 
 - name: Enable and start Node.js app
-  systemd:
+  ansible.builtin.systemd:
     name: myapp
-    enabled: yes
+    enabled: true
     state: started
-    daemon_reload: yes
+    daemon_reload: true
