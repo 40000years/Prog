@@ -113,6 +113,43 @@ jobs:
         working-directory: ./terraform
         run: terraform init
 
+      # ค้นหา instance type ที่ใช้ได้จริงใน account + region นี้
+      - name: Detect free-tier eligible instance type
+        id: detect_instance
+        run: |
+          echo "====================================="
+          echo "🔍 Checking free-tier eligible instance types in ap-southeast-7..."
+          echo "====================================="
+          TYPES=$(aws ec2 describe-instance-types \
+            --filters "Name=free-tier-eligible,Values=true" \
+            --query "InstanceTypes[].InstanceType" \
+            --output text 2>/dev/null || echo "")
+          echo "Found free-tier eligible types: ${TYPES}"
+          echo "====================================="
+
+          # เลือก instance type ที่ต้องการ (เรียงตามลำดับความต้องการ)
+          SELECTED=""
+          for TYPE in t4g.micro t3.micro t2.micro t4g.small t3.small; do
+            if echo "$TYPES" | grep -qw "$TYPE"; then
+              SELECTED="$TYPE"
+              break
+            fi
+          done
+
+          # ถ้าไม่พบเลย ใช้ตัวแรกที่มี
+          if [ -z "$SELECTED" ] && [ -n "$TYPES" ]; then
+            SELECTED=$(echo "$TYPES" | awk '{print $1}')
+          fi
+
+          # ถ้ายังไม่ได้ fallback เป็น t3.micro
+          if [ -z "$SELECTED" ]; then
+            SELECTED="t3.micro"
+            echo "⚠️  No free-tier eligible type found, falling back to ${SELECTED}"
+          fi
+
+          echo "✅ Selected instance type: ${SELECTED}"
+          echo "TF_VAR_instance_type=${SELECTED}" >> $GITHUB_ENV
+
       - name: Terraform Plan
         working-directory: ./terraform
         run: terraform plan -out=tfplan

@@ -2,13 +2,24 @@
 # Data Sources - ดึงค่า AMI อัตโนมัติใน Region นั้นๆ
 # ============================================================
 
+# ============================================================
+# Locals - ตรวจสอบ architecture ตาม instance type
+# ============================================================
+
+locals {
+  # t4g = Graviton ARM64, อื่นๆ = amd64
+  is_graviton = startswith(var.instance_type, "t4g") || startswith(var.instance_type, "m6g") || startswith(var.instance_type, "c6g")
+  arch        = local.is_graviton ? "arm64" : "amd64"
+  ami_name    = local.is_graviton ? "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-server-*" : "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
+}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
   owners      = ["099720109477"] # Canonical (Ubuntu)
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-server-*"]
+    values = [local.ami_name]
   }
 
   filter {
@@ -18,7 +29,7 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name   = "architecture"
-    values = ["arm64"]
+    values = [local.arch]
   }
 }
 
