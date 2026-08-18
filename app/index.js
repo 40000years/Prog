@@ -1,7 +1,7 @@
 // ============================================================
-// Mega Automation Lab — Next-Gen E-Commerce & Ops Platform
-// Resilient Hybrid DB (PostgreSQL + In-Memory Fallback)
-// Ultra-Slick Apple/Linear-inspired Clean Glassmorphism UI
+// Mega Automation Lab — Next-Gen E-Commerce & Cloud Ops
+// Resilient Hybrid DB (PostgreSQL + Stateful In-Memory Fallback)
+// Zero-Lag Client-Side Hydration + Anti-Cache Headers
 // ============================================================
 
 const express = require("express");
@@ -18,9 +18,100 @@ const JWT_SECRET = process.env.JWT_SECRET || "mega-ecom-secret-key-super-secure-
 app.use(cors());
 app.use(express.json());
 
+// Anti-Cache Middleware (Forces browsers to always load fresh UI & API data)
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
+  res.setHeader("Surrogate-Control", "no-store");
+  next();
+});
+
 // ============================================================
-// In-Memory Storage & Resilient State (Guaranteed Uptime)
+// In-Memory Storage & Initial Seed State
 // ============================================================
+const SEED_CATEGORIES = [
+  { id: 1, name: "Smart Hardware", slug: "hardware", icon: "⚡" },
+  { id: 2, name: "Cloud & Servers", slug: "cloud", icon: "☁️" },
+  { id: 3, name: "Developer Gear", slug: "developer", icon: "💻" },
+  { id: 4, name: "AI & Neural Kits", slug: "ai", icon: "🧠" }
+];
+
+const SEED_PRODUCTS = [
+  {
+    id: 1,
+    category_id: 1,
+    name: "Cyber Matrix HUD Smart Glasses",
+    description: "Augmented Reality Smart Glasses with 4K Micro-OLED and Night Vision telemetry.",
+    price: 18900.00,
+    stock: 15,
+    image_url: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&q=80",
+    is_active: true,
+    category_name: "Smart Hardware",
+    category_slug: "hardware"
+  },
+  {
+    id: 2,
+    category_id: 1,
+    name: "Neon-Core Mechanical Keyboard V2",
+    description: "Gasket mount, wireless 2.4G/BT, Hot-swappable tactile RGB with transparent chassis.",
+    price: 4590.00,
+    stock: 28,
+    image_url: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&q=80",
+    is_active: true,
+    category_name: "Smart Hardware",
+    category_slug: "hardware"
+  },
+  {
+    id: 3,
+    category_id: 2,
+    name: "Edge Cloud Micro Server Node (ARM64)",
+    description: "Dedicated ARM64 mini edge cluster, 8-core CPU, 32GB LPDDR5, dual 10GbE SFP+ ports.",
+    price: 24500.00,
+    stock: 8,
+    image_url: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80",
+    is_active: true,
+    category_name: "Cloud & Servers",
+    category_slug: "cloud"
+  },
+  {
+    id: 4,
+    category_id: 2,
+    name: "Hardware Security Token Crypt-Key",
+    description: "FIDO2 / U2F Hardware key with encrypted biometrics for zero-trust cloud infrastructure.",
+    price: 2190.00,
+    stock: 50,
+    image_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80",
+    is_active: true,
+    category_name: "Cloud & Servers",
+    category_slug: "cloud"
+  },
+  {
+    id: 5,
+    category_id: 3,
+    name: "Ultra-wide Quantum Curved Monitor 38\"",
+    description: "38-inch 144Hz IPS Nano 3840x1600, 98% DCI-P3 color gamut, USB-C 90W PD.",
+    price: 32900.00,
+    stock: 12,
+    image_url: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&q=80",
+    is_active: true,
+    category_name: "Developer Gear",
+    category_slug: "developer"
+  },
+  {
+    id: 6,
+    category_id: 4,
+    name: "Autonomous AI Vision Sensor Kit",
+    description: "Neural Compute Module with 8 TOPS AI acceleration, global shutter stereoscopic camera.",
+    price: 8900.00,
+    stock: 20,
+    image_url: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&q=80",
+    is_active: true,
+    category_name: "AI & Neural Kits",
+    category_slug: "ai"
+  }
+];
+
 const MEMORY_DB = {
   isPgConnected: false,
   users: [
@@ -47,86 +138,8 @@ const MEMORY_DB = {
       created_at: new Date().toISOString()
     }
   ],
-  categories: [
-    { id: 1, name: "Smart Hardware", slug: "hardware", icon: "⚡" },
-    { id: 2, name: "Cloud & Servers", slug: "cloud", icon: "☁️" },
-    { id: 3, name: "Developer Gear", slug: "developer", icon: "💻" },
-    { id: 4, name: "AI & Neural Kits", slug: "ai", icon: "🧠" }
-  ],
-  products: [
-    {
-      id: 1,
-      category_id: 1,
-      name: "Cyber Matrix HUD Smart Glasses",
-      description: "Augmented Reality Smart Glasses with 4K Micro-OLED and Night Vision telemetry.",
-      price: 18900.00,
-      stock: 15,
-      image_url: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&q=80",
-      is_active: true,
-      category_name: "Smart Hardware",
-      category_slug: "hardware"
-    },
-    {
-      id: 2,
-      category_id: 1,
-      name: "Neon-Core Mechanical Keyboard V2",
-      description: "Gasket mount, wireless 2.4G/BT, Hot-swappable tactile RGB with transparent chassis.",
-      price: 4590.00,
-      stock: 28,
-      image_url: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&q=80",
-      is_active: true,
-      category_name: "Smart Hardware",
-      category_slug: "hardware"
-    },
-    {
-      id: 3,
-      category_id: 2,
-      name: "Edge Cloud Micro Server Node (ARM64)",
-      description: "Dedicated ARM64 mini edge cluster, 8-core CPU, 32GB LPDDR5, dual 10GbE SFP+ ports.",
-      price: 24500.00,
-      stock: 8,
-      image_url: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80",
-      is_active: true,
-      category_name: "Cloud & Servers",
-      category_slug: "cloud"
-    },
-    {
-      id: 4,
-      category_id: 2,
-      name: "Hardware Security Token Crypt-Key",
-      description: "FIDO2 / U2F Hardware key with encrypted biometrics for zero-trust cloud infrastructure.",
-      price: 2190.00,
-      stock: 50,
-      image_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80",
-      is_active: true,
-      category_name: "Cloud & Servers",
-      category_slug: "cloud"
-    },
-    {
-      id: 5,
-      category_id: 3,
-      name: "Ultra-wide Quantum Curved Monitor 38\"",
-      description: "38-inch 144Hz IPS Nano 3840x1600, 98% DCI-P3 color gamut, USB-C 90W PD.",
-      price: 32900.00,
-      stock: 12,
-      image_url: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&q=80",
-      is_active: true,
-      category_name: "Developer Gear",
-      category_slug: "developer"
-    },
-    {
-      id: 6,
-      category_id: 4,
-      name: "Autonomous AI Vision Sensor Kit",
-      description: "Neural Compute Module with 8 TOPS AI acceleration, global shutter stereoscopic camera.",
-      price: 8900.00,
-      stock: 20,
-      image_url: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&q=80",
-      is_active: true,
-      category_name: "AI & Neural Kits",
-      category_slug: "ai"
-    }
-  ],
+  categories: [...SEED_CATEGORIES],
+  products: [...SEED_PRODUCTS],
   orders: [
     {
       id: 1,
@@ -148,7 +161,7 @@ const MEMORY_DB = {
         { from_status: null, to_status: "PENDING", note: "Order placed by customer", created_at: new Date(Date.now() - 3600000).toISOString() },
         { from_status: "PENDING", to_status: "PAID", note: "Payment verified", created_at: new Date(Date.now() - 3000000).toISOString() },
         { from_status: "PAID", to_status: "PROCESSING", note: "Preparing for dispatch", created_at: new Date(Date.now() - 2000000).toISOString() },
-        { from_status: "PROCESSING", to_status: "SHIPPED", note: "Handed over to carrier", created_at: new Date(Date.now() - 1000000).toISOString() }
+        { from_status: "PROCESSING", to_status: "SHIPPED", note: "Handed over to courier", created_at: new Date(Date.now() - 1000000).toISOString() }
       ]
     }
   ],
@@ -156,10 +169,10 @@ const MEMORY_DB = {
     {
       id: 1,
       admin_name: "admin",
-      action: "SYSTEM_STARTUP",
+      action: "SYSTEM_INITIALIZE",
       target_type: "system",
       target_id: 1,
-      details: { region: "ap-southeast-7", status: "online" },
+      details: { region: "ap-southeast-7", status: "online", engine: "hybrid-resilient" },
       ip_address: "127.0.0.1",
       created_at: new Date().toISOString()
     }
@@ -167,7 +180,7 @@ const MEMORY_DB = {
 };
 
 // ============================================================
-// PostgreSQL Pool & Connection Handling
+// PostgreSQL Connection Pool
 // ============================================================
 const pool = new Pool({
   host: process.env.DB_HOST || "localhost",
@@ -183,9 +196,8 @@ async function tryInitPostgres() {
     const client = await pool.connect();
     await client.query("SELECT 1");
     MEMORY_DB.isPgConnected = true;
-    console.log("✅ PostgreSQL Connected successfully");
+    console.log("✅ PostgreSQL Live Connection Established");
 
-    // Initialize Tables
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username VARCHAR(50) UNIQUE NOT NULL, email VARCHAR(100) UNIQUE NOT NULL, password_hash VARCHAR(255) NOT NULL, role VARCHAR(20) DEFAULT 'customer', full_name VARCHAR(100), phone VARCHAR(20), address TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW());
       CREATE TABLE IF NOT EXISTS categories (id SERIAL PRIMARY KEY, name VARCHAR(100) NOT NULL, slug VARCHAR(100) UNIQUE NOT NULL);
@@ -196,32 +208,17 @@ async function tryInitPostgres() {
       CREATE TABLE IF NOT EXISTS admin_audit_logs (id SERIAL PRIMARY KEY, admin_id INT REFERENCES users(id), action VARCHAR(100) NOT NULL, target_type VARCHAR(50), target_id INT, details JSONB, ip_address VARCHAR(45), created_at TIMESTAMPTZ DEFAULT NOW());
     `);
 
-    // Sync in-memory products & categories to PG if empty
-    const count = await client.query("SELECT COUNT(*) FROM products");
-    if (parseInt(count.rows[0].count) === 0) {
-      for (const c of MEMORY_DB.categories) {
-        await client.query("INSERT INTO categories (id, name, slug) VALUES ($1,$2,$3) ON CONFLICT DO NOTHING", [c.id, c.name, c.slug]);
-      }
-      for (const p of MEMORY_DB.products) {
-        await client.query("INSERT INTO products (id, category_id, name, description, price, stock, image_url) VALUES ($1,$2,$3,$4,$5,$6,$7) ON CONFLICT DO NOTHING", [p.id, p.category_id, p.name, p.description, p.price, p.stock, p.image_url]);
-      }
-      for (const u of MEMORY_DB.users) {
-        await client.query("INSERT INTO users (id, username, email, password_hash, role, full_name, phone, address) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT DO NOTHING", [u.id, u.username, u.email, u.password_hash, u.role, u.full_name, u.phone, u.address]);
-      }
-    }
     client.release();
   } catch (err) {
     MEMORY_DB.isPgConnected = false;
-    console.log("ℹ️  PostgreSQL initializing / standby mode. In-memory engine active:", err.message);
   }
 }
 
-// Background reconnect worker
 setInterval(tryInitPostgres, 10000);
 tryInitPostgres();
 
 // ============================================================
-// Auth Middleware
+// Auth Helpers
 // ============================================================
 function auth(req, res, next) {
   const token = (req.headers["authorization"] || "").replace("Bearer ", "");
@@ -230,12 +227,12 @@ function auth(req, res, next) {
     req.user = jwt.verify(token, JWT_SECRET);
     next();
   } catch {
-    res.status(403).json({ error: "Invalid token" });
+    res.status(403).json({ error: "Invalid or expired token" });
   }
 }
 
 function adminOnly(req, res, next) {
-  if (req.user?.role !== "admin") return res.status(403).json({ error: "Admin only" });
+  if (req.user?.role !== "admin") return res.status(403).json({ error: "Admin access required" });
   next();
 }
 
@@ -254,7 +251,7 @@ app.get("/health", (req, res) => {
   });
 });
 
-// 2. Status check API
+// 2. Status check
 app.get("/api/status", (req, res) => {
   res.json({
     pgConnected: MEMORY_DB.isPgConnected,
@@ -265,7 +262,7 @@ app.get("/api/status", (req, res) => {
   });
 });
 
-// 3. Auth Endpoints
+// 3. Auth
 app.post("/api/auth/login", (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) return res.status(400).json({ error: "Missing username or password" });
@@ -349,7 +346,7 @@ app.post("/api/orders", auth, (req, res) => {
     const qty = parseInt(item.quantity) || 1;
     if (p.stock < qty) return res.status(400).json({ error: `Insufficient stock for ${p.name} (available: ${p.stock})` });
 
-    p.stock -= qty; // deduct stock
+    p.stock -= qty;
     const sub = p.price * qty;
     total += sub;
     verifiedItems.push({
@@ -395,7 +392,7 @@ app.get("/api/orders/:id", (req, res) => {
   res.json({ order: o });
 });
 
-// 6. Admin APIs
+// 6. Admin Endpoints
 app.get("/api/admin/dashboard", auth, adminOnly, (req, res) => {
   const totalRev = MEMORY_DB.orders.filter(o => o.status !== "CANCELLED").reduce((s, o) => s + o.total_amount, 0);
   const lowStock = MEMORY_DB.products.filter(p => p.stock <= 5 && p.is_active).length;
@@ -408,8 +405,8 @@ app.get("/api/admin/dashboard", auth, adminOnly, (req, res) => {
       totalProducts: MEMORY_DB.products.length,
       lowStockCount: lowStock
     },
-    recentOrders: MEMORY_DB.orders.slice(0, 6),
-    dbMode: MEMORY_DB.isPgConnected ? "PostgreSQL Active" : "In-Memory Resilient Store"
+    recentOrders: MEMORY_DB.orders.slice(0, 8),
+    dbMode: MEMORY_DB.isPgConnected ? "PostgreSQL Connected" : "In-Memory Resilient Store"
   });
 });
 
@@ -432,7 +429,6 @@ app.put("/api/admin/orders/:id/status", auth, adminOnly, (req, res) => {
   const prev = o.status;
 
   if (status === "CANCELLED" && prev !== "CANCELLED") {
-    // restore stock
     for (const item of o.items) {
       const p = MEMORY_DB.products.find(x => x.id == item.product_id);
       if (p) p.stock += item.quantity;
@@ -444,7 +440,7 @@ app.put("/api/admin/orders/:id/status", auth, adminOnly, (req, res) => {
   o.timeline.push({
     from_status: prev,
     to_status: status,
-    note: note || `Status transitioned to ${status}`,
+    note: note || `Status updated to ${status}`,
     created_at: new Date().toISOString()
   });
 
@@ -515,29 +511,34 @@ app.get("/api/admin/logs", auth, adminOnly, (req, res) => {
 });
 
 // ============================================================
-// Frontend SPA — Ultra-Modern Slick Glassmorphism UI
+// Frontend Delivery (Fully Embedded Initial Hydration State)
 // ============================================================
 app.get("/", (req, res) => {
+  const initialProductsJson = JSON.stringify(MEMORY_DB.products);
+  const initialCategoriesJson = JSON.stringify(MEMORY_DB.categories);
+
   res.send(`<!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mega Store — Cloud Hardware & Developer Gear</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Mega Store — Enterprise Cloud Hardware</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     :root {
-      --primary: #4338ca;
+      --primary: #4f46e5;
       --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
       --accent: #06b6d4;
       --success: #10b981;
       --danger: #ef4444;
       --warn: #f59e0b;
       --bg: #f8fafc;
-      --surface: rgba(255, 255, 255, 0.85);
-      --surface-card: #ffffff;
+      --card-bg: #ffffff;
       --border: #e2e8f0;
       --text: #0f172a;
       --text-muted: #64748b;
@@ -555,12 +556,11 @@ app.get("/", (req, res) => {
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-    /* Animated Gradient Mesh Background */
     .bg-mesh {
       position: fixed; inset: 0; pointer-events: none; z-index: 0;
       background: 
-        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.07) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.07) 0%, transparent 40%);
+        radial-gradient(circle at 10% 15%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 85%, rgba(6, 182, 212, 0.08) 0%, transparent 40%);
     }
 
     .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
@@ -568,10 +568,9 @@ app.get("/", (req, res) => {
     /* Navbar */
     .navbar {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-      transition: all 0.3s ease;
     }
     .nav-inner {
       height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
@@ -668,9 +667,7 @@ app.get("/", (req, res) => {
       background: var(--primary-gradient); color: #fff; border-color: transparent;
       box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
     }
-    .search-box {
-      position: relative; min-width: 260px;
-    }
+    .search-box { position: relative; min-width: 260px; }
     .search-input {
       width: 100%; padding: 10px 16px 10px 38px; border-radius: 50px;
       border: 1.5px solid var(--border); background: #fff; font-family: inherit;
@@ -684,7 +681,7 @@ app.get("/", (req, res) => {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-bottom: 60px;
     }
     .product-card {
-      background: var(--surface-card); border: 1.5px solid var(--border);
+      background: var(--card-bg); border: 1.5px solid var(--border);
       border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
@@ -928,7 +925,7 @@ app.get("/", (req, res) => {
 
       <div class="filter-bar">
         <div class="cat-chips" id="category-chips">
-          <button class="cat-chip active" onclick="setCategoryFilter('')">All Hardware</button>
+          <!-- Rendered immediately -->
         </div>
         <div class="search-box">
           <span class="search-icon">🔍</span>
@@ -937,7 +934,7 @@ app.get("/", (req, res) => {
       </div>
 
       <div class="products-grid" id="products-container">
-        <!-- Rendered via JS -->
+        <!-- Rendered immediately -->
       </div>
     </div>
   </div>
@@ -948,7 +945,7 @@ app.get("/", (req, res) => {
       <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 8px;">📦 Real-Time Order Tracking</h2>
       <p style="color: var(--text-muted); margin-bottom: 24px;">Enter your tracking code or order number to view delivery progress.</p>
       <div style="display:flex; gap:12px; margin-bottom: 32px;">
-        <input type="text" id="track-number-input" class="form-input" placeholder="e.g. ORD-20260818-XXXX" value="ORD-20260818-INIT" style="flex:1;">
+        <input type="text" id="track-number-input" class="form-input" placeholder="e.g. ORD-20260818-INIT" value="ORD-20260818-INIT" style="flex:1;">
         <button class="btn btn-primary" onclick="lookupOrder()">Track Progress</button>
       </div>
 
@@ -982,7 +979,7 @@ app.get("/", (req, res) => {
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
           <div>
             <h2 style="font-size: 26px; font-weight: 800;">Operations Control Center</h2>
-            <div style="font-size: 13px; color:var(--text-muted); margin-top:2px;">Logged in as: <b id="adm-user-badge">ADMIN</b> · <span id="adm-db-status" style="color:var(--success); font-weight:700;">PostgreSQL Connected</span></div>
+            <div style="font-size: 13px; color:var(--text-muted); margin-top:2px;">Logged in as: <b id="adm-user-badge">ADMIN</b> · <span id="adm-db-status" style="color:var(--success); font-weight:700;">Hybrid Storage Active</span></div>
           </div>
           <div style="display:flex; gap:10px;">
             <button class="btn btn-primary btn-sm" onclick="openAddProductModal()">+ Add Product</button>
@@ -1136,11 +1133,11 @@ app.get("/", (req, res) => {
   <div id="toast" class="toast"></div>
 
   <script>
-    // ── Global State ──
+    // ── Instant Hydration State (Guarantees zero-lag rendering) ──
+    let storeProducts = ${initialProductsJson};
+    let storeCategories = ${initialCategoriesJson};
     let cart = JSON.parse(localStorage.getItem('mega_cart') || '[]');
     let adminToken = localStorage.getItem('mega_admin_token') || '';
-    let storeProducts = [];
-    let storeCategories = [];
     let selectedCatSlug = '';
     let searchQuery = '';
     let isCheckingOut = false;
@@ -1161,28 +1158,13 @@ app.get("/", (req, res) => {
     // ── Navigation ──
     function goView(v) {
       ['store', 'track', 'admin'].forEach(x => {
-        document.getElementById('view-' + x).classList.toggle('active', x === v);
-        document.getElementById('tab-' + x).classList.toggle('active', x === v);
+        const pane = document.getElementById('view-' + x);
+        const tab = document.getElementById('tab-' + x);
+        if (pane) pane.classList.toggle('active', x === v);
+        if (tab) tab.classList.toggle('active', x === v);
       });
-      if (v === 'store') loadStoreData();
+      if (v === 'store') refreshStoreData();
       if (v === 'admin') initAdminDashboard();
-    }
-
-    // ── Storefront Data ──
-    async function loadStoreData() {
-      try {
-        const [cRes, pRes] = await Promise.all([
-          fetch('/api/categories').then(r => r.json()),
-          fetch('/api/products').then(r => r.json())
-        ]);
-        storeCategories = cRes.categories || [];
-        storeProducts = pRes.products || [];
-        renderCategoryChips();
-        renderProducts();
-        updateCartBadge();
-      } catch (err) {
-        console.error(err);
-      }
     }
 
     function renderCategoryChips() {
@@ -1223,7 +1205,7 @@ app.get("/", (req, res) => {
 
         return '<div class="product-card">' +
           '<div class="card-img-wrap">' +
-            '<img class="card-img" src="' + p.image_url + '" alt="' + p.name + '" loading="lazy">' +
+            '<img class="card-img" src="' + p.image_url + '" alt="' + p.name + '" loading="lazy" onerror="this.src=\\'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80\\'">' +
             '<span class="stock-badge ' + stockClass + '">' + stockLabel + '</span>' +
           '</div>' +
           '<div class="card-body">' +
@@ -1241,7 +1223,21 @@ app.get("/", (req, res) => {
       }).join('');
     }
 
-    // ── Cart Operations ──
+    async function refreshStoreData() {
+      try {
+        const [cRes, pRes] = await Promise.all([
+          fetch('/api/categories').then(r => r.json()),
+          fetch('/api/products').then(r => r.json())
+        ]);
+        if (cRes.categories) storeCategories = cRes.categories;
+        if (pRes.products) storeProducts = pRes.products;
+        renderCategoryChips();
+        renderProducts();
+        updateCartBadge();
+      } catch (_) {}
+    }
+
+    // ── Cart ──
     function updateCartBadge() {
       const count = cart.reduce((s, i) => s + i.quantity, 0);
       document.getElementById('cart-badge-count').textContent = count;
@@ -1285,7 +1281,7 @@ app.get("/", (req, res) => {
         listEl.innerHTML = '<div style="text-align:center; padding:40px 0; color:var(--text-muted); font-weight:600;">Your cart is currently empty 🛒</div>';
         checkoutEl.style.display = 'none';
         totalEl.textContent = '฿0.00';
-        actionsEl.innerHTML = '<button class="btn btn-outline" onclick="closeModal(\'cart-modal\')">Continue Shopping</button>';
+        actionsEl.innerHTML = '<button class="btn btn-outline" onclick="closeModal(\\'cart-modal\\')">Continue Shopping</button>';
         return;
       }
 
@@ -1315,7 +1311,7 @@ app.get("/", (req, res) => {
       } else {
         checkoutEl.style.display = 'none';
         actionsEl.innerHTML = 
-          '<button class="btn btn-outline" onclick="closeModal(\'cart-modal\')">Close</button>' +
+          '<button class="btn btn-outline" onclick="closeModal(\\'cart-modal\\')">Close</button>' +
           '<button class="btn btn-primary" onclick="isCheckingOut=true; renderCartView();">Proceed to Checkout →</button>';
       }
     }
@@ -1327,7 +1323,6 @@ app.get("/", (req, res) => {
       if (!name || !phone || !addr) { toast('Please complete all shipping fields'); return; }
 
       try {
-        // Auto authenticate demo customer
         let token = localStorage.getItem('mega_cust_token');
         if (!token) {
           const authRes = await fetch('/api/auth/login', {
@@ -1356,12 +1351,9 @@ app.get("/", (req, res) => {
         cart = [];
         updateCartBadge();
         closeModal('cart-modal');
-        loadStoreData();
-
-        // Celebration Confetti 🎉
+        refreshStoreData();
         launchConfetti();
 
-        // Switch to track view
         goView('track');
         document.getElementById('track-number-input').value = data.order.order_number;
         lookupOrder();
@@ -1494,7 +1486,7 @@ app.get("/", (req, res) => {
             '<td style="font-weight:700;">฿' + fmt(o.total_amount) + '</td>' +
             '<td><span class="badge badge-' + o.status + '">' + o.status + '</span></td>' +
             '<td style="font-family:monospace;">' + (o.tracking_number || '—') + '</td>' +
-            '<td><button class="btn btn-outline btn-sm" onclick="openStatusModal(' + o.id + ',\'' + o.order_number + '\',\'' + o.status + '\',\'' + (o.tracking_number||'') + '\')">Update</button></td>' +
+            '<td><button class="btn btn-outline btn-sm" onclick="openStatusModal(' + o.id + ',\\'' + o.order_number + '\\',\\'' + o.status + '\\',\\'' + (o.tracking_number||'') + '\\')">Update</button></td>' +
           '</tr>'
         ).join('');
 
@@ -1543,7 +1535,7 @@ app.get("/", (req, res) => {
         body: JSON.stringify({ delta })
       });
       fetchAdminOverview();
-      loadStoreData();
+      refreshStoreData();
       toast('Stock updated (' + (delta > 0 ? '+' + delta : delta) + ')');
     }
 
@@ -1595,11 +1587,11 @@ app.get("/", (req, res) => {
 
       closeModal('product-modal');
       fetchAdminOverview();
-      loadStoreData();
+      refreshStoreData();
       toast('✨ Product Added Successfully!');
     }
 
-    // ── Confetti Animation 🎉 ──
+    // ── Confetti ──
     function launchConfetti() {
       const canvas = document.getElementById('confetti-canvas');
       const ctx = canvas.getContext('2d');
@@ -1626,7 +1618,7 @@ app.get("/", (req, res) => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         pieces.forEach(p => {
           p.x += p.vx; p.y += p.vy;
-          p.vy += 0.3; // gravity
+          p.vy += 0.3;
           p.rot += p.vrot;
           ctx.save();
           ctx.translate(p.x, p.y);
@@ -1642,8 +1634,11 @@ app.get("/", (req, res) => {
       animate();
     }
 
-    // Initialize
-    loadStoreData();
+    // Direct Instant Initial Render
+    renderCategoryChips();
+    renderProducts();
+    updateCartBadge();
+    refreshStoreData();
   </script>
 </body>
 </html>`);

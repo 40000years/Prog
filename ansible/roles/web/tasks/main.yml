@@ -136,9 +136,9 @@
     enabled: true
     state: started
 
-- name: Enable and start Node.js app
+- name: Enable and restart Node.js app
   ansible.builtin.systemd:
     name: myapp
     enabled: true
-    state: started
+    state: restarted
     daemon_reload: true
