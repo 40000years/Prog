@@ -14,6 +14,10 @@ terraform {
       source  = "hashicorp/tls"
       version = "~> 4.0"
     }
+    ansible = {
+      source  = "ansible/ansible"
+      version = "~> 1.5.0"
+    }
   }
 
   # S3 Backend - เก็บ state เพื่อไม่ให้สร้าง EC2 ใหม่ทุก push

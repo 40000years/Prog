@@ -37,3 +37,10 @@ variable "project_name" {
   type        = string
   default     = "mega-automation-lab"
 }
+
+variable "db_password" {
+  description = "Database user password for PostgreSQL"
+  type        = string
+  default     = "SuperSecretPass123!"
+  sensitive   = true
+}
