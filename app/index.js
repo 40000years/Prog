@@ -510,12 +510,55 @@ app.put("/api/admin/products/:id/stock-adjust", auth, adminOnly, (req, res) => {
   res.json({ message: "Stock adjusted", stock: p.stock });
 });
 
+app.delete("/api/admin/products/:id", auth, adminOnly, (req, res) => {
+  const pid = parseInt(req.params.id);
+  const idx = MEMORY_DB.products.findIndex(x => x.id === pid);
+  if (idx === -1) return res.status(404).json({ error: "Product not found" });
+
+  const p = MEMORY_DB.products[idx];
+  
+  // Check if product is in any existing orders
+  const hasOrders = MEMORY_DB.orders.some(o => o.items && o.items.some(i => i.product_id === pid));
+
+  if (hasOrders) {
+    // If product has historical orders, deactivate/archive instead of hard deleting to preserve referential integrity
+    p.is_active = false;
+    MEMORY_DB.admin_logs.unshift({
+      id: MEMORY_DB.admin_logs.length + 1,
+      admin_name: req.user.username,
+      action: "PRODUCT_ARCHIVE",
+      target_type: "product",
+      target_id: pid,
+      details: { product_name: p.name, reason: "Product archived due to existing order history" },
+      ip_address: req.ip || "127.0.0.1",
+      created_at: new Date().toISOString()
+    });
+    return res.json({ message: "Product has associated orders. It has been archived and marked inactive.", archived: true, product: p });
+  }
+
+  // Safe to permanently delete
+  MEMORY_DB.products.splice(idx, 1);
+  MEMORY_DB.admin_logs.unshift({
+    id: MEMORY_DB.admin_logs.length + 1,
+    admin_name: req.user.username,
+    action: "PRODUCT_DELETE",
+    target_type: "product",
+    target_id: pid,
+    details: { product_name: p.name },
+    ip_address: req.ip || "127.0.0.1",
+    created_at: new Date().toISOString()
+  });
+
+  res.json({ message: "Product deleted successfully", deleted: true });
+});
+
 app.get("/api/admin/logs", auth, adminOnly, (req, res) => {
   res.json({ logs: MEMORY_DB.admin_logs });
 });
 
-// Root Route fallback to index.html
-app.get("/", (req, res) => {
+// SPA Route fallback to index.html for client-side routing (/admin, /admin/login, /track, etc.)
+app.get("*", (req, res, next) => {
+  if (req.path.startsWith("/api") || req.path.startsWith("/health")) return next();
   const indexPath = path.join(__dirname, "public", "index.html");
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
