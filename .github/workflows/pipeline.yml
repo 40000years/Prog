@@ -228,19 +228,23 @@ jobs:
           echo "Executing Action: action.ansible_playbook_run.with_inventories"
           echo "===================================================="
           
+          # ดึง Configuration ทั้งหมดที่ประกาศไว้ใน ansible.tf Action ผ่าน Terraform Outputs
           terraform output -raw ansible_inventory_json > /tmp/inventory.json
-          echo "Terraform Action Inventory Content:"
+          PLAYBOOK_PATH=$(terraform output -raw ansible_playbook_path)
+          EXTRA_VARS_JSON=$(terraform output -json ansible_extra_vars)
+
+          echo "Terraform Action Playbook Path: ${PLAYBOOK_PATH}"
+          echo "Terraform Action Inventory:"
           cat /tmp/inventory.json
           echo ""
 
-          DB_IP="${{ steps.tf_output.outputs.db_ip }}"
-
+          # สั่งรัน Playbook โดยใช้ Path, Inventory และ Extra Vars ที่ได้จาก Terraform Action
           ANSIBLE_CONFIG="../ansible/ansible.cfg" ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
             -i /tmp/inventory.json \
-            ../ansible/playbook.yml \
+            "${PLAYBOOK_PATH}" \
+            --extra-vars "${EXTRA_VARS_JSON}" \
             --private-key /tmp/id_rsa \
             -u ubuntu \
-            -e "db_host=${DB_IP}" \
             -v
 
       - name: Cleanup SSH Key
