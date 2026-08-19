@@ -22,10 +22,10 @@
   tags:
     - setup
 
-- name: Update apt cache
+- name: Force update apt cache
   ansible.builtin.apt:
     update_cache: true
-    cache_valid_time: 3600
+    force_apt_get: true
   register: apt_update_res
   retries: 5
   delay: 5
