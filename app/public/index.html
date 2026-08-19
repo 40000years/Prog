@@ -6,15 +6,19 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>Mega Store — Cloud Hardware & Equipment</title>
+  <title>Mega Store — Enterprise Cloud Hardware & Developer Gear</title>
   
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   
   <style>
     /* ============================================================
-       1. Design System Tokens (Light & Dark Theme Systems)
+       1. Design System Tokens (Multi-Layered Light & Dark Modes)
        ============================================================ */
     *, *::before, *::after {
       margin: 0;
@@ -23,90 +27,102 @@
     }
 
     :root {
-      /* Light Theme Colors */
-      --bg: #f9fafb;
-      --surface: #ffffff;
-      --surface-subtle: #f3f4f6;
-      --surface-hover: #f1f5f9;
+      /* Light Theme Surface Tokens */
+      --bg-base: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-elevated: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --bg-hover: #f8fafc;
       
-      --border: #e5e7eb;
-      --border-hover: #d1d5db;
-      --border-focus: #111827;
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --border-focus: #0f172a;
       
-      --text: #111827;
-      --text-secondary: #4b5563;
-      --text-muted: #6b7280;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
       
-      --primary: #111827;
-      --primary-hover: #1f2937;
-      --primary-fg: #ffffff;
+      --brand-primary: #0f172a;
+      --brand-hover: #1e293b;
+      --brand-fg: #ffffff;
       
-      --accent: #2563eb;
-      --accent-hover: #1d4ed8;
+      --accent-blue: #2563eb;
+      --accent-blue-hover: #1d4ed8;
+      --accent-blue-subtle: #eff6ff;
       
-      --success: #059669;
-      --success-bg: #ecfdf5;
+      --status-success: #059669;
+      --status-success-bg: #ecfdf5;
+      --status-success-border: #a7f3d0;
       
-      --warning: #d97706;
-      --warning-bg: #fffbeb;
+      --status-warning: #d97706;
+      --status-warning-bg: #fffbeb;
+      --status-warning-border: #fde68a;
       
-      --danger: #dc2626;
-      --danger-bg: #fef2f2;
+      --status-danger: #dc2626;
+      --status-danger-bg: #fef2f2;
+      --status-danger-border: #fecaca;
 
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 
-      --radius-sm: 4px;
-      --radius-md: 6px;
-      --radius-lg: 8px;
-      --radius-xl: 10px;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
 
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+      --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
     }
 
     [data-theme="dark"] {
-      /* Dark Theme System Tokens */
-      --bg: #0b0f17;
-      --surface: #111827;
-      --surface-subtle: #1f2937;
-      --surface-hover: #283548;
+      /* Dark Theme Surface Tokens */
+      --bg-base: #090d16;
+      --bg-surface: #111827;
+      --bg-elevated: #1a2234;
+      --bg-subtle: #1e293b;
+      --bg-hover: #26334d;
       
-      --border: #374151;
-      --border-hover: #4b5563;
-      --border-focus: #6366f1;
+      --border-subtle: #1f293d;
+      --border-strong: #334155;
+      --border-focus: #60a5fa;
       
-      --text: #f9fafb;
-      --text-secondary: #d1d5db;
-      --text-muted: #9ca3af;
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #64748b;
       
-      --primary: #4f46e5;
-      --primary-hover: #4338ca;
-      --primary-fg: #ffffff;
+      --brand-primary: #3b82f6;
+      --brand-hover: #2563eb;
+      --brand-fg: #ffffff;
       
-      --accent: #38bdf8;
-      --accent-hover: #0ea5e9;
+      --accent-blue: #60a5fa;
+      --accent-blue-hover: #93c5fd;
+      --accent-blue-subtle: rgba(59, 130, 246, 0.12);
       
-      --success: #34d399;
-      --success-bg: rgba(16, 185, 129, 0.15);
+      --status-success: #34d399;
+      --status-success-bg: rgba(16, 185, 129, 0.12);
+      --status-success-border: rgba(16, 185, 129, 0.25);
       
-      --warning: #fbbf24;
-      --warning-bg: rgba(245, 158, 11, 0.15);
+      --status-warning: #fbbf24;
+      --status-warning-bg: rgba(245, 158, 11, 0.12);
+      --status-warning-border: rgba(245, 158, 11, 0.25);
       
-      --danger: #f87171;
-      --danger-bg: rgba(239, 68, 68, 0.15);
+      --status-danger: #f87171;
+      --status-danger-bg: rgba(239, 68, 68, 0.12);
+      --status-danger-border: rgba(239, 68, 68, 0.25);
 
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
+      --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.6);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.7);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.8);
     }
 
     body {
       font-family: var(--font-sans);
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      line-height: 1.55;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -115,38 +131,39 @@
     }
 
     :focus-visible {
-      outline: 2px solid var(--accent);
+      outline: 2px solid var(--accent-blue);
       outline-offset: 2px;
     }
 
     .container {
       width: 100%;
-      max-width: 1180px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 24px;
     }
 
-    /* Common Components */
+    /* Common Typography & Links */
     h1, h2, h3, h4 {
-      color: var(--text);
-      font-weight: 600;
-      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      font-weight: 700;
+      letter-spacing: -0.02em;
     }
 
     p {
       color: var(--text-secondary);
     }
 
+    /* Standard Buttons */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
       font-family: var(--font-sans);
       font-size: 13.5px;
-      font-weight: 500;
+      font-weight: 600;
       line-height: 1;
-      padding: 8px 14px;
+      padding: 9px 16px;
       border-radius: var(--radius-md);
       border: 1px solid transparent;
       cursor: pointer;
@@ -154,50 +171,81 @@
       transition: all 0.15s ease;
       white-space: nowrap;
       user-select: none;
-      min-height: 36px;
+      min-height: 38px;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
     }
 
     .btn-primary {
-      background-color: var(--primary);
-      color: var(--primary-fg);
+      background-color: var(--brand-primary);
+      color: var(--brand-fg);
+      box-shadow: var(--shadow-xs);
     }
-    .btn-primary:hover { background-color: var(--primary-hover); }
-    .btn-primary:disabled { background-color: var(--surface-subtle); color: var(--text-muted); cursor: not-allowed; }
+    .btn-primary:hover {
+      background-color: var(--brand-hover);
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-primary:disabled {
+      background-color: var(--bg-subtle);
+      color: var(--text-muted);
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
 
     .btn-secondary {
-      background-color: var(--surface);
-      border-color: var(--border);
-      color: var(--text);
+      background-color: var(--bg-surface);
+      border-color: var(--border-subtle);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-xs);
     }
-    .btn-secondary:hover { background-color: var(--surface-subtle); border-color: var(--border-hover); }
+    .btn-secondary:hover {
+      background-color: var(--bg-subtle);
+      border-color: var(--border-strong);
+    }
 
     .btn-danger {
-      background-color: var(--danger);
+      background-color: var(--status-danger);
       color: #ffffff;
     }
-    .btn-danger:hover { background-color: #b91c1c; }
+    .btn-danger:hover {
+      background-color: #b91c1c;
+    }
 
-    .btn-sm { padding: 5px 10px; font-size: 12.5px; border-radius: var(--radius-sm); min-height: 30px; }
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12.5px;
+      border-radius: var(--radius-sm);
+      min-height: 30px;
+    }
 
     .btn-link {
       background: transparent;
       border: none;
       padding: 0;
-      color: var(--accent);
+      color: var(--accent-blue);
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-link:hover {
+      color: var(--accent-blue-hover);
       text-decoration: underline;
     }
-    .btn-link:hover { color: var(--accent-hover); }
 
-    /* Theme Toggle Button */
-    .theme-toggle-btn {
-      background: var(--surface);
-      border: 1px solid var(--border);
+    /* Theme Switcher Button */
+    .btn-theme-toggle {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
       color: var(--text-secondary);
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: var(--radius-md);
       display: inline-flex;
       align-items: center;
@@ -206,43 +254,70 @@
       font-size: 15px;
       transition: all 0.15s ease;
     }
-    .theme-toggle-btn:hover {
-      color: var(--text);
-      background-color: var(--surface-subtle);
-      border-color: var(--border-hover);
+    .btn-theme-toggle:hover {
+      color: var(--text-primary);
+      background-color: var(--bg-subtle);
+      border-color: var(--border-strong);
     }
 
-    /* Badges */
+    /* Badges & Status Indicators */
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
       padding: 3px 8px;
       border-radius: var(--radius-sm);
-      font-size: 12px;
-      font-weight: 500;
+      font-size: 11.5px;
+      font-weight: 600;
       line-height: 1;
+      letter-spacing: 0.02em;
     }
-    .badge-success, .badge-SHIPPED, .badge-DELIVERED, .badge-active, .badge-PAID { background: var(--success-bg); color: var(--success); }
-    .badge-warning, .badge-PENDING, .badge-PENDING_PAYMENT, .badge-PROCESSING { background: var(--warning-bg); color: var(--warning); }
-    .badge-info { background: #eff6ff; color: #1d4ed8; }
-    .badge-danger, .badge-CANCELLED, .badge-inactive, .badge-PAYMENT_FAILED, .badge-EXPIRED { background: var(--danger-bg); color: var(--danger); }
+    .badge-success, .badge-SHIPPED, .badge-DELIVERED, .badge-active, .badge-PAID {
+      background: var(--status-success-bg);
+      color: var(--status-success);
+      border: 1px solid var(--status-success-border);
+    }
+    .badge-warning, .badge-PENDING, .badge-PENDING_PAYMENT, .badge-PROCESSING {
+      background: var(--status-warning-bg);
+      color: var(--status-warning);
+      border: 1px solid var(--status-warning-border);
+    }
+    .badge-danger, .badge-CANCELLED, .badge-inactive, .badge-PAYMENT_FAILED, .badge-EXPIRED {
+      background: var(--status-danger-bg);
+      color: var(--status-danger);
+      border: 1px solid var(--status-danger-border);
+    }
 
-    /* Form Inputs */
-    .form-group { margin-bottom: 16px; }
-    .form-label { display: block; font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+    /* Form Controls */
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
     .form-input, .form-select, .form-textarea {
-      width: 100%; padding: 8px 12px; border-radius: var(--radius-md);
-      border: 1px solid var(--border); background-color: var(--surface);
-      color: var(--text); font-family: var(--font-sans); font-size: 13.5px;
-      transition: border-color 0.15s ease;
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      background-color: var(--bg-surface);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
     .form-input:focus, .form-select:focus, .form-textarea:focus {
-      outline: none; border-color: var(--border-focus); box-shadow: 0 0 0 1px var(--border-focus);
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 1px var(--border-focus);
     }
 
     /* ============================================================
-       2. Customer Experience Layout
+       2. Customer Storefront Layout
        ============================================================ */
     #customer-app {
       display: flex;
@@ -250,53 +325,88 @@
       min-height: 100vh;
     }
 
-    .customer-header {
-      background-color: var(--surface);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 40;
+    /* Top Announcement Bar */
+    .top-announcement {
+      background-color: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 12px;
+      color: var(--text-secondary);
+      padding: 6px 0;
+      font-weight: 500;
     }
 
-    .customer-header-inner {
-      height: 60px;
+    .top-announcement-flex {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .brand {
+    /* Navigation Header */
+    .customer-header {
+      background-color: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(8px);
+    }
+
+    .customer-header-inner {
+      height: 64px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       cursor: pointer;
       text-decoration: none;
     }
 
-    .brand-mark {
-      width: 26px;
-      height: 26px;
-      background-color: var(--primary);
-      color: var(--primary-fg);
-      font-size: 13px;
-      font-weight: 700;
+    .brand-logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--brand-primary);
+      color: var(--brand-fg);
+      font-weight: 800;
+      font-size: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: var(--radius-sm);
     }
 
-    .brand-title {
-      font-size: 15.5px;
-      font-weight: 700;
-      color: var(--text);
+    .brand-text-block {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .brand-tagline {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     .customer-nav {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
     }
 
     .nav-btn {
@@ -304,68 +414,150 @@
       border: none;
       font-family: var(--font-sans);
       font-size: 13.5px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-secondary);
-      padding: 7px 12px;
+      padding: 8px 14px;
       border-radius: var(--radius-md);
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       transition: all 0.15s ease;
     }
 
     .nav-btn:hover {
-      color: var(--text);
-      background-color: var(--surface-subtle);
+      color: var(--text-primary);
+      background-color: var(--bg-subtle);
     }
 
     .nav-btn.active {
-      color: var(--text);
-      background-color: var(--surface-subtle);
-      font-weight: 600;
+      color: var(--text-primary);
+      background-color: var(--bg-subtle);
+      font-weight: 700;
     }
 
     .cart-btn {
-      background-color: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 6px 12px;
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 7px 14px;
       border-radius: var(--radius-md);
       font-family: var(--font-sans);
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       cursor: pointer;
+      box-shadow: var(--shadow-xs);
     }
 
     .cart-btn:hover {
-      border-color: var(--border-hover);
-      background-color: var(--surface-subtle);
+      border-color: var(--border-strong);
+      background-color: var(--bg-subtle);
     }
 
     .cart-badge {
-      background-color: var(--primary);
-      color: var(--primary-fg);
+      background-color: var(--brand-primary);
+      color: var(--brand-fg);
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
       padding: 1px 6px;
       border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+    }
+
+    /* Storefront Hero Section */
+    .storefront-hero {
+      background-color: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 40px 0 32px;
+      margin-bottom: 32px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-blue-subtle);
+      color: var(--accent-blue);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 14px;
+    }
+
+    .hero-heading {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-subhead {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .hero-value-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .hero-val-card {
+      background: var(--bg-base);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+
+    .hero-val-icon {
+      font-size: 18px;
+      color: var(--accent-blue);
+      margin-bottom: 6px;
+    }
+
+    .hero-val-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .hero-val-desc {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
     }
 
     /* Storefront Main Area */
     .storefront-main {
       flex: 1;
-      padding: 28px 0 60px;
+      padding-bottom: 60px;
     }
 
-    .filter-bar {
+    /* Filter & Search Toolbar */
+    .filter-toolbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
-      margin-bottom: 20px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--border);
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-subtle);
       flex-wrap: wrap;
     }
 
@@ -376,53 +568,85 @@
     }
 
     .chip-btn {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
       color: var(--text-secondary);
       font-family: var(--font-sans);
       font-size: 13px;
-      font-weight: 500;
-      padding: 5px 12px;
+      font-weight: 600;
+      padding: 6px 14px;
       border-radius: var(--radius-md);
       cursor: pointer;
+      transition: all 0.15s ease;
     }
 
-    .chip-btn:hover { border-color: var(--border-hover); color: var(--text); }
-    .chip-btn.active { background: var(--primary); border-color: var(--primary); color: var(--primary-fg); font-weight: 600; }
+    .chip-btn:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+
+    .chip-btn.active {
+      background: var(--brand-primary);
+      border-color: var(--brand-primary);
+      color: var(--brand-fg);
+    }
+
+    .search-sort-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-input-container {
+      position: relative;
+    }
+
+    .search-icon-pos {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 13px;
+      pointer-events: none;
+    }
 
     /* Product Grid */
     .product-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 22px;
     }
 
     .product-card {
-      background-color: var(--surface);
-      border: 1px solid var(--border);
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
       padding: 16px;
       display: flex;
       flex-direction: column;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
     }
 
     .product-card:hover {
-      border-color: var(--border-hover);
-      box-shadow: var(--shadow-sm);
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
     }
 
-    .product-image-wrap {
-      background-color: var(--surface-subtle);
+    .product-media-wrap {
+      background-color: var(--bg-subtle);
       border-radius: var(--radius-md);
-      height: 200px;
+      height: 210px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 14px;
-      margin-bottom: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
       cursor: pointer;
       overflow: hidden;
+      position: relative;
     }
 
     .product-img {
@@ -431,33 +655,40 @@
       width: auto;
       height: auto;
       object-fit: contain;
-      transition: transform 0.2s ease;
+      transition: transform 0.3s ease;
     }
 
-    .product-card:hover .product-img { transform: scale(1.02); }
+    .product-card:hover .product-img {
+      transform: scale(1.04);
+    }
 
-    .product-cat {
-      font-size: 11.5px;
-      color: var(--text-muted);
+    .product-cat-tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-blue);
       text-transform: uppercase;
-      font-weight: 500;
+      letter-spacing: 0.04em;
       margin-bottom: 4px;
     }
 
-    .product-name {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
+    .product-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--text-primary);
       line-height: 1.35;
       margin-bottom: 6px;
       cursor: pointer;
     }
 
+    .product-title:hover {
+      color: var(--accent-blue);
+    }
+
     .product-desc {
       font-size: 13px;
       color: var(--text-secondary);
-      line-height: 1.45;
-      margin-bottom: 12px;
+      line-height: 1.5;
+      margin-bottom: 14px;
       flex-grow: 1;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -465,26 +696,36 @@
       overflow: hidden;
     }
 
-    .product-footer {
+    .product-footer-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding-top: 12px;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--border-subtle);
       gap: 10px;
     }
 
-    .product-price {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
+    .product-price-val {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+    }
+
+    .product-stock-indicator {
+      font-size: 11.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
     }
 
     /* Customer Footer */
     .customer-footer {
-      background-color: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 24px 0;
+      background-color: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      padding: 32px 0 24px;
       margin-top: auto;
       font-size: 13px;
       color: var(--text-muted);
@@ -495,16 +736,16 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 16px;
     }
 
     /* ============================================================
-       3. Admin Experience Layout
+       3. Admin Experience Layout (Linear/Stripe Style)
        ============================================================ */
     #admin-app {
       display: none;
       min-height: 100vh;
-      background-color: var(--bg);
+      background-color: var(--bg-base);
     }
 
     /* Admin Login Screen */
@@ -514,17 +755,17 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      background-color: var(--bg);
+      background-color: var(--bg-base);
     }
 
     .admin-login-box {
       width: 100%;
-      max-width: 360px;
-      background: var(--surface);
-      border: 1px solid var(--border);
+      max-width: 380px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      padding: 28px;
-      box-shadow: var(--shadow-sm);
+      padding: 32px;
+      box-shadow: var(--shadow-md);
     }
 
     /* Admin Shell Layout */
@@ -535,25 +776,13 @@
     }
 
     .admin-top-bar {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
       height: 56px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 24px;
-    }
-
-    .admin-top-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .admin-badge-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
     }
 
     .admin-body-layout {
@@ -562,10 +791,10 @@
     }
 
     .admin-sidebar {
-      width: 220px;
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      padding: 16px 10px;
+      width: 230px;
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border-subtle);
+      padding: 16px 12px;
       display: flex;
       flex-direction: column;
       gap: 4px;
@@ -574,11 +803,11 @@
     .admin-nav-item {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
+      gap: 10px;
+      padding: 9px 12px;
       border-radius: var(--radius-md);
       font-size: 13.5px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-secondary);
       text-decoration: none;
       border: none;
@@ -590,37 +819,72 @@
     }
 
     .admin-nav-item:hover {
-      color: var(--text);
-      background-color: var(--surface-subtle);
+      color: var(--text-primary);
+      background-color: var(--bg-subtle);
     }
 
     .admin-nav-item.active {
-      color: var(--text);
-      background-color: var(--surface-subtle);
-      font-weight: 600;
+      color: var(--text-primary);
+      background-color: var(--bg-subtle);
+      font-weight: 700;
     }
 
     .admin-content-pane {
       flex: 1;
-      padding: 24px 32px;
+      padding: 28px 36px;
       overflow-x: auto;
     }
 
-    /* Admin Action Attention Banner */
+    /* Action Attention Box */
     .admin-attention-card {
-      background: var(--surface);
-      border: 1.5px solid var(--warning);
-      border-radius: var(--radius-lg);
+      background: var(--bg-surface);
+      border: 1px solid var(--status-warning-border);
+      border-left: 4px solid var(--status-warning);
+      border-radius: var(--radius-md);
       padding: 18px 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-xs);
+    }
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
       margin-bottom: 24px;
     }
 
-    /* Admin Data Tables */
+    .metric-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .metric-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .metric-val {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    /* Tables */
     .table-container {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
       overflow-x: auto;
+      box-shadow: var(--shadow-xs);
     }
 
     .admin-table {
@@ -631,58 +895,37 @@
     }
 
     .admin-table th {
-      background-color: var(--surface-subtle);
+      background-color: var(--bg-subtle);
       color: var(--text-secondary);
-      font-weight: 600;
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-subtle);
     }
 
     .admin-table td {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-subtle);
       vertical-align: middle;
-      color: var(--text);
+      color: var(--text-primary);
     }
 
-    .admin-table tr:last-child td { border-bottom: none; }
-    .admin-table tr:hover td { background-color: var(--surface-hover); }
-
-    /* Admin Metrics */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
+    .admin-table tr:last-child td {
+      border-bottom: none;
     }
 
-    .metric-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 16px;
-    }
-
-    .metric-label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-
-    .metric-val {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--text);
+    .admin-table tr:hover td {
+      background-color: var(--bg-hover);
     }
 
     /* Image Preview Container */
     .image-preview-container {
-      background: var(--surface-subtle);
-      border: 1px dashed var(--border);
+      background: var(--bg-subtle);
+      border: 1px dashed var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 14px;
+      padding: 16px;
       text-align: center;
       min-height: 180px;
       display: flex;
@@ -694,21 +937,25 @@
 
     .image-preview-img {
       max-width: 100%;
-      max-height: 150px;
+      max-height: 160px;
       object-fit: contain;
     }
 
     .preview-status-text {
       font-size: 12px;
-      margin-top: 6px;
-      font-weight: 500;
+      margin-top: 8px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
 
     /* Modals */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(4px);
       z-index: 100;
       display: none;
       align-items: center;
@@ -716,59 +963,78 @@
       padding: 20px;
     }
 
-    .modal-overlay.open { display: flex; }
+    .modal-overlay.open {
+      display: flex;
+    }
 
     .modal-window {
-      background: var(--surface);
+      background: var(--bg-surface);
       border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-subtle);
       width: 100%;
       max-width: 520px;
       max-height: 90vh;
       overflow-y: auto;
       box-shadow: var(--shadow-lg);
+      animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .modal-window-lg { max-width: 680px; }
+    .modal-window-lg {
+      max-width: 720px;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.97) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
 
     .modal-header-bar {
-      padding: 14px 18px;
+      padding: 16px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--border-subtle);
     }
 
-    .modal-header-title { font-size: 15px; font-weight: 600; }
+    .modal-header-title {
+      font-size: 15.5px;
+      font-weight: 700;
+    }
+
     .modal-close-x {
-      background: transparent; border: none; font-size: 18px;
-      color: var(--text-muted); cursor: pointer; line-height: 1;
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+      border-radius: var(--radius-sm);
     }
 
-    .modal-body-pad { padding: 18px; }
+    .modal-close-x:hover {
+      color: var(--text-primary);
+      background: var(--bg-subtle);
+    }
+
+    .modal-body-pad {
+      padding: 20px;
+    }
+
     .modal-footer-bar {
-      padding: 12px 18px;
-      border-top: 1px solid var(--border);
+      padding: 14px 20px;
+      border-top: 1px solid var(--border-subtle);
       display: flex;
       justify-content: flex-end;
-      gap: 8px;
-      background-color: var(--bg);
-    }
-
-    /* Toast */
-    .toast-popup {
-      position: fixed; bottom: 20px; right: 20px;
-      background: var(--primary); color: var(--primary-fg);
-      padding: 9px 16px; border-radius: var(--radius-md);
-      font-size: 13px; font-weight: 500; box-shadow: var(--shadow-md);
-      display: none; z-index: 200;
+      gap: 10px;
+      background-color: var(--bg-base);
     }
 
     /* Stepper Timeline */
     .stepper-timeline {
       display: flex;
       justify-content: space-between;
-      margin: 24px 0;
+      margin: 28px 0;
       position: relative;
     }
 
@@ -783,25 +1049,30 @@
     .stepper-step::before {
       content: "";
       position: absolute;
-      top: 11px;
+      top: 12px;
       left: -50%;
       right: 50%;
       height: 2px;
-      background: var(--border);
+      background: var(--border-subtle);
       z-index: 0;
     }
 
-    .stepper-step:first-child::before { display: none; }
-    .stepper-step.completed::before { background: var(--success); }
+    .stepper-step:first-child::before {
+      display: none;
+    }
+
+    .stepper-step.completed::before {
+      background: var(--status-success);
+    }
 
     .stepper-node {
-      width: 22px;
-      height: 22px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
-      background: var(--surface);
-      border: 2px solid var(--border);
-      font-size: 10.5px;
-      font-weight: 600;
+      background: var(--bg-surface);
+      border: 2px solid var(--border-subtle);
+      font-size: 11px;
+      font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -811,68 +1082,66 @@
     }
 
     .stepper-step.completed .stepper-node {
-      background: var(--success);
-      border-color: var(--success);
+      background: var(--status-success);
+      border-color: var(--status-success);
       color: #fff;
     }
 
     .stepper-step.current .stepper-node {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: var(--primary-fg);
+      background: var(--brand-primary);
+      border-color: var(--brand-primary);
+      color: var(--brand-fg);
     }
 
     .stepper-name {
-      font-size: 11px;
+      font-size: 11.5px;
       color: var(--text-muted);
-      margin-top: 6px;
-      font-weight: 500;
+      margin-top: 8px;
+      font-weight: 600;
       text-align: center;
     }
 
     .stepper-step.current .stepper-name {
-      color: var(--text);
-      font-weight: 600;
+      color: var(--text-primary);
+      font-weight: 700;
     }
 
-    /* Payment Simulation Box */
-    .payment-qr-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+    /* Toast Notification */
+    .toast-popup {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--brand-primary);
+      color: var(--brand-fg);
+      padding: 11px 18px;
       border-radius: var(--radius-md);
-      padding: 16px;
-      text-align: center;
-      margin: 14px 0;
-    }
-
-    .qr-mock-visual {
-      width: 140px;
-      height: 140px;
-      margin: 0 auto 12px;
-      background: #ffffff;
-      padding: 8px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      display: flex;
+      font-size: 13.5px;
+      font-weight: 600;
+      box-shadow: var(--shadow-lg);
+      display: none;
+      z-index: 200;
       align-items: center;
-      justify-content: center;
+      gap: 8px;
     }
 
-    /* Responsive Breakpoints */
-    @media (max-width: 900px) {
+    /* Responsive Adjustments */
+    @media (max-width: 960px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 24px; }
       .product-grid { grid-template-columns: repeat(2, 1fr); }
       .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-      .admin-sidebar { width: 180px; }
+      .admin-sidebar { width: 190px; }
     }
 
     @media (max-width: 640px) {
-      .container { padding: 0 14px; }
+      .container { padding: 0 16px; }
       .product-grid { grid-template-columns: 1fr; }
       .metrics-grid { grid-template-columns: 1fr; }
+      .hero-value-cards { grid-template-columns: 1fr; }
       .admin-body-layout { flex-direction: column; }
-      .admin-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; overflow-x: auto; padding: 8px 10px; }
-      .admin-content-pane { padding: 14px; }
-      .filter-bar { flex-direction: column; align-items: stretch; }
+      .admin-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-subtle); flex-direction: row; overflow-x: auto; padding: 8px 12px; }
+      .admin-content-pane { padding: 18px 16px; }
+      .filter-toolbar { flex-direction: column; align-items: stretch; }
+      .search-sort-wrap { flex-direction: column; align-items: stretch; }
       .customer-header-inner { height: auto; padding: 10px 0; flex-wrap: wrap; }
       .customer-nav { order: 3; width: 100%; margin-top: 6px; overflow-x: auto; }
     }
@@ -884,26 +1153,42 @@
        APPLICATION CONTAINER 1: CUSTOMER EXPERIENCES
        ============================================================ -->
   <div id="customer-app">
+    <!-- Top Announcement Bar -->
+    <div class="top-announcement">
+      <div class="container top-announcement-flex">
+        <span><i class="bi bi-shield-check"></i> Enterprise Cloud Hardware — Bangkok Hub (ap-southeast-7)</span>
+        <span><i class="bi bi-truck"></i> Free Shipping on orders over ฿1,500</span>
+      </div>
+    </div>
+
     <!-- Customer Header -->
     <header class="customer-header">
       <div class="container customer-header-inner">
-        <div class="brand" onclick="navigateTo('/')">
-          <div class="brand-mark">M</div>
-          <span class="brand-title">Mega Store</span>
+        <div class="brand-group" onclick="navigateTo('/')">
+          <div class="brand-logo-mark">M</div>
+          <div class="brand-text-block">
+            <span class="brand-name">Mega Store</span>
+            <span class="brand-tagline">Cloud Hardware & Gear</span>
+          </div>
         </div>
 
         <nav class="customer-nav">
-          <button class="nav-btn active" id="cnav-products" onclick="navigateTo('/')">Products</button>
-          <button class="nav-btn" id="cnav-track" onclick="navigateTo('/track')">Track Order</button>
+          <button class="nav-btn active" id="cnav-products" onclick="navigateTo('/')">
+            <i class="bi bi-grid-fill"></i> Products
+          </button>
+          <button class="nav-btn" id="cnav-track" onclick="navigateTo('/track')">
+            <i class="bi bi-box-seam"></i> Track Order
+          </button>
         </nav>
 
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <!-- Theme Switcher Button -->
-          <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle theme">
-            <span id="theme-icon-display">☀️</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <!-- Theme Switcher -->
+          <button class="btn-theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle theme">
+            <i class="bi bi-sun-fill" id="theme-icon-customer"></i>
           </button>
 
           <button class="cart-btn" onclick="openCartModal()">
+            <i class="bi bi-cart3"></i>
             <span>Cart</span>
             <span class="cart-badge" id="cart-counter">0</span>
           </button>
@@ -913,20 +1198,59 @@
 
     <!-- Main Customer View Container -->
     <main class="storefront-main">
-      <div class="container">
-        <!-- View: Products Catalog -->
-        <section id="cview-products">
-          <div style="margin-bottom: 20px;">
-            <h1 style="font-size: 20px; font-weight: 600;">Products</h1>
-            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 2px;">Browse available hardware and cloud equipment</p>
-          </div>
+      <!-- Storefront Catalog Section -->
+      <section id="cview-products">
+        <!-- Hero Section -->
+        <div class="storefront-hero">
+          <div class="container hero-grid">
+            <div>
+              <div class="hero-badge-pill">
+                <i class="bi bi-cpu"></i> Enterprise-Grade Edge & Cloud Systems
+              </div>
+              <h1 class="hero-heading">Hardware Engineering & Cloud Infrastructure</h1>
+              <p class="hero-subhead">Deploy resilient ARM64 micro servers, neural acceleration modules, FIDO2 security keys, and developer workstations tested for 24/7 reliability.</p>
+              
+              <div style="display: flex; gap: 10px;">
+                <button class="btn btn-primary" onclick="document.getElementById('cust-search-input').focus();">
+                  <i class="bi bi-search"></i> Browse Catalog
+                </button>
+                <button class="btn btn-secondary" onclick="navigateTo('/track')">
+                  <i class="bi bi-box-seam"></i> Track Order
+                </button>
+              </div>
+            </div>
 
-          <div class="filter-bar">
+            <div class="hero-value-cards">
+              <div class="hero-val-card">
+                <div class="hero-val-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+                <div class="hero-val-title">99.9% Cloud Verified</div>
+                <div class="hero-val-desc">Factory stress-tested hardware modules.</div>
+              </div>
+              <div class="hero-val-card">
+                <div class="hero-val-icon"><i class="bi bi-shield-lock-fill"></i></div>
+                <div class="hero-val-title">1-Year Warranty</div>
+                <div class="hero-val-desc">Direct replacement warranty coverage.</div>
+              </div>
+              <div class="hero-val-card">
+                <div class="hero-val-icon"><i class="bi bi-truck"></i></div>
+                <div class="hero-val-title">Bangkok Dispatch</div>
+                <div class="hero-val-desc">Same-day handling from local cloud center.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <!-- Filter & Search Toolbar -->
+          <div class="filter-toolbar">
             <div class="category-chips" id="customer-category-chips"></div>
 
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-              <input type="text" id="cust-search-input" class="form-input" placeholder="Search products..." style="width: 220px; padding: 6px 10px; font-size: 13px;" oninput="onCustomerSearch(this.value)">
-              <select id="cust-sort-select" class="form-select" style="width: auto; padding: 6px 10px; font-size: 13px;" onchange="onCustomerSort(this.value)">
+            <div class="search-sort-wrap">
+              <div class="search-input-container">
+                <i class="bi bi-search search-icon-pos"></i>
+                <input type="text" id="cust-search-input" class="form-input" placeholder="Search devices & specs..." style="width: 230px; padding-left: 32px; font-size: 13px;" oninput="onCustomerSearch(this.value)">
+              </div>
+              <select id="cust-sort-select" class="form-select" style="width: auto; font-size: 13px;" onchange="onCustomerSort(this.value)">
                 <option value="default">Sort by: Featured</option>
                 <option value="price-asc">Price: Low to High</option>
                 <option value="price-desc">Price: High to Low</option>
@@ -935,38 +1259,45 @@
             </div>
           </div>
 
+          <!-- Product Grid Container -->
           <div class="product-grid" id="customer-products-grid"></div>
-        </section>
+        </div>
+      </section>
 
-        <!-- View: Order Tracking -->
-        <section id="cview-track" style="display: none; max-width: 620px; margin: 0 auto;">
+      <!-- View: Order Tracking -->
+      <section id="cview-track" style="display: none; max-width: 660px; margin: 40px auto 0;">
+        <div class="container">
           <div style="margin-bottom: 20px;">
-            <h1 style="font-size: 20px; font-weight: 600;">Track your order</h1>
+            <h1 style="font-size: 22px; font-weight: 700;">Track your order</h1>
             <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 2px;">Real-time automated status and fulfillment telemetry</p>
           </div>
 
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 20px;">
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow-xs);">
             <div style="display: flex; gap: 8px;">
               <input type="text" id="track-input" class="form-input" placeholder="e.g. ORD-20260818-INIT" value="ORD-20260818-INIT">
-              <button class="btn btn-primary" onclick="lookupCustomerOrder()">Track</button>
+              <button class="btn btn-primary" onclick="lookupCustomerOrder()">
+                <i class="bi bi-search"></i> Track
+              </button>
             </div>
-            <div style="margin-top: 8px; font-size: 12.5px; color: var(--text-muted);">
-              Sample: <button class="btn-link" onclick="fillTrackInput('ORD-20260818-INIT')">ORD-20260818-INIT</button>
+            <div style="margin-top: 10px; font-size: 12.5px; color: var(--text-muted);">
+              Sample order: <button class="btn-link" onclick="fillTrackInput('ORD-20260818-INIT')">ORD-20260818-INIT</button>
             </div>
           </div>
 
-          <div id="customer-track-result" style="display: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px;"></div>
-        </section>
-      </div>
+          <div id="customer-track-result" style="display: none; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-xs);"></div>
+        </div>
+      </section>
     </main>
 
     <!-- Customer Footer -->
     <footer class="customer-footer">
       <div class="container footer-flex">
-        <div>Mega Store — Hardware & Equipment</div>
+        <div>Mega Store — Enterprise Cloud Hardware & Developer Gear</div>
         <div style="display: flex; gap: 16px; align-items: center;">
           <span>Region: ap-southeast-7</span>
-          <a onclick="navigateTo('/admin/login')" style="color: var(--text-muted); text-decoration: none; cursor: pointer;">Admin Portal</a>
+          <a onclick="navigateTo('/admin/login')" style="color: var(--text-muted); text-decoration: none; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+            <i class="bi bi-lock-fill"></i> Admin Portal
+          </a>
         </div>
       </div>
     </footer>
@@ -977,16 +1308,16 @@
        ============================================================ -->
   <div id="admin-login-screen">
     <div class="admin-login-box">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <div class="brand-mark">M</div>
-          <span style="font-size: 15px; font-weight: 700;">Mega Store Admin</span>
+          <div class="brand-logo-mark">M</div>
+          <span style="font-size: 16px; font-weight: 800;">Mega Store Admin</span>
         </div>
-        <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme">
-          <span class="theme-icon-admin">☀️</span>
+        <button class="btn-theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+          <i class="bi bi-sun-fill theme-icon-admin"></i>
         </button>
       </div>
-      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Sign in to access store management</p>
+      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 22px;">Sign in with your administrator credentials</p>
 
       <div class="form-group">
         <label class="form-label" for="adm-login-u">Username</label>
@@ -998,10 +1329,14 @@
         <input type="password" id="adm-login-p" class="form-input" value="admin123">
       </div>
 
-      <button class="btn btn-primary" style="width: 100%; margin-top: 6px;" onclick="doAdminLogin()">Sign in</button>
+      <button class="btn btn-primary" style="width: 100%; margin-top: 8px;" onclick="doAdminLogin()">
+        <i class="bi bi-box-arrow-in-right"></i> Sign in
+      </button>
       
-      <div style="text-align: center; margin-top: 16px;">
-        <a onclick="navigateTo('/')" class="btn-link" style="font-size: 12.5px;">← Back to Store</a>
+      <div style="text-align: center; margin-top: 18px;">
+        <a onclick="navigateTo('/')" class="btn-link" style="font-size: 12.5px;">
+          <i class="bi bi-arrow-left"></i> Back to Store
+        </a>
       </div>
     </div>
   </div>
@@ -1013,51 +1348,66 @@
     <div class="admin-shell">
       <!-- Admin Top Bar -->
       <header class="admin-top-bar">
-        <div class="admin-top-left">
-          <div class="brand-mark">M</div>
-          <span class="admin-badge-title">Mega Store Management</span>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="brand-logo-mark">M</div>
+          <span style="font-size: 14.5px; font-weight: 800; color: var(--text-primary);">Mega Store Management</span>
         </div>
         <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
-          <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme">
-            <span class="theme-icon-admin">☀️</span>
+          <button class="btn-theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+            <i class="bi bi-sun-fill theme-icon-admin"></i>
           </button>
           <span style="color: var(--text-secondary);">Logged in as <strong id="admin-header-username">admin</strong></span>
-          <button class="btn btn-secondary btn-sm" onclick="navigateTo('/')">View Store</button>
-          <button class="btn btn-secondary btn-sm" onclick="doAdminLogout()">Sign out</button>
+          <button class="btn btn-secondary btn-sm" onclick="navigateTo('/')">
+            <i class="bi bi-shop"></i> View Store
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="doAdminLogout()">
+            <i class="bi bi-box-arrow-right"></i> Sign out
+          </button>
         </div>
       </header>
 
       <!-- Admin Body: Sidebar + Main Pane -->
       <div class="admin-body-layout">
         <aside class="admin-sidebar">
-          <button class="admin-nav-item active" id="aside-nav-dashboard" onclick="navigateTo('/admin/dashboard')">Dashboard</button>
-          <button class="admin-nav-item" id="aside-nav-products" onclick="navigateTo('/admin/products')">Products</button>
-          <button class="admin-nav-item" id="aside-nav-orders" onclick="navigateTo('/admin/orders')">Orders</button>
-          <button class="admin-nav-item" id="aside-nav-logs" onclick="navigateTo('/admin/logs')">Audit Log</button>
+          <button class="admin-nav-item active" id="aside-nav-dashboard" onclick="navigateTo('/admin/dashboard')">
+            <i class="bi bi-speedometer2"></i> Dashboard
+          </button>
+          <button class="admin-nav-item" id="aside-nav-products" onclick="navigateTo('/admin/products')">
+            <i class="bi bi-boxes"></i> Products
+          </button>
+          <button class="admin-nav-item" id="aside-nav-orders" onclick="navigateTo('/admin/orders')">
+            <i class="bi bi-receipt"></i> Orders
+          </button>
+          <button class="admin-nav-item" id="aside-nav-logs" onclick="navigateTo('/admin/logs')">
+            <i class="bi bi-clock-history"></i> Audit Log
+          </button>
         </aside>
 
         <main class="admin-content-pane">
           <!-- SUB-VIEW: DASHBOARD -->
           <section id="admin-view-dashboard">
-            <div style="margin-bottom: 20px;">
-              <h2 style="font-size: 18px; font-weight: 600;">Store Overview & Automation Telemetry</h2>
+            <div style="margin-bottom: 22px;">
+              <h2 style="font-size: 20px; font-weight: 700;">Store Overview & Automation Telemetry</h2>
+              <p style="font-size: 13px; color: var(--text-secondary);">Real-time monitoring of automated payment reconciliation and physical dispatch queues</p>
             </div>
 
-            <!-- Attention Required Card -->
+            <!-- Attention Required Box -->
             <div class="admin-attention-card" id="admin-attention-box" style="display: none;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h3 style="font-size: 14px; font-weight: 700; color: var(--warning);">⚠️ Orders Requiring Human Attention</h3>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h3 style="font-size: 14.5px; font-weight: 700; color: var(--status-warning); display: flex; align-items: center; gap: 6px;">
+                  <i class="bi bi-exclamation-triangle-fill"></i> Orders Requiring Human Attention
+                </h3>
                 <span class="badge badge-warning" id="attention-badge-count">0 orders</span>
               </div>
-              <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">The following orders have been automatically paid and verified by the system, and are waiting for physical packaging and courier dispatch.</p>
+              <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 14px;">The following orders were automatically verified by the payment gateway and are waiting for physical packaging and courier dispatch.</p>
               <div id="admin-attention-orders-list"></div>
             </div>
 
-            <!-- Metric Cards -->
+            <!-- Metrics Grid -->
             <div class="metrics-grid" id="admin-metrics-row"></div>
 
-            <div style="margin-top: 24px;">
-              <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 12px;">Recent Orders</h3>
+            <div style="margin-top: 28px;">
+              <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 14px;">Recent Orders</h3>
               <div class="table-container">
                 <table class="admin-table">
                   <thead>
@@ -1071,18 +1421,20 @@
 
           <!-- SUB-VIEW: PRODUCTS LIST -->
           <section id="admin-view-products" style="display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
               <div>
-                <h2 style="font-size: 18px; font-weight: 600;">Products</h2>
-                <p style="font-size: 13px; color: var(--text-secondary);">Manage store catalog and inventory stock</p>
+                <h2 style="font-size: 20px; font-weight: 700;">Products</h2>
+                <p style="font-size: 13px; color: var(--text-secondary);">Manage store catalog, pricing, and inventory stock</p>
               </div>
-              <button class="btn btn-primary" onclick="navigateTo('/admin/products/new')">+ Add Product</button>
+              <button class="btn btn-primary" onclick="navigateTo('/admin/products/new')">
+                <i class="bi bi-plus-lg"></i> Add Product
+              </button>
             </div>
 
-            <div style="display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;">
-              <input type="text" id="adm-prod-search" class="form-input" placeholder="Search products..." style="width: 220px; padding: 6px 10px; font-size: 13px;" oninput="onAdminProductSearch(this.value)">
-              <select id="adm-prod-cat-filter" class="form-select" style="width: auto; padding: 6px 10px; font-size: 13px;" onchange="onAdminProductCatFilter(this.value)"></select>
-              <select id="adm-prod-status-filter" class="form-select" style="width: auto; padding: 6px 10px; font-size: 13px;" onchange="onAdminProductStatusFilter(this.value)">
+            <div style="display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;">
+              <input type="text" id="adm-prod-search" class="form-input" placeholder="Search products..." style="width: 220px; font-size: 13px;" oninput="onAdminProductSearch(this.value)">
+              <select id="adm-prod-cat-filter" class="form-select" style="width: auto; font-size: 13px;" onchange="onAdminProductCatFilter(this.value)"></select>
+              <select id="adm-prod-status-filter" class="form-select" style="width: auto; font-size: 13px;" onchange="onAdminProductStatusFilter(this.value)">
                 <option value="all">Status: All</option>
                 <option value="active">Active only</option>
                 <option value="inactive">Inactive only</option>
@@ -1110,14 +1462,16 @@
           <!-- SUB-VIEW: ADD / EDIT PRODUCT FORM -->
           <section id="admin-view-product-form" style="display: none; max-width: 680px;">
             <div style="margin-bottom: 20px;">
-              <a onclick="navigateTo('/admin/products')" class="btn-link" style="font-size: 13px;">← Back to Products</a>
-              <h2 id="admin-prod-form-title" style="font-size: 18px; font-weight: 600; margin-top: 6px;">Add Product</h2>
+              <a onclick="navigateTo('/admin/products')" class="btn-link" style="font-size: 13px;">
+                <i class="bi bi-arrow-left"></i> Back to Products
+              </a>
+              <h2 id="admin-prod-form-title" style="font-size: 20px; font-weight: 700; margin-top: 8px;">Add Product</h2>
             </div>
 
-            <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
+            <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 26px; box-shadow: var(--shadow-xs);">
               <input type="hidden" id="prod-form-id">
 
-              <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 14px;">Product Information</h3>
+              <h3 style="font-size: 14.5px; font-weight: 700; margin-bottom: 14px;">Product Information</h3>
               <div class="form-group">
                 <label class="form-label" for="pf-name">Product Name *</label>
                 <input type="text" id="pf-name" class="form-input">
@@ -1142,7 +1496,7 @@
                 <textarea id="pf-desc" class="form-textarea" rows="3"></textarea>
               </div>
 
-              <h3 style="font-size: 14px; font-weight: 600; margin: 20px 0 14px;">Pricing & Inventory</h3>
+              <h3 style="font-size: 14.5px; font-weight: 700; margin: 22px 0 14px;">Pricing & Inventory</h3>
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
                 <div class="form-group">
                   <label class="form-label" for="pf-price">Price (THB) *</label>
@@ -1154,37 +1508,41 @@
                 </div>
               </div>
 
-              <h3 style="font-size: 14px; font-weight: 600; margin: 20px 0 14px;">Product Image</h3>
+              <h3 style="font-size: 14.5px; font-weight: 700; margin: 22px 0 14px;">Product Image</h3>
               <div class="form-group">
                 <label class="form-label" for="pf-image-url">Image URL</label>
-                <input type="text" id="pf-image-url" class="form-input" placeholder="https://..." oninput="onImageUrlInput(this.value)">
+                <input type="text" id="pf-image-url" class="form-input" placeholder="https://images.unsplash.com/..." oninput="onImageUrlInput(this.value)">
               </div>
 
               <!-- Live Image Preview Box -->
               <div class="image-preview-container" id="image-preview-box">
                 <img id="image-preview-target" class="image-preview-img" style="display: none;" onload="onImagePreviewLoaded()" onerror="onImagePreviewError()">
-                <div id="image-preview-status" class="preview-status-text" style="color: var(--text-muted);">No image URL entered</div>
+                <div id="image-preview-status" class="preview-status-text" style="color: var(--text-muted);">
+                  <i class="bi bi-image"></i> No image URL entered
+                </div>
               </div>
 
-              <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border);">
+              <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-subtle);">
                 <button class="btn btn-secondary" onclick="navigateTo('/admin/products')">Cancel</button>
-                <button class="btn btn-primary" onclick="saveProductForm()">Save Product</button>
+                <button class="btn btn-primary" onclick="saveProductForm()">
+                  <i class="bi bi-check2"></i> Save Product
+                </button>
               </div>
             </div>
           </section>
 
           <!-- SUB-VIEW: ORDERS -->
           <section id="admin-view-orders" style="display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
               <div>
-                <h2 style="font-size: 18px; font-weight: 600;">Customer Orders & State Control</h2>
-                <p style="font-size: 13px; color: var(--text-secondary);">Manage fulfillment and courier tracking</p>
+                <h2 style="font-size: 20px; font-weight: 700;">Customer Orders & State Control</h2>
+                <p style="font-size: 13px; color: var(--text-secondary);">Manage physical packaging, shipping dispatch, and reconciliation</p>
               </div>
             </div>
 
-            <div style="display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;">
-              <input type="text" id="adm-orders-search" class="form-input" placeholder="Search orders..." style="width: 220px; padding: 6px 10px; font-size: 13px;" oninput="onAdminOrdersSearch(this.value)">
-              <select id="adm-orders-status-filter" class="form-select" style="width: auto; padding: 6px 10px; font-size: 13px;" onchange="onAdminOrdersStatusFilter(this.value)">
+            <div style="display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;">
+              <input type="text" id="adm-orders-search" class="form-input" placeholder="Search orders..." style="width: 220px; font-size: 13px;" oninput="onAdminOrdersSearch(this.value)">
+              <select id="adm-orders-status-filter" class="form-select" style="width: auto; font-size: 13px;" onchange="onAdminOrdersStatusFilter(this.value)">
                 <option value="all">Status: All</option>
                 <option value="PENDING_PAYMENT">Pending Payment</option>
                 <option value="PAID">Paid (Needs Packing)</option>
@@ -1207,8 +1565,8 @@
 
           <!-- SUB-VIEW: AUDIT LOGS -->
           <section id="admin-view-logs" style="display: none;">
-            <div style="margin-bottom: 16px;">
-              <h2 style="font-size: 18px; font-weight: 600;">Audit & Automation Logs</h2>
+            <div style="margin-bottom: 18px;">
+              <h2 style="font-size: 20px; font-weight: 700;">Audit & Automation Logs</h2>
               <p style="font-size: 13px; color: var(--text-secondary);">Record of administrative actions, automated verifications, and state transitions</p>
             </div>
             <div class="table-container">
@@ -1232,7 +1590,7 @@
     <div class="modal-window modal-window-lg">
       <div class="modal-header-bar">
         <span class="modal-header-title">Product Details</span>
-        <button class="modal-close-x" onclick="closeModal('modal-product-detail')">×</button>
+        <button class="modal-close-x" onclick="closeModal('modal-product-detail')"><i class="bi bi-x-lg"></i></button>
       </div>
       <div class="modal-body-pad" id="modal-product-detail-body"></div>
     </div>
@@ -1245,13 +1603,13 @@
     <div class="modal-window">
       <div class="modal-header-bar">
         <span class="modal-header-title" id="cart-modal-title">Shopping Cart</span>
-        <button class="modal-close-x" onclick="closeModal('modal-cart')">×</button>
+        <button class="modal-close-x" onclick="closeModal('modal-cart')"><i class="bi bi-x-lg"></i></button>
       </div>
       <div class="modal-body-pad">
         <div id="cart-items-list"></div>
 
-        <div id="checkout-form-box" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);">
-          <h4 style="font-size: 13.5px; font-weight: 600; margin-bottom: 12px;">Shipping Details</h4>
+        <div id="checkout-form-box" style="display: none; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border-subtle);">
+          <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 12px;">Shipping Details</h4>
           <div class="form-group">
             <label class="form-label" for="chk-name">Full Name *</label>
             <input type="text" id="chk-name" class="form-input" value="Somchai Jaidee">
@@ -1274,16 +1632,16 @@
           </div>
         </div>
 
-        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border);">
+        <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-subtle);">
           <div style="display: flex; justify-content: space-between; font-size: 13.5px; color: var(--text-secondary); margin-bottom: 4px;">
             <span>Subtotal</span>
             <span id="cart-subtotal-text">฿0.00</span>
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 13.5px; color: var(--text-secondary); margin-bottom: 8px;">
             <span>Shipping</span>
-            <span style="color: var(--success); font-weight: 500;">Free</span>
+            <span style="color: var(--status-success); font-weight: 600;">Free</span>
           </div>
-          <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 700; color: var(--text); padding-top: 8px; border-top: 1px solid var(--border);">
+          <div style="display: flex; justify-content: space-between; font-size: 17px; font-weight: 800; color: var(--text-primary); padding-top: 8px; border-top: 1px solid var(--border-subtle);">
             <span>Total</span>
             <span id="cart-total-text">฿0.00</span>
           </div>
@@ -1300,7 +1658,7 @@
     <div class="modal-window" style="max-width: 440px;">
       <div class="modal-header-bar">
         <span class="modal-header-title">Payment Verification</span>
-        <button class="modal-close-x" onclick="closeModal('modal-payment-gateway')">×</button>
+        <button class="modal-close-x" onclick="closeModal('modal-payment-gateway')"><i class="bi bi-x-lg"></i></button>
       </div>
       <div class="modal-body-pad" id="payment-gateway-modal-body"></div>
     </div>
@@ -1313,11 +1671,11 @@
     <div class="modal-window" style="max-width: 420px;">
       <div class="modal-header-bar">
         <span class="modal-header-title">Update Order State</span>
-        <button class="modal-close-x" onclick="closeModal('modal-status-update')">×</button>
+        <button class="modal-close-x" onclick="closeModal('modal-status-update')"><i class="bi bi-x-lg"></i></button>
       </div>
       <div class="modal-body-pad">
         <input type="hidden" id="st-edit-id">
-        <div style="font-size: 13px; margin-bottom: 12px;">
+        <div style="font-size: 13px; margin-bottom: 14px;">
           Order: <strong id="st-edit-onum"></strong> · Current State: <span id="st-current-badge" class="badge"></span>
         </div>
 
@@ -1345,11 +1703,11 @@
     <div class="modal-window" style="max-width: 420px;">
       <div class="modal-header-bar">
         <span class="modal-header-title">Delete Product?</span>
-        <button class="modal-close-x" onclick="closeModal('modal-delete-confirm')">×</button>
+        <button class="modal-close-x" onclick="closeModal('modal-delete-confirm')"><i class="bi bi-x-lg"></i></button>
       </div>
       <div class="modal-body-pad">
         <input type="hidden" id="del-confirm-pid">
-        <p style="font-size: 13.5px; color: var(--text); margin-bottom: 10px;">
+        <p style="font-size: 13.5px; color: var(--text-primary); margin-bottom: 10px;">
           Are you sure you want to delete <strong id="del-confirm-name"></strong>?
         </p>
         <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.5;">
@@ -1378,7 +1736,7 @@
     var cart = JSON.parse(localStorage.getItem('mega_cart') || '[]');
     var adminToken = localStorage.getItem('mega_admin_token') || '';
 
-    // Order State Transition Matrix (Mirrors backend)
+    // Order State Transition Matrix
     var VALID_ORDER_TRANSITIONS = {
       "PENDING_PAYMENT": ["PAID", "PAYMENT_FAILED", "EXPIRED", "CANCELLED"],
       "PENDING": ["PAID", "PAYMENT_FAILED", "EXPIRED", "CANCELLED"],
@@ -1420,17 +1778,21 @@
     function setTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem('mega_theme', theme);
-      var icon = theme === 'dark' ? '🌙' : '☀️';
-      var el1 = document.getElementById('theme-icon-display');
-      if (el1) el1.textContent = icon;
-      document.querySelectorAll('.theme-icon-admin').forEach(function(i) { i.textContent = icon; });
+      var iconClass = theme === 'dark' ? 'bi-moon-stars-fill' : 'bi-sun-fill';
+      
+      var elCustomer = document.getElementById('theme-icon-customer');
+      if (elCustomer) elCustomer.className = 'bi ' + iconClass;
+      
+      document.querySelectorAll('.theme-icon-admin').forEach(function(i) {
+        i.className = 'bi ' + iconClass + ' theme-icon-admin';
+      });
     }
 
     // Helper Utilities
     function toast(msg) {
       var el = document.getElementById('app-toast');
-      el.textContent = msg;
-      el.style.display = 'block';
+      el.innerHTML = '<i class="bi bi-info-circle-fill"></i> ' + msg;
+      el.style.display = 'inline-flex';
       clearTimeout(el._t);
       el._t = setTimeout(function() { el.style.display = 'none'; }, 2600);
     }
@@ -1576,7 +1938,7 @@
 
     function renderCustomerCategories() {
       var container = document.getElementById('customer-category-chips');
-      var html = '<button class="chip-btn ' + (custSelectedCat === '' ? 'active' : '') + '" onclick="setCustomerCat(\'\')">All Products</button>';
+      var html = '<button class="chip-btn ' + (custSelectedCat === '' ? 'active' : '') + '" onclick="setCustomerCat(\'\')">All Hardware</button>';
       categories.forEach(function(c) {
         html += '<button class="chip-btn ' + (custSelectedCat === c.slug ? 'active' : '') + '" onclick="setCustomerCat(\'' + c.slug + '\')">' + c.name + '</button>';
       });
@@ -1622,9 +1984,9 @@
       }
 
       if (list.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 48px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);">' +
-          '<div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;">No products match your search</div>' +
-          '<div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 14px;">Try searching for something else or clear your filters.</div>' +
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 48px 16px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);">' +
+          '<div style="font-size: 16px; font-weight: 700; margin-bottom: 4px;">No products match your search</div>' +
+          '<div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Try adjusting your keywords or clearing the category filter.</div>' +
           '<button class="btn btn-secondary btn-sm" onclick="setCustomerCat(\'\'); document.getElementById(\'cust-search-input\').value=\'\'; onCustomerSearch(\'\');">Clear filters</button>' +
         '</div>';
         return;
@@ -1633,21 +1995,22 @@
       grid.innerHTML = list.map(function(p) {
         var isOut = p.stock <= 0;
         return '<div class="product-card">' +
-          '<div class="product-image-wrap" onclick="openProductDetailModal(' + p.id + ')">' +
+          '<div class="product-media-wrap" onclick="openProductDetailModal(' + p.id + ')">' +
             '<img class="product-img" src="' + p.image_url + '" alt="' + p.name + '" loading="lazy">' +
           '</div>' +
-          '<div class="product-cat">' + (p.category_name || 'Hardware') + '</div>' +
-          '<div class="product-name" onclick="openProductDetailModal(' + p.id + ')">' + p.name + '</div>' +
+          '<div class="product-cat-tag">' + (p.category_name || 'Hardware') + '</div>' +
+          '<div class="product-title" onclick="openProductDetailModal(' + p.id + ')">' + p.name + '</div>' +
           '<div class="product-desc">' + p.description + '</div>' +
-          '<div class="product-footer">' +
+          '<div class="product-footer-row">' +
             '<div>' +
-              '<div class="product-price">฿' + fmt(p.price) + '</div>' +
-              '<div style="font-size: 11.5px; color: ' + (p.stock > 5 ? 'var(--success)' : (p.stock > 0 ? 'var(--warning)' : 'var(--danger)')) + '; font-weight: 500;">' +
+              '<div class="product-price-val">฿' + fmt(p.price) + '</div>' +
+              '<div class="product-stock-indicator" style="color: ' + (p.stock > 5 ? 'var(--status-success)' : (p.stock > 0 ? 'var(--status-warning)' : 'var(--status-danger)')) + ';">' +
+                '<i class="bi ' + (p.stock > 5 ? 'bi-check-circle-fill' : (p.stock > 0 ? 'bi-exclamation-circle-fill' : 'bi-x-circle-fill')) + '"></i> ' +
                 (p.stock > 5 ? 'In stock' : (p.stock > 0 ? 'Only ' + p.stock + ' left' : 'Out of stock')) +
               '</div>' +
             '</div>' +
             '<button class="btn btn-primary btn-sm" ' + (isOut ? 'disabled' : '') + ' onclick="addToCart(' + p.id + ')">' +
-              (isOut ? 'Sold out' : 'Add to cart') +
+              (isOut ? 'Sold out' : '<i class="bi bi-cart-plus"></i> Add') +
             '</button>' +
           '</div>' +
         '</div>';
@@ -1660,20 +2023,23 @@
 
       var isOut = p.stock <= 0;
       var body = document.getElementById('modal-product-detail-body');
-      body.innerHTML = '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">' +
-        '<div style="background: var(--surface-subtle); border-radius: var(--radius-md); padding: 16px; display: flex; align-items: center; justify-content: center; height: 260px;">' +
+      body.innerHTML = '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">' +
+        '<div style="background: var(--bg-subtle); border-radius: var(--radius-md); padding: 18px; display: flex; align-items: center; justify-content: center; height: 280px;">' +
           '<img src="' + p.image_url + '" alt="' + p.name + '" style="max-width: 100%; max-height: 100%; object-fit: contain;">' +
         '</div>' +
         '<div style="display: flex; flex-direction: column;">' +
-          '<div style="font-size: 11.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 500;">' + (p.category_name || 'Hardware') + '</div>' +
-          '<h3 style="font-size: 17px; font-weight: 600; margin: 4px 0 8px;">' + p.name + '</h3>' +
-          '<div style="font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 10px;">฿' + fmt(p.price) + '</div>' +
-          '<p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">' + p.description + '</p>' +
-          '<div style="font-size: 12.5px; font-weight: 500; color: ' + (p.stock > 0 ? 'var(--success)' : 'var(--danger)') + '; margin-bottom: 18px;">' +
-            (p.stock > 0 ? 'In stock (' + p.stock + ' units available)' : 'Out of stock') +
+          '<div style="font-size: 11.5px; color: var(--accent-blue); text-transform: uppercase; font-weight: 700;">' + (p.category_name || 'Hardware') + ' · SKU: ' + (1000 + p.id) + '</div>' +
+          '<h3 style="font-size: 18px; font-weight: 800; margin: 4px 0 8px;">' + p.name + '</h3>' +
+          '<div style="font-size: 21px; font-weight: 800; color: var(--text-primary); margin-bottom: 12px;">฿' + fmt(p.price) + '</div>' +
+          '<p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 16px;">' + p.description + '</p>' +
+          '<div style="font-size: 12.5px; font-weight: 600; color: ' + (p.stock > 0 ? 'var(--status-success)' : 'var(--status-danger)') + '; margin-bottom: 20px;">' +
+            '<i class="bi ' + (p.stock > 0 ? 'bi-check-circle-fill' : 'bi-x-circle-fill') + '"></i> ' +
+            (p.stock > 0 ? 'In stock (' + p.stock + ' units available in Bangkok)' : 'Out of stock') +
           '</div>' +
           '<div style="margin-top: auto; display: flex; gap: 8px;">' +
-            '<button class="btn btn-primary" style="flex: 1;" ' + (isOut ? 'disabled' : '') + ' onclick="addToCart(' + p.id + '); closeModal(\'modal-product-detail\');">Add to cart</button>' +
+            '<button class="btn btn-primary" style="flex: 1;" ' + (isOut ? 'disabled' : '') + ' onclick="addToCart(' + p.id + '); closeModal(\'modal-product-detail\');">' +
+              '<i class="bi bi-cart-plus"></i> Add to cart' +
+            '</button>' +
             '<button class="btn btn-secondary" onclick="closeModal(\'modal-product-detail\')">Close</button>' +
           '</div>' +
         '</div>' +
@@ -1726,8 +2092,10 @@
 
       if (cart.length === 0) {
         title.textContent = 'Shopping Cart';
-        listEl.innerHTML = '<div style="text-align: center; padding: 32px 0; color: var(--text-secondary);">' +
-          '<div style="font-size: 14px; font-weight: 500;">Your cart is empty</div>' +
+        listEl.innerHTML = '<div style="text-align: center; padding: 36px 0; color: var(--text-secondary);">' +
+          '<div style="font-size: 28px; margin-bottom: 8px; color: var(--text-muted);"><i class="bi bi-cart-x"></i></div>' +
+          '<div style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">Your cart is empty</div>' +
+          '<div style="font-size: 13px; color: var(--text-muted);">Explore our hardware catalog to add items</div>' +
         '</div>';
         formBox.style.display = 'none';
         subtotalEl.textContent = '฿0.00';
@@ -1741,30 +2109,34 @@
       totalEl.textContent = '฿' + fmt(total);
 
       listEl.innerHTML = cart.map(function(item, idx) {
-        return '<div style="display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border);">' +
-          '<img src="' + item.image_url + '" alt="' + item.name + '" style="width: 48px; height: 48px; object-fit: contain; background: var(--surface-subtle); border-radius: var(--radius-sm);">' +
+        return '<div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border-subtle);">' +
+          '<img src="' + item.image_url + '" alt="' + item.name + '" style="width: 52px; height: 52px; object-fit: contain; background: var(--bg-subtle); border-radius: var(--radius-sm); padding: 4px;">' +
           '<div style="flex: 1;">' +
-            '<div style="font-size: 13.5px; font-weight: 600;">' + item.name + '</div>' +
+            '<div style="font-size: 13.5px; font-weight: 700;">' + item.name + '</div>' +
             '<div style="font-size: 12.5px; color: var(--text-secondary);">฿' + fmt(item.price) + ' × ' + item.quantity + '</div>' +
           '</div>' +
-          '<div style="display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface);">' +
-            '<button style="width: 24px; height: 24px; border: none; background: transparent; cursor: pointer; color: var(--text);" onclick="changeCartItemQty(' + idx + ', -1)">−</button>' +
-            '<span style="min-width: 22px; text-align: center; font-size: 12.5px; color: var(--text);">' + item.quantity + '</span>' +
-            '<button style="width: 24px; height: 24px; border: none; background: transparent; cursor: pointer; color: var(--text);" onclick="changeCartItemQty(' + idx + ', 1)">+</button>' +
+          '<div style="display: inline-flex; align-items: center; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--bg-surface);">' +
+            '<button style="width: 26px; height: 26px; border: none; background: transparent; cursor: pointer; color: var(--text-primary);" onclick="changeCartItemQty(' + idx + ', -1)">' +
+              '<i class="bi bi-dash"></i>' +
+            '</button>' +
+            '<span style="min-width: 24px; text-align: center; font-size: 12.5px; font-weight: 700; color: var(--text-primary);">' + item.quantity + '</span>' +
+            '<button style="width: 26px; height: 26px; border: none; background: transparent; cursor: pointer; color: var(--text-primary);" onclick="changeCartItemQty(' + idx + ', 1)">' +
+              '<i class="bi bi-plus"></i>' +
+            '</button>' +
           '</div>' +
         '</div>';
       }).join('');
 
       if (isCheckingOut) {
-        title.textContent = 'Checkout';
+        title.textContent = 'Checkout & Delivery';
         formBox.style.display = 'block';
-        actions.innerHTML = '<button class="btn btn-secondary" onclick="isCheckingOut=false; renderCartView();">Back</button>' +
+        actions.innerHTML = '<button class="btn btn-secondary" onclick="isCheckingOut=false; renderCartView();"><i class="bi bi-arrow-left"></i> Back</button>' +
           '<button class="btn btn-primary" onclick="submitCustomerOrder()">Place Order & Pay (฿' + fmt(total) + ')</button>';
       } else {
         title.textContent = 'Shopping Cart (' + cart.reduce(function(s, i) { return s + i.quantity; }, 0) + ')';
         formBox.style.display = 'none';
         actions.innerHTML = '<button class="btn btn-secondary" onclick="closeModal(\'modal-cart\')">Continue Shopping</button>' +
-          '<button class="btn btn-primary" onclick="isCheckingOut=true; renderCartView();">Proceed to Checkout</button>';
+          '<button class="btn btn-primary" onclick="isCheckingOut=true; renderCartView();">Proceed to Checkout <i class="bi bi-arrow-right"></i></button>';
       }
     }
 
@@ -1816,40 +2188,40 @@
       }
     }
 
-    // ── Automated Payment Screen & Verification ──
+    // ── Automated Payment Gateway & Verification ──
     function openPaymentGatewayModal(order, payment) {
       var body = document.getElementById('payment-gateway-modal-body');
       var isPromptPay = (order.payment_method || '').includes('PromptPay');
 
       body.innerHTML = '<div>' +
-        '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">' +
+        '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">' +
           '<div>' +
-            '<div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase;">ORDER REFERENCE</div>' +
-            '<div style="font-size: 16px; font-weight: 700;">' + order.order_number + '</div>' +
+            '<div style="font-size: 11.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">ORDER REFERENCE</div>' +
+            '<div style="font-size: 16px; font-weight: 800; font-family: var(--font-mono);">' + order.order_number + '</div>' +
           '</div>' +
-          '<div style="font-size: 20px; font-weight: 800; color: var(--primary);">฿' + fmt(order.total_amount) + '</div>' +
+          '<div style="font-size: 20px; font-weight: 800; color: var(--text-primary);">฿' + fmt(order.total_amount) + '</div>' +
         '</div>' +
 
-        '<div class="payment-qr-card">' +
-          '<div style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px;">' +
-            (isPromptPay ? '📱 PromptPay Instant QR' : '💳 Card Payment Gateway') +
+        '<div style="background: var(--bg-base); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px; text-align: center; margin-bottom: 16px;">' +
+          '<div style="font-size: 13.5px; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; display: inline-flex; align-items: center; gap: 6px;">' +
+            (isPromptPay ? '<i class="bi bi-qr-code-scan"></i> PromptPay Instant QR' : '<i class="bi bi-credit-card"></i> Card Payment Gateway') +
           '</div>' +
-          '<div class="qr-mock-visual">' +
+          '<div style="width: 140px; height: 140px; margin: 0 auto 12px; background: #ffffff; padding: 8px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center;">' +
             (isPromptPay ? 
               '<svg width="120" height="120" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" fill="#fff"/><rect x="10" y="10" width="25" height="25" fill="#111827"/><rect x="15" y="15" width="15" height="15" fill="#fff"/><rect x="65" y="10" width="25" height="25" fill="#111827"/><rect x="70" y="15" width="15" height="15" fill="#fff"/><rect x="10" y="65" width="25" height="25" fill="#111827"/><rect x="15" y="70" width="15" height="15" fill="#fff"/><rect x="42" y="42" width="16" height="16" fill="#111827"/><rect x="45" y="15" width="10" height="10" fill="#111827"/><rect x="45" y="75" width="10" height="10" fill="#111827"/><rect x="75" y="45" width="10" height="10" fill="#111827"/></svg>' : 
-              '<div style="font-size: 32px;">💳</div>'
+              '<div style="font-size: 36px; color: var(--accent-blue);"><i class="bi bi-credit-card-2-front"></i></div>'
             ) +
           '</div>' +
-          '<div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 14px;">' +
-            (isPromptPay ? 'Scan with any banking app. Amount is pre-filled.' : 'Encrypted direct transaction processing.') +
+          '<div style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 14px;">' +
+            (isPromptPay ? 'Scan with any mobile banking app. Amount is verified by gateway.' : 'Encrypted direct transaction reconciliation.') +
           '</div>' +
           '<button class="btn btn-primary" style="width: 100%;" id="verify-payment-btn" onclick="executeAutomatedPaymentVerification(\'' + order.order_number + '\', ' + order.id + ')">' +
-            '⚡ Complete & Verify Payment' +
+            '<i class="bi bi-patch-check-fill"></i> Complete & Verify Payment' +
           '</button>' +
         '</div>' +
 
-        '<div style="font-size: 11.5px; color: var(--text-muted); text-align: center;">' +
-          'Automated backend reconciliation engine · Zero manual intervention required' +
+        '<div style="font-size: 12px; color: var(--text-muted); text-align: center; display: flex; align-items: center; justify-content: center; gap: 4px;">' +
+          '<i class="bi bi-shield-check"></i> Automated reconciliation engine active' +
         '</div>' +
       '</div>';
 
@@ -1860,7 +2232,7 @@
       var btn = document.getElementById('verify-payment-btn');
       if (btn) {
         btn.disabled = true;
-        btn.textContent = 'Verifying Transaction with Gateway...';
+        btn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Verifying with Gateway...';
       }
 
       try {
@@ -1878,10 +2250,9 @@
         var data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Payment verification failed');
 
-        toast('✓ Payment verified! Order #' + orderNumber + ' is now PAID');
+        toast('Payment verified. Order #' + orderNumber + ' is now PAID');
         closeModal('modal-payment-gateway');
 
-        // Route directly to tracking
         navigateTo('/track');
         document.getElementById('track-input').value = orderNumber;
         lookupCustomerOrder();
@@ -1889,7 +2260,7 @@
         toast(err.message);
         if (btn) {
           btn.disabled = false;
-          btn.textContent = '⚡ Retry Payment Verification';
+          btn.innerHTML = '<i class="bi bi-patch-check-fill"></i> Retry Payment Verification';
         }
       }
     }
@@ -1928,57 +2299,56 @@
           if (isCurrent) cls += ' current';
 
           stepsHtml += '<div class="stepper-step ' + cls + '">' +
-            '<div class="stepper-node">' + (isDone && !isCurrent ? '✓' : (i + 1)) + '</div>' +
+            '<div class="stepper-node">' + (isDone && !isCurrent ? '<i class="bi bi-check-lg"></i>' : (i + 1)) + '</div>' +
             '<div class="stepper-name">' + stepLabels[i] + '</div>' +
           '</div>';
         });
         stepsHtml += '</div>';
 
-        box.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">' +
+        box.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">' +
           '<div>' +
-            '<h3 style="font-size: 16px; font-weight: 600;">' + o.order_number + '</h3>' +
+            '<h3 style="font-size: 17px; font-weight: 700; font-family: var(--font-mono);">' + o.order_number + '</h3>' +
             '<div style="font-size: 12.5px; color: var(--text-muted);">Placed on ' + new Date(o.created_at).toLocaleDateString('en-GB') + '</div>' +
           '</div>' +
           '<span class="badge badge-' + o.status + '">' + o.status + '</span>' +
         '</div>' +
 
-        // If Pending Payment, show Instant Pay button right on tracking card
         (normalizedStatus === 'PENDING_PAYMENT' ? 
-          '<div style="background: var(--warning-bg); border: 1px solid var(--warning); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">' +
-            '<div style="font-size: 12.5px; color: var(--warning); font-weight: 600;">⚠️ Payment Pending — Complete verification to dispatch</div>' +
-            '<button class="btn btn-primary btn-sm" onclick="openPaymentGatewayModal(' + JSON.stringify(o).replace(/"/g, '&quot;') + ', null)">⚡ Pay Now (฿' + fmt(o.total_amount) + ')</button>' +
+          '<div style="background: var(--status-warning-bg); border: 1px solid var(--status-warning-border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">' +
+            '<div style="font-size: 13px; color: var(--status-warning); font-weight: 600;"><i class="bi bi-exclamation-circle-fill"></i> Payment Pending — Verify to dispatch</div>' +
+            '<button class="btn btn-primary btn-sm" onclick="openPaymentGatewayModal(' + JSON.stringify(o).replace(/"/g, '&quot;') + ', null)"><i class="bi bi-credit-card"></i> Pay Now (฿' + fmt(o.total_amount) + ')</button>' +
           '</div>' : ''
         ) +
 
-        (o.tracking_number ? '<div style="background: var(--success-bg); border: 1px solid var(--success); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 14px; font-size: 12.5px; color: var(--success);">' +
-          'Express Courier Tracking: <strong style="font-family: var(--font-mono);">' + o.tracking_number + '</strong>' +
+        (o.tracking_number ? '<div style="background: var(--status-success-bg); border: 1px solid var(--status-success-border); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 14px; font-size: 13px; color: var(--status-success);">' +
+          '<i class="bi bi-truck"></i> Express Courier Tracking: <strong style="font-family: var(--font-mono);">' + o.tracking_number + '</strong>' +
         '</div>' : '') +
 
         stepsHtml +
 
-        '<div style="border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px; font-size: 13px;">' +
-          '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">' +
+        '<div style="border-top: 1px solid var(--border-subtle); padding-top: 16px; margin-top: 16px; font-size: 13px;">' +
+          '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">' +
             '<div>' +
-              '<div style="font-weight: 600; margin-bottom: 2px;">Shipping Recipient</div>' +
+              '<div style="font-weight: 700; margin-bottom: 2px;">Shipping Recipient</div>' +
               '<div style="color: var(--text-secondary);">' + o.shipping_name + ' (' + o.shipping_phone + ')</div>' +
               '<div style="color: var(--text-muted); font-size: 12px;">' + o.shipping_address + '</div>' +
             '</div>' +
             '<div>' +
-              '<div style="font-weight: 600; margin-bottom: 2px;">Payment Status</div>' +
-              '<div style="color: var(--text-secondary);">' + (p && p.status === 'COMPLETED' ? '✓ Paid via ' + p.payment_method : 'Pending Payment') + '</div>' +
+              '<div style="font-weight: 700; margin-bottom: 2px;">Payment Status</div>' +
+              '<div style="color: var(--text-secondary);">' + (p && p.status === 'COMPLETED' ? '<i class="bi bi-check-circle-fill" style="color: var(--status-success);"></i> Paid via ' + p.payment_method : 'Pending Payment') + '</div>' +
               '<div style="color: var(--text-muted); font-size: 11.5px; font-family: var(--font-mono);">' + (p ? p.transaction_id : '—') + '</div>' +
             '</div>' +
           '</div>' +
           
-          '<div style="font-weight: 600; margin-bottom: 6px;">Ordered Items</div>' +
+          '<div style="font-weight: 700; margin-bottom: 8px;">Ordered Items</div>' +
           (o.items || []).map(function(i) {
-            return '<div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed var(--border); font-size: 12.5px;">' +
+            return '<div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed var(--border-subtle); font-size: 12.5px;">' +
               '<span>' + (i.product_name || i.name) + ' × ' + i.quantity + '</span>' +
-              '<span>฿' + fmt(i.subtotal || (i.unit_price * i.quantity)) + '</span>' +
+              '<span style="font-weight: 600;">฿' + fmt(i.subtotal || (i.unit_price * i.quantity)) + '</span>' +
             '</div>';
           }).join('') +
 
-          '<div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 700; margin-top: 10px;">' +
+          '<div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 800; margin-top: 12px;">' +
             '<span>Total</span><span>฿' + fmt(o.total_amount) + '</span>' +
           '</div>' +
         '</div>';
@@ -2038,9 +2408,9 @@
           attentionBox.style.display = 'block';
           attentionBadge.textContent = s.attentionRequiredCount + ' orders ready';
           attentionList.innerHTML = (data.ordersRequiringAttention || []).map(function(o) {
-            return '<div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--surface-subtle); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 13px;">' +
+            return '<div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--bg-subtle); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 13px;">' +
               '<div><strong>' + o.order_number + '</strong> (' + o.shipping_name + ') — <span class="badge badge-' + o.status + '">' + o.status + '</span></div>' +
-              '<div><button class="btn btn-primary btn-sm" onclick="openControlledStatusModal(' + o.id + ',\'' + o.order_number + '\',\'' + o.status + '\',\'' + (o.tracking_number||'') + '\')">Fulfill / Dispatch →</button></div>' +
+              '<div><button class="btn btn-primary btn-sm" onclick="openControlledStatusModal(' + o.id + ',\'' + o.order_number + '\',\'' + o.status + '\',\'' + (o.tracking_number||'') + '\')">Fulfill / Dispatch <i class="bi bi-arrow-right"></i></button></div>' +
             '</div>';
           }).join('');
         } else {
@@ -2049,10 +2419,10 @@
 
         // Metrics Grid
         document.getElementById('admin-metrics-row').innerHTML =
-          '<div class="metric-card"><div class="metric-label">Gross Revenue</div><div class="metric-val" style="color: var(--primary);">฿' + fmt(s.totalRevenue) + '</div></div>' +
-          '<div class="metric-card"><div class="metric-label">Paid (Ready to Pack)</div><div class="metric-val" style="color: var(--success);">' + (s.paidCount || 0) + '</div></div>' +
-          '<div class="metric-card"><div class="metric-label">Processing (Dispatch)</div><div class="metric-val" style="color: var(--warning);">' + (s.processingCount || 0) + '</div></div>' +
-          '<div class="metric-card"><div class="metric-label">Low Stock Alerts</div><div class="metric-val" style="color: ' + (s.lowStockCount > 0 ? 'var(--danger)' : 'var(--text)') + ';">' + (s.lowStockCount || 0) + '</div></div>';
+          '<div class="metric-card"><div class="metric-label">Gross Revenue</div><div class="metric-val" style="color: var(--accent-blue);">฿' + fmt(s.totalRevenue) + '</div></div>' +
+          '<div class="metric-card"><div class="metric-label">Paid (Ready to Pack)</div><div class="metric-val" style="color: var(--status-success);">' + (s.paidCount || 0) + '</div></div>' +
+          '<div class="metric-card"><div class="metric-label">Processing (Dispatch)</div><div class="metric-val" style="color: var(--status-warning);">' + (s.processingCount || 0) + '</div></div>' +
+          '<div class="metric-card"><div class="metric-label">Low Stock Alerts</div><div class="metric-val" style="color: ' + (s.lowStockCount > 0 ? 'var(--status-danger)' : 'var(--text-primary)') + ';">' + (s.lowStockCount || 0) + '</div></div>';
 
         // Recent Orders Table
         document.getElementById('admin-dash-recent-orders').innerHTML = (data.recentOrders || []).map(function(o) {
@@ -2126,8 +2496,8 @@
       }
 
       if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 28px; color: var(--text-secondary);">' +
-          'No products found matching filters. <button class="btn-link" onclick="navigateTo(\'/admin/products/new\')">+ Add Product</button>' +
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 32px; color: var(--text-secondary);">' +
+          'No products found matching filters. <button class="btn-link" onclick="navigateTo(\'/admin/products/new\')"><i class="bi bi-plus-lg"></i> Add Product</button>' +
         '</td></tr>';
         return;
       }
@@ -2136,20 +2506,20 @@
         var statusBadge = p.is_active ? '<span class="badge badge-active">Active</span>' : '<span class="badge badge-inactive">Inactive</span>';
 
         return '<tr>' +
-          '<td><img src="' + p.image_url + '" alt="' + p.name + '" style="width: 38px; height: 38px; object-fit: contain; background: var(--surface-subtle); border-radius: var(--radius-sm);"></td>' +
+          '<td><img src="' + p.image_url + '" alt="' + p.name + '" style="width: 40px; height: 40px; object-fit: contain; background: var(--bg-subtle); border-radius: var(--radius-sm); padding: 2px;"></td>' +
           '<td><strong>' + p.name + '</strong></td>' +
           '<td>' + (p.category_name || '—') + '</td>' +
           '<td>฿' + fmt(p.price) + '</td>' +
           '<td>' +
-            '<span style="font-weight: 600; margin-right: 6px;">' + p.stock + '</span>' +
+            '<span style="font-weight: 700; margin-right: 6px;">' + p.stock + '</span>' +
             '<button class="btn btn-secondary btn-sm" style="padding: 1px 6px;" onclick="adjustStockDirect(' + p.id + ', 5)">+5</button> ' +
             '<button class="btn btn-secondary btn-sm" style="padding: 1px 6px;" onclick="adjustStockDirect(' + p.id + ', -1)">−1</button>' +
           '</td>' +
           '<td>' + statusBadge + '</td>' +
           '<td style="text-align: right;">' +
-            '<button class="btn btn-secondary btn-sm" style="margin-right: 4px;" onclick="navigateTo(\'/admin/products/' + p.id + '/edit\')">Edit</button>' +
-            '<button class="btn btn-secondary btn-sm" style="margin-right: 4px;" onclick="toggleProductActiveState(' + p.id + ', ' + (!p.is_active) + ')">' + (p.is_active ? 'Archive' : 'Activate') + '</button>' +
-            '<button class="btn btn-secondary btn-sm" style="color: var(--danger);" onclick="promptDeleteProduct(' + p.id + ',\'' + p.name.replace(/'/g, "\\'") + '\')">Delete</button>' +
+            '<button class="btn btn-secondary btn-sm" style="margin-right: 4px;" onclick="navigateTo(\'/admin/products/' + p.id + '/edit\')"><i class="bi bi-pencil-square"></i> Edit</button>' +
+            '<button class="btn btn-secondary btn-sm" style="margin-right: 4px;" onclick="toggleProductActiveState(' + p.id + ', ' + (!p.is_active) + ')"><i class="bi bi-archive"></i> ' + (p.is_active ? 'Archive' : 'Activate') + '</button>' +
+            '<button class="btn btn-secondary btn-sm" style="color: var(--status-danger);" onclick="promptDeleteProduct(' + p.id + ',\'' + p.name.replace(/'/g, "\\'") + '\')"><i class="bi bi-trash3"></i> Delete</button>' +
           '</td>' +
         '</tr>';
       }).join('');
@@ -2257,12 +2627,12 @@
       if (!clean) {
         img.style.display = 'none';
         img.src = '';
-        status.textContent = 'No image URL entered';
+        status.innerHTML = '<i class="bi bi-image"></i> No image URL entered';
         status.style.color = 'var(--text-muted)';
         return;
       }
 
-      status.textContent = 'Loading image preview...';
+      status.innerHTML = '<i class="bi bi-arrow-repeat"></i> Loading image preview...';
       status.style.color = 'var(--text-secondary)';
       img.src = clean;
     }
@@ -2271,16 +2641,16 @@
       var img = document.getElementById('image-preview-target');
       var status = document.getElementById('image-preview-status');
       img.style.display = 'block';
-      status.textContent = '✓ Image loaded successfully';
-      status.style.color = 'var(--success)';
+      status.innerHTML = '<i class="bi bi-check-circle-fill"></i> Image loaded successfully';
+      status.style.color = 'var(--status-success)';
     }
 
     function onImagePreviewError() {
       var img = document.getElementById('image-preview-target');
       var status = document.getElementById('image-preview-status');
       img.style.display = 'none';
-      status.textContent = '⚠ Unable to load image. Please verify the URL.';
-      status.style.color = 'var(--danger)';
+      status.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Unable to load image. Please verify URL.';
+      status.style.color = 'var(--status-danger)';
     }
 
     async function saveProductForm() {
@@ -2325,7 +2695,7 @@
       }
     }
 
-    // ── Admin Orders Management & Controlled State Machine ──
+    // ── Admin Orders Management ──
     async function loadAdminOrders() {
       try {
         var res = await fetch('/api/admin/orders', {
@@ -2368,7 +2738,7 @@
       }
 
       if (list.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 24px; color: var(--text-secondary);">No orders found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 28px; color: var(--text-secondary);">No orders found.</td></tr>';
         return;
       }
 
@@ -2384,8 +2754,8 @@
           '<td style="font-family: var(--font-mono); font-size: 12.5px;">' + (o.tracking_number || '—') + '</td>' +
           '<td>' +
             (canUpdate ? 
-              '<button class="btn btn-secondary btn-sm" onclick="openControlledStatusModal(' + o.id + ',\'' + o.order_number + '\',\'' + o.status + '\',\'' + (o.tracking_number || '') + '\')">Advance State →</button>' :
-              '<span style="font-size: 12px; color: var(--text-muted);">Completed</span>'
+              '<button class="btn btn-secondary btn-sm" onclick="openControlledStatusModal(' + o.id + ',\'' + o.order_number + '\',\'' + o.status + '\',\'' + (o.tracking_number || '') + '\')">Advance State <i class="bi bi-arrow-right"></i></button>' :
+              '<span style="font-size: 12px; color: var(--text-muted);"><i class="bi bi-check2-all"></i> Terminal</span>'
             ) +
           '</td>' +
         '</tr>';
@@ -2473,9 +2843,7 @@
       var route = getNormalizedRoute();
       if (route === '/track') {
         var numInput = document.getElementById('track-input');
-        if (numInput && numInput.value.trim()) {
-          lookupCustomerOrder();
-        }
+        if (numInput && numInput.value.trim()) lookupCustomerOrder();
       } else if (route.startsWith('/admin') && adminToken) {
         if (route === '/admin/dashboard' || route === '/admin') loadAdminDashboard();
         else if (route === '/admin/orders') loadAdminOrders();

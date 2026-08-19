@@ -231,7 +231,7 @@ async function tryInitPostgres() {
     const client = await pool.connect();
     await client.query("SELECT 1");
     MEMORY_DB.isPgConnected = true;
-    console.log("✅ PostgreSQL Live Connection Established");
+    console.log("[DATABASE] PostgreSQL Live Connection Established");
 
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username VARCHAR(50) UNIQUE NOT NULL, email VARCHAR(100) UNIQUE NOT NULL, password_hash VARCHAR(255) NOT NULL, role VARCHAR(20) DEFAULT 'customer', full_name VARCHAR(100), phone VARCHAR(20), address TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW());
@@ -763,6 +763,6 @@ app.get("*", (req, res, next) => {
 // Start Server
 // ============================================================
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Mega Store Server listening on port ${PORT}`);
-  console.log(`🏥 Health check: http://localhost:${PORT}/health`);
+  console.log(`[SERVER] Mega Store Server listening on port ${PORT}`);
+  console.log(`[HEALTH] Health check: http://localhost:${PORT}/health`);
 });
