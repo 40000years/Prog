@@ -35,10 +35,10 @@ app.use(express.static(path.join(__dirname, "public")));
 // In-Memory Storage & Initial Seed State
 // ============================================================
 const SEED_CATEGORIES = [
-  { id: 1, name: "Smart Hardware", slug: "hardware", icon: "⚡" },
-  { id: 2, name: "Cloud & Servers", slug: "cloud", icon: "☁️" },
-  { id: 3, name: "Developer Gear", slug: "developer", icon: "💻" },
-  { id: 4, name: "AI & Neural Kits", slug: "ai", icon: "🧠" }
+  { id: 1, name: "Smart Hardware", slug: "hardware" },
+  { id: 2, name: "Cloud & Servers", slug: "cloud" },
+  { id: 3, name: "Developer Gear", slug: "developer" },
+  { id: 4, name: "AI & Neural Kits", slug: "ai" }
 ];
 
 const SEED_PRODUCTS = [
