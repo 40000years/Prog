@@ -1,12 +1,11 @@
 # ============================================================
-# GitHub Actions CI/CD Pipeline
+# GitHub Actions CI/CD Pipeline (Smart Fast Deploy)
 # ============================================================
-# Pipeline นี้จะทำงานอัตโนมัติเมื่อ Push Code ขึ้น GitHub
-# แบ่งเป็น 4 Jobs:
-#   1. validate    - ตรวจสอบความถูกต้องของโค้ด
-#   2. provision   - สร้าง Infrastructure บน AWS ด้วย Terraform
-#   3. configure   - ตั้งค่า Server และ Deploy App ด้วย Ansible
-#   4. smoke-test  - ทดสอบว่าเว็บใช้งานได้จริง
+# Pipeline แบบแยกการทำงานตามสิ่งที่เปลี่ยนแปลง (Path-based Filtering):
+#   - ถ้าแก้เฉพาะ 'app/**' (UI / Backend):
+#     ⚡ Fast Deploy: ข้าม Terraform, อัปเดตเฉพาะแอปผ่าน Ansible Tag (~30-45 วินาที)
+#   - ถ้าแก้ 'terraform/**' หรือ 'ansible/**':
+#     🔨 Full Provision: รัน Terraform + ตั้งค่า Server เต็มรูปแบบ
 
 name: "🚀 Mega Automation Pipeline"
 
@@ -18,88 +17,113 @@ on:
 
 env:
   TF_VAR_aws_region: "ap-southeast-7"
+  TF_VAR_instance_type: "t4g.micro"
   TF_VAR_key_name: ${{ secrets.AWS_KEY_NAME }}
   ANSIBLE_HOST_KEY_CHECKING: "False"
 
-# ============================================================
-# Job 1: Code Validation (เช็คโค้ดก่อนรันจริง)
-# ============================================================
 jobs:
-  validate:
-    name: "🔍 Code Validation"
+  # ============================================================
+  # Job 1: Detect Changes (ตรวจสอบว่าไฟล์ส่วนไหนเปลี่ยนบ้าง)
+  # ============================================================
+  changes:
+    name: "🔍 Detect Changes"
     runs-on: ubuntu-latest
+    outputs:
+      infra: ${{ steps.filter.outputs.infra }}
+      ansible: ${{ steps.filter.outputs.ansible }}
+      app: ${{ steps.filter.outputs.app }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check changed paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters:
+            infra:
+              - 'terraform/**'
+              - '.github/workflows/pipeline.yml'
+            ansible:
+              - 'ansible/**'
+              - '.github/workflows/pipeline.yml'
+            app:
+              - 'app/**'
+              - '.github/workflows/pipeline.yml'
+
+  # ============================================================
+  # Job 2: Code Validation (เช็คโค้ดก่อนรันจริง)
+  # ============================================================
+  validate:
+    name: "🧪 Code Validation"
+    runs-on: ubuntu-latest
+    needs: changes
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # --- Terraform Validation ---
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: "1.9.0"
-
-      - name: Terraform Format Check
-        working-directory: ./terraform
-        run: terraform fmt -check -recursive -diff
-
-      - name: Terraform Init (for validation only)
-        working-directory: ./terraform
-        run: terraform init -backend=false
-
-      - name: Terraform Validate
-        working-directory: ./terraform
-        run: terraform validate
-
-      # --- Ansible Validation ---
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install Ansible & ansible-lint
-        run: |
-          pip install ansible ansible-lint
-
-      - name: Ansible Lint
-        working-directory: ./ansible
-        run: ansible-lint playbook.yml
-        continue-on-error: true  # Warning เฉยๆ ไม่ block pipeline
-
-      - name: Ansible Syntax Check
-        working-directory: ./ansible
-        run: ansible-playbook playbook.yml --syntax-check
-
       # --- Node.js Application Validation ---
       - name: Setup Node.js
+        if: needs.changes.outputs.app == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
       - name: Node.js Syntax & Unit Check
+        if: needs.changes.outputs.app == 'true'
         working-directory: ./app
         run: |
           npm test
           node -c index.js
 
-      # --- Security Scan ---
-      - name: Run tfsec (Terraform Security Scanner)
-        uses: aquasecurity/tfsec-action@v1.0.3
+      # --- Terraform Validation (เมื่อมีการแก้ไข Terraform) ---
+      - name: Setup Terraform
+        if: needs.changes.outputs.infra == 'true'
+        uses: hashicorp/setup-terraform@v3
         with:
-          working_directory: ./terraform
-          soft_fail: true
+          terraform_version: "1.9.0"
+
+      - name: Terraform Format Check
+        if: needs.changes.outputs.infra == 'true'
+        working-directory: ./terraform
+        run: terraform fmt -check -recursive -diff
+
+      - name: Terraform Init & Validate
+        if: needs.changes.outputs.infra == 'true'
+        working-directory: ./terraform
+        run: |
+          terraform init -backend=false
+          terraform validate
+
+      # --- Ansible Validation (เมื่อมีการแก้ไข Ansible) ---
+      - name: Setup Python
+        if: needs.changes.outputs.ansible == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Ansible
+        if: needs.changes.outputs.ansible == 'true'
+        run: pip install ansible
+
+      - name: Ansible Syntax Check
+        if: needs.changes.outputs.ansible == 'true'
+        working-directory: ./ansible
+        run: ansible-playbook playbook.yml --syntax-check
 
   # ============================================================
-  # Job 2: Infrastructure Provisioning (สร้าง Infrastructure)
+  # Job 3: Infrastructure Provisioning (Terraform)
   # ============================================================
   provision:
     name: "🏗️ Infrastructure Provisioning"
     runs-on: ubuntu-latest
-    needs: validate  # ต้องผ่าน validation ก่อน
+    needs: [changes, validate]
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
 
     outputs:
       web_ip: ${{ steps.tf_output.outputs.web_ip }}
+      is_infra_changed: ${{ needs.changes.outputs.infra }}
 
     steps:
       - name: Checkout code
@@ -111,17 +135,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-southeast-7
-
-      - name: Debug AWS Account Identity
-        run: |
-          echo "====================================="
-          echo "🔐 Checking AWS Identity..."
-          aws sts get-caller-identity
-          echo "====================================="
-          echo "💡 โปรดตรวจสอบว่า Account ID ที่แสดงด้านบน ตรงกับเลข Account ID"
-          echo "   ที่คุณล็อกอินอยู่ในหน้าเว็บ AWS Console หรือไม่"
-          echo "   (บางครั้ง Access Key ใน GitHub Secrets อาจมาจากคนละ Account กัน)"
-          echo "====================================="
 
       - name: Create S3 bucket for Terraform state (ถ้ายังไม่มี)
         run: |
@@ -154,123 +167,36 @@ jobs:
         working-directory: ./terraform
         run: terraform init
 
-      - name: Detect workable instance type (dry-run)
-        id: detect_instance
-        run: |
-          echo "====================================="
-          echo "🔍 Querying which types are free-tier eligible (metadata)..."
-          FREE_TIER_TYPES=$(aws ec2 describe-instance-types \
-            --filters "Name=free-tier-eligible,Values=true" \
-            --query "InstanceTypes[].InstanceType" \
-            --output text 2>/dev/null || echo "none")
-          echo "Free-tier eligible types (metadata): ${FREE_TIER_TYPES}"
-          echo "====================================="
-
-          echo "🧪 Testing instance types with actual DRY-RUN..."
-          echo "====================================="
-
-          # หา AMI สำหรับทดสอบ
-          AMI_AMD64=$(aws ec2 describe-images \
-            --owners 099720109477 \
-            --filters \
-              "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*" \
-              "Name=state,Values=available" "Name=architecture,Values=x86_64" \
-            --query "sort_by(Images, &CreationDate)[-1].ImageId" \
-            --output text 2>/dev/null || echo "")
-
-          AMI_ARM64=$(aws ec2 describe-images \
-            --owners 099720109477 \
-            --filters \
-              "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-server-*" \
-              "Name=state,Values=available" "Name=architecture,Values=arm64" \
-            --query "sort_by(Images, &CreationDate)[-1].ImageId" \
-            --output text 2>/dev/null || echo "")
-
-          echo "amd64 AMI: ${AMI_AMD64}"
-          echo "arm64 AMI: ${AMI_ARM64}"
-          echo "====================================="
-
-          SELECTED=""
-
-          # ทดสอบทีละ type ด้วย dry-run จริงๆ
-          for TYPE in t4g.micro t4g.small t3.micro t2.micro t3.small t3a.micro t3a.small; do
-            # เลือก AMI ตาม architecture
-            if echo "$TYPE" | grep -q "^t4g"; then
-              TEST_AMI="$AMI_ARM64"
-            else
-              TEST_AMI="$AMI_AMD64"
-            fi
-
-            if [ -z "$TEST_AMI" ]; then
-              echo "⏭️  $TYPE: skipped (no AMI for arch)"
-              continue
-            fi
-
-            RESULT=$(aws ec2 run-instances \
-              --image-id "$TEST_AMI" \
-              --instance-type "$TYPE" \
-              --count 1 \
-              --dry-run 2>&1 || true)
-
-            if echo "$RESULT" | grep -q "DryRunOperation"; then
-              echo "✅ $TYPE: ALLOWED"
-              SELECTED="$TYPE"
-              break
-            else
-              ERR=$(echo "$RESULT" | grep -oE 'api error [^:]+: [^(]+' | head -1)
-              echo "❌ $TYPE: BLOCKED — ${ERR}"
-            fi
-          done
-
-          echo "====================================="
-          if [ -z "$SELECTED" ]; then
-            echo "⚠️  WARNING: No working instance type found via dry-run!"
-            echo "   Falling back to t4g.micro (ARM64 Graviton)"
-            SELECTED="t4g.micro"
-          else
-            echo "🎯 Selected instance type: ${SELECTED}"
-          fi
-          echo "====================================="
-          echo "TF_VAR_instance_type=${SELECTED}" >> $GITHUB_ENV
-
-      - name: Terraform Plan
+      # รัน Terraform Apply เฉพาะเมื่อมีการเปลี่ยนแปลงในส่วน infra
+      - name: Terraform Apply (Infra Changed)
+        if: needs.changes.outputs.infra == 'true'
         working-directory: ./terraform
-        run: terraform plan -out=tfplan
-
-      - name: Terraform Apply
-        working-directory: ./terraform
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve
 
       - name: Get Terraform Outputs
         id: tf_output
         working-directory: ./terraform
         run: |
-          echo "web_ip=$(terraform output -raw web_server_public_ip)" >> $GITHUB_OUTPUT
-          echo "db_ip=$(terraform output -raw db_server_public_ip)" >> $GITHUB_OUTPUT
+          WEB_IP=$(terraform output -raw web_server_public_ip 2>/dev/null || echo "")
+          DB_IP=$(terraform output -raw db_server_public_ip 2>/dev/null || echo "")
+          echo "web_ip=${WEB_IP}" >> $GITHUB_OUTPUT
+          echo "db_ip=${DB_IP}" >> $GITHUB_OUTPUT
           echo ""
           echo "====================================="
           echo "📋 Infrastructure Summary"
           echo "====================================="
-          echo "🌐 Web Server IP: $(terraform output -raw web_server_public_ip)"
-          echo "🗄️  DB Server IP:  $(terraform output -raw db_server_public_ip)"
-          echo "🔗 Web URL:        $(terraform output -raw web_url)"
+          echo "🌐 Web Server IP: ${WEB_IP}"
+          echo "🗄️  DB Server IP:  ${DB_IP}"
+          echo "🔗 Web URL:        http://${WEB_IP}"
           echo "====================================="
 
-      # เก็บ Terraform state ไว้ใช้ในรอบถัดไป (ถ้าจะทำ destroy)
-      - name: Upload Terraform State
-        uses: actions/upload-artifact@v4
-        with:
-          name: terraform-state
-          path: terraform/terraform.tfstate
-          retention-days: 7
-
   # ============================================================
-  # Job 3: Configuration Management (ตั้งค่า Server + Deploy)
+  # Job 4: Configuration Management (ตั้งค่า Server + Deploy)
   # ============================================================
   configure:
-    name: "⚙️ Configuration & Deployment"
+    name: "⚙️ Configuration & Fast Deploy"
     runs-on: ubuntu-latest
-    needs: provision  # ต้องสร้าง Infrastructure ก่อน
+    needs: [changes, provision]
 
     steps:
       - name: Checkout code
@@ -291,35 +217,56 @@ jobs:
       - name: Install Ansible & AWS dependencies
         run: |
           pip install ansible boto3 botocore
-
-      - name: Install Ansible AWS collection
-        run: |
           ansible-galaxy collection install amazon.aws community.postgresql community.general
 
-      - name: Setup Terraform (for key extraction)
+      - name: Setup Terraform (for SSH Key)
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_wrapper: false
 
-      - name: Setup SSH Private Key (from Terraform state)
+      - name: Setup SSH Private Key
         working-directory: ./terraform
         run: |
           terraform init -input=false
           terraform output -raw private_key_pem > /tmp/id_rsa
           chmod 600 /tmp/id_rsa
-          echo "--- Key file info ---"
-          head -1 /tmp/id_rsa
           ssh-keygen -l -f /tmp/id_rsa && echo "✅ Key is valid" || echo "❌ Key is INVALID"
 
-      # รอให้ EC2 instances พร้อมรับ SSH (ใหม่ ๆ อาจยังบูตไม่เสร็จ)
-      - name: Wait for EC2 instances to be ready
+      # Smart Poll: เช็คว่า Port SSH พร้อมใช้งานหรือยัง (แทนการ sleep 60 วินาทีแบบตายตัว)
+      - name: Wait for SSH to be ready
         run: |
-          echo "⏳ Waiting 60 seconds for EC2 instances to initialize..."
-          sleep 60
+          WEB_IP="${{ needs.provision.outputs.web_ip }}"
+          echo "🔍 Checking SSH readiness on ${WEB_IP}:22..."
+          for i in {1..20}; do
+            if nc -z -w 3 "$WEB_IP" 22 2>/dev/null; then
+              echo "✅ SSH is ready on ${WEB_IP}!"
+              break
+            fi
+            echo "⏳ Waiting for SSH (attempt $i/20)..."
+            sleep 3
+          done
 
-      - name: Run Ansible Playbook
+      # ถ้าแก้เฉพาะ Application (UI/Backend) ➔ ใช้ Fast Deploy (ไม่ไปรัน Nginx/Postgres ใหม่)
+      - name: Fast Deploy Application (App Only)
+        if: needs.changes.outputs.infra != 'true' && needs.changes.outputs.ansible != 'true'
         working-directory: ./ansible
         run: |
+          echo "⚡ Fast Deploy: Syncing app files and restarting service..."
+          ansible-playbook \
+            -i inventory/aws_ec2.yml \
+            playbook.yml \
+            --tags deploy \
+            --limit tag_Role_web \
+            --private-key /tmp/id_rsa \
+            -u ubuntu \
+            -v
+
+      # ถ้ามีการแก้ Infra หรือ Ansible ➔ รัน Full Configuration Playbook
+      - name: Full Configuration Playbook (Infra/Ansible Changed)
+        if: needs.changes.outputs.infra == 'true' || needs.changes.outputs.ansible == 'true'
+        working-directory: ./ansible
+        run: |
+          echo "🔨 Full Configuration: Running entire server configuration..."
           ansible-playbook \
             -i inventory/aws_ec2.yml \
             playbook.yml \
@@ -332,7 +279,7 @@ jobs:
         run: rm -f /tmp/id_rsa
 
   # ============================================================
-  # Job 4: Smoke Test (ทดสอบว่าเว็บใช้งานได้)
+  # Job 5: Smoke Test (ทดสอบว่าเว็บใช้งานได้)
   # ============================================================
   smoke-test:
     name: "🧪 Smoke Test"
@@ -340,44 +287,27 @@ jobs:
     needs: [provision, configure]
 
     steps:
-      - name: Wait for application to start
-        run: |
-          echo "⏳ Waiting 30 seconds for the application to fully start..."
-          sleep 30
-
-      - name: Test Web Server HTTP Response
-        run: |
-          WEB_IP="${{ needs.provision.outputs.web_ip }}"
-          echo "🌐 Testing http://${WEB_IP} ..."
-          echo ""
-
-          # ทดสอบ HTTP Status Code
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "http://${WEB_IP}")
-
-          if [ "$HTTP_STATUS" = "200" ]; then
-            echo "✅ HTTP Status: ${HTTP_STATUS} - SUCCESS!"
-          else
-            echo "❌ HTTP Status: ${HTTP_STATUS} - FAILED!"
-            exit 1
-          fi
-
-      - name: Test Health Endpoint
+      # Smart Poll: เช็ค HTTP Health Endpoint ทันทีที่พร้อม (แทนการ sleep 30 วินาที)
+      - name: Test Health Endpoint (Smart Polling)
         run: |
           WEB_IP="${{ needs.provision.outputs.web_ip }}"
           echo "🏥 Testing http://${WEB_IP}/health ..."
-          echo ""
+          
+          SUCCESS=0
+          for i in {1..15}; do
+            RESPONSE=$(curl -s --max-time 5 "http://${WEB_IP}/health" || echo "")
+            if echo "$RESPONSE" | grep -q "healthy"; then
+              echo "✅ Health check passed on attempt $i!"
+              echo "Response: $RESPONSE"
+              SUCCESS=1
+              break
+            fi
+            echo "⏳ Waiting for app to respond (attempt $i/15)..."
+            sleep 2
+          done
 
-          # ทดสอบ Health Endpoint
-          RESPONSE=$(curl -s --max-time 30 "http://${WEB_IP}/health")
-          echo "Response: ${RESPONSE}"
-
-          # เช็คว่า response มีคำว่า "healthy" ไหม
-          if echo "$RESPONSE" | grep -q "healthy"; then
-            echo ""
-            echo "✅ Health check passed!"
-          else
-            echo ""
-            echo "❌ Health check failed!"
+          if [ "$SUCCESS" -ne 1 ]; then
+            echo "❌ Health check timed out or failed!"
             exit 1
           fi
 

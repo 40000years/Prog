@@ -9,11 +9,15 @@
       sleep 3
     done
   changed_when: false
+  tags:
+    - setup
 
 - name: Update apt cache
   ansible.builtin.apt:
     update_cache: true
     cache_valid_time: 3600
+  tags:
+    - setup
 
 - name: Install Nginx and prerequisites
   ansible.builtin.apt:
@@ -23,6 +27,9 @@
       - ca-certificates
       - gnupg
     state: present
+  tags:
+    - setup
+    - nginx
 
 - name: Setup NodeSource repository (Node.js 20 LTS)
   ansible.builtin.shell: |
@@ -31,11 +38,17 @@
   args:
     executable: /bin/bash
     creates: /etc/apt/sources.list.d/nodesource.list
+  tags:
+    - setup
+    - nodejs
 
 - name: Install Node.js
   ansible.builtin.apt:
     name: nodejs
     state: present
+  tags:
+    - setup
+    - nodejs
 
 - name: Create application directory
   ansible.builtin.file:
@@ -44,6 +57,10 @@
     owner: www-data
     group: www-data
     mode: "0755"
+  tags:
+    - setup
+    - deploy
+    - app
 
 - name: Copy entire application directory to server
   ansible.builtin.copy:
@@ -53,6 +70,9 @@
     group: www-data
     mode: "0755"
   notify: Restart Node App
+  tags:
+    - deploy
+    - app
 
 - name: Install Node.js dependencies
   community.general.npm:
@@ -60,6 +80,9 @@
     state: present
   become: true
   become_user: root
+  tags:
+    - deploy
+    - app
 
 - name: Create systemd service for Node.js app
   ansible.builtin.copy:
@@ -87,6 +110,9 @@
     dest: /etc/systemd/system/myapp.service
     mode: "0644"
   notify: Restart Node App
+  tags:
+    - deploy
+    - app
 
 - name: Configure Nginx as reverse proxy
   ansible.builtin.copy:
@@ -111,12 +137,18 @@
     dest: /etc/nginx/sites-available/default
     mode: "0644"
   notify: Restart Nginx
+  tags:
+    - setup
+    - nginx
 
 - name: Enable and start Nginx
   ansible.builtin.systemd:
     name: nginx
     enabled: true
     state: started
+  tags:
+    - setup
+    - nginx
 
 - name: Enable and restart Node.js app
   ansible.builtin.systemd:
@@ -124,3 +156,6 @@
     enabled: true
     state: restarted
     daemon_reload: true
+  tags:
+    - deploy
+    - app
