@@ -223,19 +223,25 @@ jobs:
             sleep 3
           done
 
-      # 🚀 สั่งรัน Terraform Action: action.ansible_playbook_run.ansible
-      - name: 🚀 Run Terraform Action (action.ansible_playbook_run.ansible)
+      # 🚀 สั่งรัน Terraform Action: action.ansible_playbook_run.with_inventories
+      - name: 🚀 Run Terraform Action (action.ansible_playbook_run)
         working-directory: ./terraform
         run: |
           echo "===================================================="
-          echo "🚀 Executing Action: action.ansible_playbook_run.ansible"
+          echo "🚀 Executing Action: action.ansible_playbook_run.with_inventories"
           echo "===================================================="
-          WEB_IP="${{ steps.tf_output.outputs.web_ip }}"
-          DB_IP="${{ steps.tf_output.outputs.db_ip }}"
           
-          # ส่งค่า Configuration ที่นิยามใน Terraform Action เข้าสู่การรัน Playbook
-          ansible-playbook \
-            -i "${WEB_IP}," \
+          # ดึง Dynamic Inventory JSON ที่สร้างขึ้นจาก data.ansible_inventory.myinventory
+          terraform output -raw ansible_inventory_json > /tmp/inventory.json
+          echo "📋 Terraform Action Inventory Content:"
+          cat /tmp/inventory.json
+          echo ""
+
+          DB_IP="${{ steps.tf_output.outputs.db_ip }}"
+
+          # สั่งรัน Playbook โดยใช้ Inventory ที่สร้างจาก Terraform Data Source
+          ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
+            -i /tmp/inventory.json \
             ../ansible/playbook.yml \
             --private-key /tmp/id_rsa \
             -u ubuntu \
