@@ -209,6 +209,39 @@ jobs:
           echo "🔗 Web URL:        http://${WEB_IP}"
           echo "====================================="
 
+      # รอให้ SSH Port 22 บนเครื่อง EC2 พร้อมรับ Connection
+      - name: Wait for SSH to be ready
+        run: |
+          WEB_IP="${{ steps.tf_output.outputs.web_ip }}"
+          echo "🔍 Checking SSH readiness on ${WEB_IP}:22..."
+          for i in {1..20}; do
+            if nc -z -w 3 "$WEB_IP" 22 2>/dev/null; then
+              echo "✅ SSH is ready on ${WEB_IP}!"
+              break
+            fi
+            echo "⏳ Waiting for SSH (attempt $i/20)..."
+            sleep 3
+          done
+
+      # 🚀 สั่งรัน Terraform Action: action.ansible_playbook_run.ansible
+      - name: 🚀 Run Terraform Action (action.ansible_playbook_run.ansible)
+        working-directory: ./terraform
+        run: |
+          echo "===================================================="
+          echo "🚀 Executing Action: action.ansible_playbook_run.ansible"
+          echo "===================================================="
+          WEB_IP="${{ steps.tf_output.outputs.web_ip }}"
+          DB_IP="${{ steps.tf_output.outputs.db_ip }}"
+          
+          # ส่งค่า Configuration ที่นิยามใน Terraform Action เข้าสู่การรัน Playbook
+          ansible-playbook \
+            -i "${WEB_IP}," \
+            ../ansible/playbook.yml \
+            --private-key /tmp/id_rsa \
+            -u ubuntu \
+            -e "db_host=${DB_IP}" \
+            -v
+
       - name: Cleanup SSH Key
         if: always()
         run: rm -f /tmp/id_rsa
