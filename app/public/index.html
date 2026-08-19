@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>Mega Store — Hardware & Cloud Equipment</title>
+  <title>Mega Store — Cloud Hardware & Equipment</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
   
   <style>
     /* ============================================================
-       1. Base Design Tokens & Reset
+       1. Design System Tokens (Light & Dark Theme Systems)
        ============================================================ */
     *, *::before, *::after {
       margin: 0;
@@ -23,10 +23,11 @@
     }
 
     :root {
+      /* Light Theme Colors */
       --bg: #f9fafb;
       --surface: #ffffff;
       --surface-subtle: #f3f4f6;
-      --surface-hover: #f9fafb;
+      --surface-hover: #f1f5f9;
       
       --border: #e5e7eb;
       --border-hover: #d1d5db;
@@ -38,6 +39,7 @@
       
       --primary: #111827;
       --primary-hover: #1f2937;
+      --primary-fg: #ffffff;
       
       --accent: #2563eb;
       --accent-hover: #1d4ed8;
@@ -57,10 +59,47 @@
       --radius-sm: 4px;
       --radius-md: 6px;
       --radius-lg: 8px;
+      --radius-xl: 10px;
 
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
       --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
       --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    [data-theme="dark"] {
+      /* Dark Theme System Tokens */
+      --bg: #0b0f17;
+      --surface: #111827;
+      --surface-subtle: #1f2937;
+      --surface-hover: #283548;
+      
+      --border: #374151;
+      --border-hover: #4b5563;
+      --border-focus: #6366f1;
+      
+      --text: #f9fafb;
+      --text-secondary: #d1d5db;
+      --text-muted: #9ca3af;
+      
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-fg: #ffffff;
+      
+      --accent: #38bdf8;
+      --accent-hover: #0ea5e9;
+      
+      --success: #34d399;
+      --success-bg: rgba(16, 185, 129, 0.15);
+      
+      --warning: #fbbf24;
+      --warning-bg: rgba(245, 158, 11, 0.15);
+      
+      --danger: #f87171;
+      --danger-bg: rgba(239, 68, 68, 0.15);
+
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
     }
 
     body {
@@ -72,6 +111,7 @@
       display: flex;
       flex-direction: column;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     :focus-visible {
@@ -114,14 +154,15 @@
       transition: all 0.15s ease;
       white-space: nowrap;
       user-select: none;
+      min-height: 36px;
     }
 
     .btn-primary {
       background-color: var(--primary);
-      color: #ffffff;
+      color: var(--primary-fg);
     }
     .btn-primary:hover { background-color: var(--primary-hover); }
-    .btn-primary:disabled { background-color: #e5e7eb; color: #9ca3af; cursor: not-allowed; }
+    .btn-primary:disabled { background-color: var(--surface-subtle); color: var(--text-muted); cursor: not-allowed; }
 
     .btn-secondary {
       background-color: var(--surface);
@@ -136,7 +177,7 @@
     }
     .btn-danger:hover { background-color: #b91c1c; }
 
-    .btn-sm { padding: 5px 10px; font-size: 12.5px; border-radius: var(--radius-sm); }
+    .btn-sm { padding: 5px 10px; font-size: 12.5px; border-radius: var(--radius-sm); min-height: 30px; }
 
     .btn-link {
       background: transparent;
@@ -150,20 +191,42 @@
     }
     .btn-link:hover { color: var(--accent-hover); }
 
+    /* Theme Toggle Button */
+    .theme-toggle-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-md);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.15s ease;
+    }
+    .theme-toggle-btn:hover {
+      color: var(--text);
+      background-color: var(--surface-subtle);
+      border-color: var(--border-hover);
+    }
+
     /* Badges */
     .badge {
       display: inline-flex;
       align-items: center;
+      gap: 4px;
       padding: 3px 8px;
       border-radius: var(--radius-sm);
       font-size: 12px;
       font-weight: 500;
       line-height: 1;
     }
-    .badge-success, .badge-SHIPPED, .badge-DELIVERED, .badge-active { background: var(--success-bg); color: var(--success); }
-    .badge-warning, .badge-PENDING { background: var(--warning-bg); color: var(--warning); }
-    .badge-info, .badge-PAID, .badge-PROCESSING { background: #eff6ff; color: #1d4ed8; }
-    .badge-danger, .badge-CANCELLED, .badge-inactive { background: var(--danger-bg); color: var(--danger); }
+    .badge-success, .badge-SHIPPED, .badge-DELIVERED, .badge-active, .badge-PAID { background: var(--success-bg); color: var(--success); }
+    .badge-warning, .badge-PENDING, .badge-PENDING_PAYMENT, .badge-PROCESSING { background: var(--warning-bg); color: var(--warning); }
+    .badge-info { background: #eff6ff; color: #1d4ed8; }
+    .badge-danger, .badge-CANCELLED, .badge-inactive, .badge-PAYMENT_FAILED, .badge-EXPIRED { background: var(--danger-bg); color: var(--danger); }
 
     /* Form Inputs */
     .form-group { margin-bottom: 16px; }
@@ -215,7 +278,7 @@
       width: 26px;
       height: 26px;
       background-color: var(--primary);
-      color: #fff;
+      color: var(--primary-fg);
       font-size: 13px;
       font-weight: 700;
       display: flex;
@@ -282,14 +345,14 @@
 
     .cart-badge {
       background-color: var(--primary);
-      color: #fff;
+      color: var(--primary-fg);
       font-size: 11px;
       font-weight: 600;
       padding: 1px 6px;
       border-radius: var(--radius-sm);
     }
 
-    /* Customer Storefront Views */
+    /* Storefront Main Area */
     .storefront-main {
       flex: 1;
       padding: 28px 0 60px;
@@ -325,7 +388,7 @@
     }
 
     .chip-btn:hover { border-color: var(--border-hover); color: var(--text); }
-    .chip-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 600; }
+    .chip-btn.active { background: var(--primary); border-color: var(--primary); color: var(--primary-fg); font-weight: 600; }
 
     /* Product Grid */
     .product-grid {
@@ -350,7 +413,7 @@
     }
 
     .product-image-wrap {
-      background-color: #f9fafb;
+      background-color: var(--surface-subtle);
       border-radius: var(--radius-md);
       height: 200px;
       display: flex;
@@ -474,7 +537,7 @@
     .admin-top-bar {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      height: 54px;
+      height: 56px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -543,12 +606,21 @@
       overflow-x: auto;
     }
 
+    /* Admin Action Attention Banner */
+    .admin-attention-card {
+      background: var(--surface);
+      border: 1.5px solid var(--warning);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      margin-bottom: 24px;
+    }
+
     /* Admin Data Tables */
     .table-container {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      overflow: hidden;
+      overflow-x: auto;
     }
 
     .admin-table {
@@ -570,10 +642,11 @@
       padding: 10px 14px;
       border-bottom: 1px solid var(--border);
       vertical-align: middle;
+      color: var(--text);
     }
 
     .admin-table tr:last-child td { border-bottom: none; }
-    .admin-table tr:hover td { background-color: #fbfbfb; }
+    .admin-table tr:hover td { background-color: var(--surface-hover); }
 
     /* Admin Metrics */
     .metrics-grid {
@@ -606,7 +679,7 @@
 
     /* Image Preview Container */
     .image-preview-container {
-      background: #f9fafb;
+      background: var(--surface-subtle);
       border: 1px dashed var(--border);
       border-radius: var(--radius-md);
       padding: 14px;
@@ -635,7 +708,7 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background-color: rgba(0, 0, 0, 0.4);
+      background-color: rgba(0, 0, 0, 0.5);
       z-index: 100;
       display: none;
       align-items: center;
@@ -685,7 +758,7 @@
     /* Toast */
     .toast-popup {
       position: fixed; bottom: 20px; right: 20px;
-      background: var(--primary); color: #fff;
+      background: var(--primary); color: var(--primary-fg);
       padding: 9px 16px; border-radius: var(--radius-md);
       font-size: 13px; font-weight: 500; box-shadow: var(--shadow-md);
       display: none; z-index: 200;
@@ -746,7 +819,7 @@
     .stepper-step.current .stepper-node {
       background: var(--primary);
       border-color: var(--primary);
-      color: #fff;
+      color: var(--primary-fg);
     }
 
     .stepper-name {
@@ -754,6 +827,7 @@
       color: var(--text-muted);
       margin-top: 6px;
       font-weight: 500;
+      text-align: center;
     }
 
     .stepper-step.current .stepper-name {
@@ -761,7 +835,30 @@
       font-weight: 600;
     }
 
-    /* Responsive */
+    /* Payment Simulation Box */
+    .payment-qr-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+      margin: 14px 0;
+    }
+
+    .qr-mock-visual {
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 12px;
+      background: #ffffff;
+      padding: 8px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Responsive Breakpoints */
     @media (max-width: 900px) {
       .product-grid { grid-template-columns: repeat(2, 1fr); }
       .metrics-grid { grid-template-columns: repeat(2, 1fr); }
@@ -769,12 +866,15 @@
     }
 
     @media (max-width: 640px) {
+      .container { padding: 0 14px; }
       .product-grid { grid-template-columns: 1fr; }
       .metrics-grid { grid-template-columns: 1fr; }
       .admin-body-layout { flex-direction: column; }
-      .admin-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; overflow-x: auto; }
-      .admin-content-pane { padding: 16px; }
+      .admin-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; overflow-x: auto; padding: 8px 10px; }
+      .admin-content-pane { padding: 14px; }
       .filter-bar { flex-direction: column; align-items: stretch; }
+      .customer-header-inner { height: auto; padding: 10px 0; flex-wrap: wrap; }
+      .customer-nav { order: 3; width: 100%; margin-top: 6px; overflow-x: auto; }
     }
   </style>
 </head>
@@ -797,7 +897,12 @@
           <button class="nav-btn" id="cnav-track" onclick="navigateTo('/track')">Track Order</button>
         </nav>
 
-        <div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <!-- Theme Switcher Button -->
+          <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle theme">
+            <span id="theme-icon-display">☀️</span>
+          </button>
+
           <button class="cart-btn" onclick="openCartModal()">
             <span>Cart</span>
             <span class="cart-badge" id="cart-counter">0</span>
@@ -834,10 +939,10 @@
         </section>
 
         <!-- View: Order Tracking -->
-        <section id="cview-track" style="display: none; max-width: 600px; margin: 0 auto;">
+        <section id="cview-track" style="display: none; max-width: 620px; margin: 0 auto;">
           <div style="margin-bottom: 20px;">
             <h1 style="font-size: 20px; font-weight: 600;">Track your order</h1>
-            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 2px;">Enter your order number to view status and delivery details</p>
+            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 2px;">Real-time automated status and fulfillment telemetry</p>
           </div>
 
           <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 20px;">
@@ -872,9 +977,14 @@
        ============================================================ -->
   <div id="admin-login-screen">
     <div class="admin-login-box">
-      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
-        <div class="brand-mark">M</div>
-        <span style="font-size: 15px; font-weight: 700;">Mega Store Admin</span>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="brand-mark">M</div>
+          <span style="font-size: 15px; font-weight: 700;">Mega Store Admin</span>
+        </div>
+        <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+          <span class="theme-icon-admin">☀️</span>
+        </button>
       </div>
       <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Sign in to access store management</p>
 
@@ -907,7 +1017,10 @@
           <div class="brand-mark">M</div>
           <span class="admin-badge-title">Mega Store Management</span>
         </div>
-        <div style="display: flex; align-items: center; gap: 14px; font-size: 13px;">
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
+          <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+            <span class="theme-icon-admin">☀️</span>
+          </button>
           <span style="color: var(--text-secondary);">Logged in as <strong id="admin-header-username">admin</strong></span>
           <button class="btn btn-secondary btn-sm" onclick="navigateTo('/')">View Store</button>
           <button class="btn btn-secondary btn-sm" onclick="doAdminLogout()">Sign out</button>
@@ -927,8 +1040,20 @@
           <!-- SUB-VIEW: DASHBOARD -->
           <section id="admin-view-dashboard">
             <div style="margin-bottom: 20px;">
-              <h2 style="font-size: 18px; font-weight: 600;">Dashboard</h2>
+              <h2 style="font-size: 18px; font-weight: 600;">Store Overview & Automation Telemetry</h2>
             </div>
+
+            <!-- Attention Required Card -->
+            <div class="admin-attention-card" id="admin-attention-box" style="display: none;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 style="font-size: 14px; font-weight: 700; color: var(--warning);">⚠️ Orders Requiring Human Attention</h3>
+                <span class="badge badge-warning" id="attention-badge-count">0 orders</span>
+              </div>
+              <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">The following orders have been automatically paid and verified by the system, and are waiting for physical packaging and courier dispatch.</p>
+              <div id="admin-attention-orders-list"></div>
+            </div>
+
+            <!-- Metric Cards -->
             <div class="metrics-grid" id="admin-metrics-row"></div>
 
             <div style="margin-top: 24px;">
@@ -1052,7 +1177,7 @@
           <section id="admin-view-orders" style="display: none;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
               <div>
-                <h2 style="font-size: 18px; font-weight: 600;">Customer Orders</h2>
+                <h2 style="font-size: 18px; font-weight: 600;">Customer Orders & State Control</h2>
                 <p style="font-size: 13px; color: var(--text-secondary);">Manage fulfillment and courier tracking</p>
               </div>
             </div>
@@ -1061,12 +1186,12 @@
               <input type="text" id="adm-orders-search" class="form-input" placeholder="Search orders..." style="width: 220px; padding: 6px 10px; font-size: 13px;" oninput="onAdminOrdersSearch(this.value)">
               <select id="adm-orders-status-filter" class="form-select" style="width: auto; padding: 6px 10px; font-size: 13px;" onchange="onAdminOrdersStatusFilter(this.value)">
                 <option value="all">Status: All</option>
-                <option value="PENDING">PENDING</option>
-                <option value="PAID">PAID</option>
-                <option value="PROCESSING">PROCESSING</option>
-                <option value="SHIPPED">SHIPPED</option>
-                <option value="DELIVERED">DELIVERED</option>
-                <option value="CANCELLED">CANCELLED</option>
+                <option value="PENDING_PAYMENT">Pending Payment</option>
+                <option value="PAID">Paid (Needs Packing)</option>
+                <option value="PROCESSING">Processing (Needs Courier)</option>
+                <option value="SHIPPED">Shipped</option>
+                <option value="DELIVERED">Delivered</option>
+                <option value="CANCELLED">Cancelled</option>
               </select>
             </div>
 
@@ -1083,13 +1208,13 @@
           <!-- SUB-VIEW: AUDIT LOGS -->
           <section id="admin-view-logs" style="display: none;">
             <div style="margin-bottom: 16px;">
-              <h2 style="font-size: 18px; font-weight: 600;">Audit Logs</h2>
-              <p style="font-size: 13px; color: var(--text-secondary);">Record of administrative actions and state modifications</p>
+              <h2 style="font-size: 18px; font-weight: 600;">Audit & Automation Logs</h2>
+              <p style="font-size: 13px; color: var(--text-secondary);">Record of administrative actions, automated verifications, and state transitions</p>
             </div>
             <div class="table-container">
               <table class="admin-table">
                 <thead>
-                  <tr><th>Time</th><th>Operator</th><th>Action</th><th>Target</th><th>Details</th></tr>
+                  <tr><th>Time</th><th>Operator / Bot</th><th>Action</th><th>Target</th><th>Details</th></tr>
                 </thead>
                 <tbody id="admin-logs-tbody"></tbody>
               </table>
@@ -1142,9 +1267,9 @@
           <div class="form-group">
             <label class="form-label" for="chk-payment">Payment Method</label>
             <select id="chk-payment" class="form-select">
-              <option>PromptPay QR</option>
-              <option>Credit / Debit Card</option>
-              <option>Cash on Delivery</option>
+              <option value="PromptPay QR">PromptPay QR (Instant Verification)</option>
+              <option value="Credit Card">Credit / Debit Card</option>
+              <option value="Cash on Delivery">Cash on Delivery</option>
             </select>
           </div>
         </div>
@@ -1156,7 +1281,7 @@
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 13.5px; color: var(--text-secondary); margin-bottom: 8px;">
             <span>Shipping</span>
-            <span>Free</span>
+            <span style="color: var(--success); font-weight: 500;">Free</span>
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 700; color: var(--text); padding-top: 8px; border-top: 1px solid var(--border);">
             <span>Total</span>
@@ -1169,44 +1294,52 @@
   </div>
 
   <!-- ============================================================
-       MODAL 3: ADMIN STATUS UPDATE
+       MODAL 3: AUTOMATED PAYMENT VERIFICATION (CUSTOMER)
+       ============================================================ -->
+  <div class="modal-overlay" id="modal-payment-gateway" onclick="onBackdropClick(event, 'modal-payment-gateway')">
+    <div class="modal-window" style="max-width: 440px;">
+      <div class="modal-header-bar">
+        <span class="modal-header-title">Payment Verification</span>
+        <button class="modal-close-x" onclick="closeModal('modal-payment-gateway')">×</button>
+      </div>
+      <div class="modal-body-pad" id="payment-gateway-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MODAL 4: ADMIN STATUS UPDATE (CONTROLLED STATE MACHINE)
        ============================================================ -->
   <div class="modal-overlay" id="modal-status-update" onclick="onBackdropClick(event, 'modal-status-update')">
-    <div class="modal-window" style="max-width: 400px;">
+    <div class="modal-window" style="max-width: 420px;">
       <div class="modal-header-bar">
-        <span class="modal-header-title">Update Order Status</span>
+        <span class="modal-header-title">Update Order State</span>
         <button class="modal-close-x" onclick="closeModal('modal-status-update')">×</button>
       </div>
       <div class="modal-body-pad">
         <input type="hidden" id="st-edit-id">
-        <div style="font-size: 13px; margin-bottom: 12px;">Order: <strong id="st-edit-onum"></strong></div>
-
-        <div class="form-group">
-          <label class="form-label" for="st-select-val">Status</label>
-          <select id="st-select-val" class="form-select">
-            <option value="PENDING">PENDING</option>
-            <option value="PAID">PAID</option>
-            <option value="PROCESSING">PROCESSING</option>
-            <option value="SHIPPED">SHIPPED</option>
-            <option value="DELIVERED">DELIVERED</option>
-            <option value="CANCELLED">CANCELLED</option>
-          </select>
+        <div style="font-size: 13px; margin-bottom: 12px;">
+          Order: <strong id="st-edit-onum"></strong> · Current State: <span id="st-current-badge" class="badge"></span>
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="st-input-tracking">Tracking Number</label>
+          <label class="form-label" for="st-select-val">Valid Next Transition</label>
+          <select id="st-select-val" class="form-select" onchange="onAdminTargetStatusChange(this.value)"></select>
+        </div>
+
+        <div class="form-group" id="st-tracking-group" style="display: none;">
+          <label class="form-label" for="st-input-tracking">Courier Tracking Number *</label>
           <input type="text" id="st-input-tracking" class="form-input" placeholder="e.g. TH-EXP-123456">
         </div>
       </div>
       <div class="modal-footer-bar">
         <button class="btn btn-secondary" onclick="closeModal('modal-status-update')">Cancel</button>
-        <button class="btn btn-primary" onclick="submitStatusUpdate()">Update Status</button>
+        <button class="btn btn-primary" onclick="submitStatusUpdate()">Update State</button>
       </div>
     </div>
   </div>
 
   <!-- ============================================================
-       MODAL 4: DELETE / ARCHIVE CONFIRMATION
+       MODAL 5: DELETE / ARCHIVE CONFIRMATION
        ============================================================ -->
   <div class="modal-overlay" id="modal-delete-confirm" onclick="onBackdropClick(event, 'modal-delete-confirm')">
     <div class="modal-window" style="max-width: 420px;">
@@ -1237,7 +1370,7 @@
        APPLICATION LOGIC & ROUTER
        ============================================================ -->
   <script>
-    // ── Application State ──
+    // ── Global State ──
     var categories = [];
     var products = [];
     var adminOrders = [];
@@ -1245,18 +1378,53 @@
     var cart = JSON.parse(localStorage.getItem('mega_cart') || '[]');
     var adminToken = localStorage.getItem('mega_admin_token') || '';
 
-    // Customer Filter State
+    // Order State Transition Matrix (Mirrors backend)
+    var VALID_ORDER_TRANSITIONS = {
+      "PENDING_PAYMENT": ["PAID", "PAYMENT_FAILED", "EXPIRED", "CANCELLED"],
+      "PENDING": ["PAID", "PAYMENT_FAILED", "EXPIRED", "CANCELLED"],
+      "PAID": ["PROCESSING", "CANCELLED"],
+      "PROCESSING": ["SHIPPED", "CANCELLED"],
+      "SHIPPED": ["DELIVERED"],
+      "DELIVERED": [],
+      "CANCELLED": [],
+      "EXPIRED": [],
+      "PAYMENT_FAILED": ["PENDING_PAYMENT"]
+    };
+
+    // Filter States
     var custSelectedCat = '';
     var custSearchQuery = '';
     var custSortOrder = 'default';
     var isCheckingOut = false;
 
-    // Admin Filter State
     var adminProdSearch = '';
     var adminProdCat = 'all';
     var adminProdStatus = 'all';
     var adminOrderSearch = '';
     var adminOrderStatus = 'all';
+
+    // ── Theme Manager ──
+    function initTheme() {
+      var saved = localStorage.getItem('mega_theme');
+      var preferredDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = saved || (preferredDark ? 'dark' : 'light');
+      setTheme(theme);
+    }
+
+    function toggleTheme() {
+      var curr = document.documentElement.getAttribute('data-theme') || 'light';
+      var next = curr === 'dark' ? 'light' : 'dark';
+      setTheme(next);
+    }
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('mega_theme', theme);
+      var icon = theme === 'dark' ? '🌙' : '☀️';
+      var el1 = document.getElementById('theme-icon-display');
+      if (el1) el1.textContent = icon;
+      document.querySelectorAll('.theme-icon-admin').forEach(function(i) { i.textContent = icon; });
+    }
 
     // Helper Utilities
     function toast(msg) {
@@ -1264,7 +1432,7 @@
       el.textContent = msg;
       el.style.display = 'block';
       clearTimeout(el._t);
-      el._t = setTimeout(function() { el.style.display = 'none'; }, 2500);
+      el._t = setTimeout(function() { el.style.display = 'none'; }, 2600);
     }
 
     function openModal(id) { document.getElementById(id).classList.add('open'); }
@@ -1281,12 +1449,11 @@
       return parseFloat(n || 0).toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-    // ── Client-Side Router ──
+    // ── Router ──
     function getNormalizedRoute() {
       var path = window.location.pathname;
       var hash = window.location.hash.replace(/^#/, '');
-      if (hash) return hash;
-      return path;
+      return hash || path;
     }
 
     function navigateTo(targetPath) {
@@ -1306,7 +1473,6 @@
       var adminLoginScreen = document.getElementById('admin-login-screen');
       var adminApp = document.getElementById('admin-app');
 
-      // Check if Admin Route
       if (route.startsWith('/admin')) {
         custApp.style.display = 'none';
 
@@ -1316,7 +1482,6 @@
           return;
         }
 
-        // Protected Admin Area
         if (!adminToken) {
           adminLoginScreen.style.display = 'flex';
           adminApp.style.display = 'none';
@@ -1329,7 +1494,6 @@
         return;
       }
 
-      // Customer Area
       custApp.style.display = 'flex';
       adminLoginScreen.style.display = 'none';
       adminApp.style.display = 'none';
@@ -1344,6 +1508,7 @@
         cviewTrack.style.display = 'block';
         cnavProducts.classList.remove('active');
         cnavTrack.classList.add('active');
+        lookupCustomerOrder();
       } else {
         cviewProducts.style.display = 'block';
         cviewTrack.style.display = 'none';
@@ -1353,7 +1518,7 @@
       }
     }
 
-    // ── Admin Sub-Routes ──
+    // ── Admin Sub-Route Manager ──
     function renderAdminSubRoute(route) {
       ['dashboard', 'products', 'product-form', 'orders', 'logs'].forEach(function(k) {
         var el = document.getElementById('admin-view-' + k);
@@ -1387,7 +1552,6 @@
         document.getElementById('aside-nav-logs').classList.add('active');
         loadAdminLogs();
       } else {
-        // Default Dashboard
         document.getElementById('admin-view-dashboard').style.display = 'block';
         document.getElementById('aside-nav-dashboard').classList.add('active');
         loadAdminDashboard();
@@ -1497,7 +1661,7 @@
       var isOut = p.stock <= 0;
       var body = document.getElementById('modal-product-detail-body');
       body.innerHTML = '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">' +
-        '<div style="background: #f9fafb; border-radius: var(--radius-md); padding: 16px; display: flex; align-items: center; justify-content: center; height: 260px;">' +
+        '<div style="background: var(--surface-subtle); border-radius: var(--radius-md); padding: 16px; display: flex; align-items: center; justify-content: center; height: 260px;">' +
           '<img src="' + p.image_url + '" alt="' + p.name + '" style="max-width: 100%; max-height: 100%; object-fit: contain;">' +
         '</div>' +
         '<div style="display: flex; flex-direction: column;">' +
@@ -1518,7 +1682,7 @@
       openModal('modal-product-detail');
     }
 
-    // ── Cart Operations ──
+    // ── Cart & Checkout ──
     function updateCartCounter() {
       var total = cart.reduce(function(s, i) { return s + i.quantity; }, 0);
       document.getElementById('cart-counter').textContent = total;
@@ -1578,15 +1742,15 @@
 
       listEl.innerHTML = cart.map(function(item, idx) {
         return '<div style="display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border);">' +
-          '<img src="' + item.image_url + '" alt="' + item.name + '" style="width: 48px; height: 48px; object-fit: contain; background: #f9fafb; border-radius: var(--radius-sm);">' +
+          '<img src="' + item.image_url + '" alt="' + item.name + '" style="width: 48px; height: 48px; object-fit: contain; background: var(--surface-subtle); border-radius: var(--radius-sm);">' +
           '<div style="flex: 1;">' +
             '<div style="font-size: 13.5px; font-weight: 600;">' + item.name + '</div>' +
             '<div style="font-size: 12.5px; color: var(--text-secondary);">฿' + fmt(item.price) + ' × ' + item.quantity + '</div>' +
           '</div>' +
-          '<div style="display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: var(--radius-sm);">' +
-            '<button style="width: 24px; height: 24px; border: none; background: transparent; cursor: pointer;" onclick="changeCartItemQty(' + idx + ', -1)">−</button>' +
-            '<span style="min-width: 22px; text-align: center; font-size: 12.5px;">' + item.quantity + '</span>' +
-            '<button style="width: 24px; height: 24px; border: none; background: transparent; cursor: pointer;" onclick="changeCartItemQty(' + idx + ', 1)">+</button>' +
+          '<div style="display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface);">' +
+            '<button style="width: 24px; height: 24px; border: none; background: transparent; cursor: pointer; color: var(--text);" onclick="changeCartItemQty(' + idx + ', -1)">−</button>' +
+            '<span style="min-width: 22px; text-align: center; font-size: 12.5px; color: var(--text);">' + item.quantity + '</span>' +
+            '<button style="width: 24px; height: 24px; border: none; background: transparent; cursor: pointer; color: var(--text);" onclick="changeCartItemQty(' + idx + ', 1)">+</button>' +
           '</div>' +
         '</div>';
       }).join('');
@@ -1595,7 +1759,7 @@
         title.textContent = 'Checkout';
         formBox.style.display = 'block';
         actions.innerHTML = '<button class="btn btn-secondary" onclick="isCheckingOut=false; renderCartView();">Back</button>' +
-          '<button class="btn btn-primary" onclick="submitCustomerOrder()">Place Order (฿' + fmt(total) + ')</button>';
+          '<button class="btn btn-primary" onclick="submitCustomerOrder()">Place Order & Pay (฿' + fmt(total) + ')</button>';
       } else {
         title.textContent = 'Shopping Cart (' + cart.reduce(function(s, i) { return s + i.quantity; }, 0) + ')';
         formBox.style.display = 'none';
@@ -1608,7 +1772,7 @@
       var name = document.getElementById('chk-name').value.trim();
       var phone = document.getElementById('chk-phone').value.trim();
       var addr = document.getElementById('chk-address').value.trim();
-      var pay = document.getElementById('chk-payment').value;
+      var payMethod = document.getElementById('chk-payment').value;
 
       if (!name || !phone || !addr) { toast('Please complete all shipping fields'); return; }
 
@@ -1632,7 +1796,8 @@
             shipping_name: name,
             shipping_phone: phone,
             shipping_address: addr,
-            note: 'Payment: ' + pay
+            payment_method: payMethod,
+            note: 'Method: ' + payMethod
           })
         });
 
@@ -1644,12 +1809,88 @@
         closeModal('modal-cart');
         loadCustomerData();
 
-        navigateTo('/track');
-        document.getElementById('track-input').value = data.order.order_number;
-        lookupCustomerOrder();
-        toast('Order placed: ' + data.order.order_number);
+        // Launch Automated Payment Screen
+        openPaymentGatewayModal(data.order, data.payment);
       } catch (err) {
         toast(err.message);
+      }
+    }
+
+    // ── Automated Payment Screen & Verification ──
+    function openPaymentGatewayModal(order, payment) {
+      var body = document.getElementById('payment-gateway-modal-body');
+      var isPromptPay = (order.payment_method || '').includes('PromptPay');
+
+      body.innerHTML = '<div>' +
+        '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">' +
+          '<div>' +
+            '<div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase;">ORDER REFERENCE</div>' +
+            '<div style="font-size: 16px; font-weight: 700;">' + order.order_number + '</div>' +
+          '</div>' +
+          '<div style="font-size: 20px; font-weight: 800; color: var(--primary);">฿' + fmt(order.total_amount) + '</div>' +
+        '</div>' +
+
+        '<div class="payment-qr-card">' +
+          '<div style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px;">' +
+            (isPromptPay ? '📱 PromptPay Instant QR' : '💳 Card Payment Gateway') +
+          '</div>' +
+          '<div class="qr-mock-visual">' +
+            (isPromptPay ? 
+              '<svg width="120" height="120" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" fill="#fff"/><rect x="10" y="10" width="25" height="25" fill="#111827"/><rect x="15" y="15" width="15" height="15" fill="#fff"/><rect x="65" y="10" width="25" height="25" fill="#111827"/><rect x="70" y="15" width="15" height="15" fill="#fff"/><rect x="10" y="65" width="25" height="25" fill="#111827"/><rect x="15" y="70" width="15" height="15" fill="#fff"/><rect x="42" y="42" width="16" height="16" fill="#111827"/><rect x="45" y="15" width="10" height="10" fill="#111827"/><rect x="45" y="75" width="10" height="10" fill="#111827"/><rect x="75" y="45" width="10" height="10" fill="#111827"/></svg>' : 
+              '<div style="font-size: 32px;">💳</div>'
+            ) +
+          '</div>' +
+          '<div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 14px;">' +
+            (isPromptPay ? 'Scan with any banking app. Amount is pre-filled.' : 'Encrypted direct transaction processing.') +
+          '</div>' +
+          '<button class="btn btn-primary" style="width: 100%;" id="verify-payment-btn" onclick="executeAutomatedPaymentVerification(\'' + order.order_number + '\', ' + order.id + ')">' +
+            '⚡ Complete & Verify Payment' +
+          '</button>' +
+        '</div>' +
+
+        '<div style="font-size: 11.5px; color: var(--text-muted); text-align: center;">' +
+          'Automated backend reconciliation engine · Zero manual intervention required' +
+        '</div>' +
+      '</div>';
+
+      openModal('modal-payment-gateway');
+    }
+
+    async function executeAutomatedPaymentVerification(orderNumber, orderId) {
+      var btn = document.getElementById('verify-payment-btn');
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Verifying Transaction with Gateway...';
+      }
+
+      try {
+        var res = await fetch('/api/payments/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            order_number: orderNumber,
+            order_id: orderId,
+            transaction_id: 'TXN-' + Date.now().toString(36).toUpperCase(),
+            provider: 'AUTOMATED_SIMULATOR'
+          })
+        });
+
+        var data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Payment verification failed');
+
+        toast('✓ Payment verified! Order #' + orderNumber + ' is now PAID');
+        closeModal('modal-payment-gateway');
+
+        // Route directly to tracking
+        navigateTo('/track');
+        document.getElementById('track-input').value = orderNumber;
+        lookupCustomerOrder();
+      } catch (err) {
+        toast(err.message);
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = '⚡ Retry Payment Verification';
+        }
       }
     }
 
@@ -1669,9 +1910,12 @@
         if (!res.ok) throw new Error(data.error || 'Order not found');
 
         var o = data.order;
-        var steps = ['PENDING', 'PAID', 'PROCESSING', 'SHIPPED', 'DELIVERED'];
-        var stepLabels = ['Placed', 'Paid', 'Processing', 'Shipped', 'Delivered'];
-        var currIdx = steps.indexOf(o.status);
+        var p = data.payment;
+        var steps = ['PENDING_PAYMENT', 'PAID', 'PROCESSING', 'SHIPPED', 'DELIVERED'];
+        var stepLabels = ['Order Placed', 'Payment Verified', 'Processing', 'Shipped', 'Delivered'];
+        
+        var normalizedStatus = o.status === 'PENDING' ? 'PENDING_PAYMENT' : o.status;
+        var currIdx = steps.indexOf(normalizedStatus);
 
         var box = document.getElementById('customer-track-result');
         box.style.display = 'block';
@@ -1679,7 +1923,7 @@
         var stepsHtml = '<div class="stepper-timeline">';
         steps.forEach(function(st, i) {
           var isDone = currIdx >= i;
-          var isCurrent = o.status === st;
+          var isCurrent = normalizedStatus === st;
           var cls = isDone ? 'completed' : '';
           if (isCurrent) cls += ' current';
 
@@ -1698,19 +1942,37 @@
           '<span class="badge badge-' + o.status + '">' + o.status + '</span>' +
         '</div>' +
 
-        (o.tracking_number ? '<div style="background: var(--success-bg); border: 1px solid #bbf7d0; border-radius: var(--radius-sm); padding: 8px 12px; margin-bottom: 14px; font-size: 12.5px; color: var(--success);">' +
-          'Tracking Number: <strong>' + o.tracking_number + '</strong>' +
+        // If Pending Payment, show Instant Pay button right on tracking card
+        (normalizedStatus === 'PENDING_PAYMENT' ? 
+          '<div style="background: var(--warning-bg); border: 1px solid var(--warning); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">' +
+            '<div style="font-size: 12.5px; color: var(--warning); font-weight: 600;">⚠️ Payment Pending — Complete verification to dispatch</div>' +
+            '<button class="btn btn-primary btn-sm" onclick="openPaymentGatewayModal(' + JSON.stringify(o).replace(/"/g, '&quot;') + ', null)">⚡ Pay Now (฿' + fmt(o.total_amount) + ')</button>' +
+          '</div>' : ''
+        ) +
+
+        (o.tracking_number ? '<div style="background: var(--success-bg); border: 1px solid var(--success); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 14px; font-size: 12.5px; color: var(--success);">' +
+          'Express Courier Tracking: <strong style="font-family: var(--font-mono);">' + o.tracking_number + '</strong>' +
         '</div>' : '') +
 
         stepsHtml +
 
         '<div style="border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px; font-size: 13px;">' +
-          '<div style="font-weight: 600; margin-bottom: 4px;">Shipping Address</div>' +
-          '<div style="color: var(--text-secondary); margin-bottom: 12px;">' + o.shipping_name + ' (' + o.shipping_phone + ')<br>' + o.shipping_address + '</div>' +
+          '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">' +
+            '<div>' +
+              '<div style="font-weight: 600; margin-bottom: 2px;">Shipping Recipient</div>' +
+              '<div style="color: var(--text-secondary);">' + o.shipping_name + ' (' + o.shipping_phone + ')</div>' +
+              '<div style="color: var(--text-muted); font-size: 12px;">' + o.shipping_address + '</div>' +
+            '</div>' +
+            '<div>' +
+              '<div style="font-weight: 600; margin-bottom: 2px;">Payment Status</div>' +
+              '<div style="color: var(--text-secondary);">' + (p && p.status === 'COMPLETED' ? '✓ Paid via ' + p.payment_method : 'Pending Payment') + '</div>' +
+              '<div style="color: var(--text-muted); font-size: 11.5px; font-family: var(--font-mono);">' + (p ? p.transaction_id : '—') + '</div>' +
+            '</div>' +
+          '</div>' +
           
-          '<div style="font-weight: 600; margin-bottom: 6px;">Items</div>' +
+          '<div style="font-weight: 600; margin-bottom: 6px;">Ordered Items</div>' +
           (o.items || []).map(function(i) {
-            return '<div style="display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px dashed var(--border); font-size: 12.5px;">' +
+            return '<div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed var(--border); font-size: 12.5px;">' +
               '<span>' + (i.product_name || i.name) + ' × ' + i.quantity + '</span>' +
               '<span>฿' + fmt(i.subtotal || (i.unit_price * i.quantity)) + '</span>' +
             '</div>';
@@ -1757,7 +2019,7 @@
       navigateTo('/admin/login');
     }
 
-    // ── Admin Dashboard ──
+    // ── Admin Dashboard & Action Telemetry ──
     async function loadAdminDashboard() {
       try {
         var res = await fetch('/api/admin/dashboard', {
@@ -1767,12 +2029,32 @@
         var data = await res.json();
         var s = data.summary || {};
 
+        // Attention Required Section
+        var attentionBox = document.getElementById('admin-attention-box');
+        var attentionList = document.getElementById('admin-attention-orders-list');
+        var attentionBadge = document.getElementById('attention-badge-count');
+
+        if (s.attentionRequiredCount > 0) {
+          attentionBox.style.display = 'block';
+          attentionBadge.textContent = s.attentionRequiredCount + ' orders ready';
+          attentionList.innerHTML = (data.ordersRequiringAttention || []).map(function(o) {
+            return '<div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--surface-subtle); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 13px;">' +
+              '<div><strong>' + o.order_number + '</strong> (' + o.shipping_name + ') — <span class="badge badge-' + o.status + '">' + o.status + '</span></div>' +
+              '<div><button class="btn btn-primary btn-sm" onclick="openControlledStatusModal(' + o.id + ',\'' + o.order_number + '\',\'' + o.status + '\',\'' + (o.tracking_number||'') + '\')">Fulfill / Dispatch →</button></div>' +
+            '</div>';
+          }).join('');
+        } else {
+          attentionBox.style.display = 'none';
+        }
+
+        // Metrics Grid
         document.getElementById('admin-metrics-row').innerHTML =
-          '<div class="metric-card"><div class="metric-label">Gross Revenue</div><div class="metric-val">฿' + fmt(s.totalRevenue) + '</div></div>' +
-          '<div class="metric-card"><div class="metric-label">Total Orders</div><div class="metric-val">' + (s.totalOrders || 0) + '</div></div>' +
-          '<div class="metric-card"><div class="metric-label">Customers</div><div class="metric-val">' + (s.totalUsers || 0) + '</div></div>' +
+          '<div class="metric-card"><div class="metric-label">Gross Revenue</div><div class="metric-val" style="color: var(--primary);">฿' + fmt(s.totalRevenue) + '</div></div>' +
+          '<div class="metric-card"><div class="metric-label">Paid (Ready to Pack)</div><div class="metric-val" style="color: var(--success);">' + (s.paidCount || 0) + '</div></div>' +
+          '<div class="metric-card"><div class="metric-label">Processing (Dispatch)</div><div class="metric-val" style="color: var(--warning);">' + (s.processingCount || 0) + '</div></div>' +
           '<div class="metric-card"><div class="metric-label">Low Stock Alerts</div><div class="metric-val" style="color: ' + (s.lowStockCount > 0 ? 'var(--danger)' : 'var(--text)') + ';">' + (s.lowStockCount || 0) + '</div></div>';
 
+        // Recent Orders Table
         document.getElementById('admin-dash-recent-orders').innerHTML = (data.recentOrders || []).map(function(o) {
           return '<tr>' +
             '<td><strong>' + o.order_number + '</strong></td>' +
@@ -1797,7 +2079,6 @@
         categories = catRes.categories || [];
         var rawProducts = prodRes.products || [];
 
-        // Fill admin category filter
         var catSelect = document.getElementById('adm-prod-cat-filter');
         catSelect.innerHTML = '<option value="all">Category: All</option>' +
           categories.map(function(c) { return '<option value="' + c.slug + '">' + c.name + '</option>'; }).join('');
@@ -1834,15 +2115,9 @@
       var tbody = document.getElementById('admin-products-tbody');
       var filtered = list.slice();
 
-      if (adminProdCat !== 'all') {
-        filtered = filtered.filter(function(p) { return p.category_slug === adminProdCat; });
-      }
-
-      if (adminProdStatus === 'active') {
-        filtered = filtered.filter(function(p) { return p.is_active; });
-      } else if (adminProdStatus === 'inactive') {
-        filtered = filtered.filter(function(p) { return !p.is_active; });
-      }
+      if (adminProdCat !== 'all') filtered = filtered.filter(function(p) { return p.category_slug === adminProdCat; });
+      if (adminProdStatus === 'active') filtered = filtered.filter(function(p) { return p.is_active; });
+      else if (adminProdStatus === 'inactive') filtered = filtered.filter(function(p) { return !p.is_active; });
 
       if (adminProdSearch) {
         filtered = filtered.filter(function(p) {
@@ -1861,7 +2136,7 @@
         var statusBadge = p.is_active ? '<span class="badge badge-active">Active</span>' : '<span class="badge badge-inactive">Inactive</span>';
 
         return '<tr>' +
-          '<td><img src="' + p.image_url + '" alt="' + p.name + '" style="width: 38px; height: 38px; object-fit: contain; background: #f9fafb; border-radius: var(--radius-sm);"></td>' +
+          '<td><img src="' + p.image_url + '" alt="' + p.name + '" style="width: 38px; height: 38px; object-fit: contain; background: var(--surface-subtle); border-radius: var(--radius-sm);"></td>' +
           '<td><strong>' + p.name + '</strong></td>' +
           '<td>' + (p.category_name || '—') + '</td>' +
           '<td>฿' + fmt(p.price) + '</td>' +
@@ -1937,7 +2212,6 @@
       var stockField = document.getElementById('pf-stock');
       var imgField = document.getElementById('pf-image-url');
 
-      // Populate category dropdown
       if (!categories.length) {
         var cData = await fetch('/api/categories').then(function(r) { return r.json(); });
         categories = cData.categories || [];
@@ -1975,7 +2249,6 @@
       }
     }
 
-    // ── Live Image URL Preview ──
     function onImageUrlInput(url) {
       var img = document.getElementById('image-preview-target');
       var status = document.getElementById('image-preview-status');
@@ -2020,10 +2293,7 @@
       var stock = parseInt(document.getElementById('pf-stock').value);
       var img = document.getElementById('pf-image-url').value.trim();
 
-      if (!name || isNaN(price) || isNaN(stock)) {
-        toast('Please fill all required fields');
-        return;
-      }
+      if (!name || isNaN(price) || isNaN(stock)) { toast('Please fill all required fields'); return; }
 
       try {
         var payload = {
@@ -2055,7 +2325,7 @@
       }
     }
 
-    // ── Admin Orders Management ──
+    // ── Admin Orders Management & Controlled State Machine ──
     async function loadAdminOrders() {
       try {
         var res = await fetch('/api/admin/orders', {
@@ -2084,7 +2354,11 @@
       var list = adminOrders.slice();
 
       if (adminOrderStatus !== 'all') {
-        list = list.filter(function(o) { return o.status === adminOrderStatus; });
+        if (adminOrderStatus === 'PENDING_PAYMENT') {
+          list = list.filter(function(o) { return o.status === 'PENDING_PAYMENT' || o.status === 'PENDING'; });
+        } else {
+          list = list.filter(function(o) { return o.status === adminOrderStatus; });
+        }
       }
 
       if (adminOrderSearch) {
@@ -2099,23 +2373,49 @@
       }
 
       tbody.innerHTML = list.map(function(o) {
+        var allowedTransitions = VALID_ORDER_TRANSITIONS[o.status] || [];
+        var canUpdate = allowedTransitions.length > 0;
+
         return '<tr>' +
           '<td><strong>' + o.order_number + '</strong></td>' +
           '<td>' + o.shipping_name + '<br><small style="color: var(--text-muted);">' + o.shipping_phone + '</small></td>' +
           '<td>฿' + fmt(o.total_amount) + '</td>' +
           '<td><span class="badge badge-' + o.status + '">' + o.status + '</span></td>' +
           '<td style="font-family: var(--font-mono); font-size: 12.5px;">' + (o.tracking_number || '—') + '</td>' +
-          '<td><button class="btn btn-secondary btn-sm" onclick="openStatusUpdateModal(' + o.id + ',\'' + o.order_number + '\',\'' + o.status + '\',\'' + (o.tracking_number || '') + '\')">Update</button></td>' +
+          '<td>' +
+            (canUpdate ? 
+              '<button class="btn btn-secondary btn-sm" onclick="openControlledStatusModal(' + o.id + ',\'' + o.order_number + '\',\'' + o.status + '\',\'' + (o.tracking_number || '') + '\')">Advance State →</button>' :
+              '<span style="font-size: 12px; color: var(--text-muted);">Completed</span>'
+            ) +
+          '</td>' +
         '</tr>';
       }).join('');
     }
 
-    function openStatusUpdateModal(oid, onum, status, tracking) {
+    function openControlledStatusModal(oid, onum, currentStatus, tracking) {
       document.getElementById('st-edit-id').value = oid;
       document.getElementById('st-edit-onum').textContent = onum;
-      document.getElementById('st-select-val').value = status;
+      
+      var badge = document.getElementById('st-current-badge');
+      badge.textContent = currentStatus;
+      badge.className = 'badge badge-' + currentStatus;
+
+      var select = document.getElementById('st-select-val');
+      var allowed = VALID_ORDER_TRANSITIONS[currentStatus] || [];
+
+      select.innerHTML = allowed.map(function(st) {
+        return '<option value="' + st + '">' + st + '</option>';
+      }).join('');
+
       document.getElementById('st-input-tracking').value = tracking || '';
+      onAdminTargetStatusChange(select.value);
+
       openModal('modal-status-update');
+    }
+
+    function onAdminTargetStatusChange(val) {
+      var trackGroup = document.getElementById('st-tracking-group');
+      trackGroup.style.display = val === 'SHIPPED' ? 'block' : 'none';
     }
 
     async function submitStatusUpdate() {
@@ -2123,15 +2423,24 @@
       var status = document.getElementById('st-select-val').value;
       var tracking = document.getElementById('st-input-tracking').value.trim();
 
+      if (status === 'SHIPPED' && !tracking) {
+        toast('Courier tracking number is required for SHIPPED status');
+        return;
+      }
+
       try {
-        await fetch('/api/admin/orders/' + id + '/status', {
+        var res = await fetch('/api/admin/orders/' + id + '/status', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminToken },
           body: JSON.stringify({ status: status, tracking_number: tracking })
         });
+        var data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed to update order state');
+
         closeModal('modal-status-update');
-        toast('Order status updated');
+        toast('Order transitioned to ' + status);
         loadAdminOrders();
+        loadAdminDashboard();
       } catch (err) {
         toast(err.message);
       }
@@ -2159,12 +2468,28 @@
       }
     }
 
+    // ── Real-time Revalidation Polling ──
+    setInterval(function() {
+      var route = getNormalizedRoute();
+      if (route === '/track') {
+        var numInput = document.getElementById('track-input');
+        if (numInput && numInput.value.trim()) {
+          lookupCustomerOrder();
+        }
+      } else if (route.startsWith('/admin') && adminToken) {
+        if (route === '/admin/dashboard' || route === '/admin') loadAdminDashboard();
+        else if (route === '/admin/orders') loadAdminOrders();
+      }
+    }, 7000);
+
     // ── Boot Initialization ──
     document.addEventListener("DOMContentLoaded", function() {
+      initTheme();
       updateCartCounter();
       renderAppRoute();
     });
 
+    initTheme();
     updateCartCounter();
     renderAppRoute();
   </script>

@@ -32,6 +32,21 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, "public")));
 
 // ============================================================
+// Controlled Order State Machine
+// ============================================================
+const VALID_ORDER_TRANSITIONS = {
+  "PENDING_PAYMENT": ["PAID", "PAYMENT_FAILED", "EXPIRED", "CANCELLED"],
+  "PENDING": ["PAID", "PAYMENT_FAILED", "EXPIRED", "CANCELLED"],
+  "PAID": ["PROCESSING", "CANCELLED"],
+  "PROCESSING": ["SHIPPED", "CANCELLED"],
+  "SHIPPED": ["DELIVERED"],
+  "DELIVERED": [],
+  "CANCELLED": [],
+  "EXPIRED": [],
+  "PAYMENT_FAILED": ["PENDING_PAYMENT"]
+};
+
+// ============================================================
 // In-Memory Storage & Initial Seed State
 // ============================================================
 const SEED_CATEGORIES = [
@@ -156,17 +171,33 @@ const MEMORY_DB = {
       shipping_phone: "081-234-5678",
       shipping_address: "123 Sukhumvit Road, Bangkok",
       tracking_number: "TH-EXP-998811",
+      payment_method: "PromptPay QR",
       note: "Sample inaugural order",
       created_at: new Date(Date.now() - 3600000).toISOString(),
       items: [
         { product_id: 2, product_name: "Neon-Core Mechanical Keyboard V2", unit_price: 4590.00, quantity: 1, subtotal: 4590.00 }
       ],
       timeline: [
-        { from_status: null, to_status: "PENDING", note: "Order placed by customer", created_at: new Date(Date.now() - 3600000).toISOString() },
-        { from_status: "PENDING", to_status: "PAID", note: "Payment verified", created_at: new Date(Date.now() - 3000000).toISOString() },
-        { from_status: "PAID", to_status: "PROCESSING", note: "Preparing for dispatch", created_at: new Date(Date.now() - 2000000).toISOString() },
-        { from_status: "PROCESSING", to_status: "SHIPPED", note: "Handed over to courier", created_at: new Date(Date.now() - 1000000).toISOString() }
+        { from_status: null, to_status: "PENDING_PAYMENT", note: "Order placed by customer", created_at: new Date(Date.now() - 3600000).toISOString() },
+        { from_status: "PENDING_PAYMENT", to_status: "PAID", note: "Payment verified automatically via PromptPay QR", created_at: new Date(Date.now() - 3000000).toISOString() },
+        { from_status: "PAID", to_status: "PROCESSING", note: "Order packaged by fulfillment staff", created_at: new Date(Date.now() - 2000000).toISOString() },
+        { from_status: "PROCESSING", to_status: "SHIPPED", note: "Handed over to courier (TH-EXP-998811)", created_at: new Date(Date.now() - 1000000).toISOString() }
       ]
+    }
+  ],
+  payments: [
+    {
+      id: 1,
+      order_id: 1,
+      order_number: "ORD-20260818-INIT",
+      provider: "PROMPTPAY",
+      transaction_id: "TXN-20260818-INIT",
+      amount: 4590.00,
+      payment_method: "PromptPay QR",
+      status: "COMPLETED",
+      paid_at: new Date(Date.now() - 3000000).toISOString(),
+      created_at: new Date(Date.now() - 3600000).toISOString(),
+      updated_at: new Date(Date.now() - 3000000).toISOString()
     }
   ],
   admin_logs: [
@@ -176,7 +207,7 @@ const MEMORY_DB = {
       action: "SYSTEM_INITIALIZE",
       target_type: "system",
       target_id: 1,
-      details: { region: "ap-southeast-7", status: "online", engine: "hybrid-resilient" },
+      details: { region: "ap-southeast-7", status: "online", engine: "hybrid-resilient", state_machine: "enabled" },
       ip_address: "127.0.0.1",
       created_at: new Date().toISOString()
     }
@@ -206,7 +237,8 @@ async function tryInitPostgres() {
       CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username VARCHAR(50) UNIQUE NOT NULL, email VARCHAR(100) UNIQUE NOT NULL, password_hash VARCHAR(255) NOT NULL, role VARCHAR(20) DEFAULT 'customer', full_name VARCHAR(100), phone VARCHAR(20), address TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW());
       CREATE TABLE IF NOT EXISTS categories (id SERIAL PRIMARY KEY, name VARCHAR(100) NOT NULL, slug VARCHAR(100) UNIQUE NOT NULL);
       CREATE TABLE IF NOT EXISTS products (id SERIAL PRIMARY KEY, category_id INT REFERENCES categories(id) ON DELETE SET NULL, name VARCHAR(255) NOT NULL, description TEXT, price NUMERIC(10,2) NOT NULL CHECK (price >= 0), stock INT NOT NULL DEFAULT 0 CHECK (stock >= 0), image_url TEXT, is_active BOOLEAN DEFAULT TRUE, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW());
-      CREATE TABLE IF NOT EXISTS orders (id SERIAL PRIMARY KEY, order_number VARCHAR(32) UNIQUE NOT NULL, user_id INT REFERENCES users(id) ON DELETE RESTRICT, total_amount NUMERIC(10,2) NOT NULL, status VARCHAR(30) DEFAULT 'PENDING', shipping_name VARCHAR(100) NOT NULL, shipping_phone VARCHAR(20) NOT NULL, shipping_address TEXT NOT NULL, tracking_number VARCHAR(100), note TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW());
+      CREATE TABLE IF NOT EXISTS orders (id SERIAL PRIMARY KEY, order_number VARCHAR(32) UNIQUE NOT NULL, user_id INT REFERENCES users(id) ON DELETE RESTRICT, total_amount NUMERIC(10,2) NOT NULL, status VARCHAR(30) DEFAULT 'PENDING_PAYMENT', shipping_name VARCHAR(100) NOT NULL, shipping_phone VARCHAR(20) NOT NULL, shipping_address TEXT NOT NULL, tracking_number VARCHAR(100), payment_method VARCHAR(50), note TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW());
+      CREATE TABLE IF NOT EXISTS payments (id SERIAL PRIMARY KEY, order_id INT REFERENCES orders(id) ON DELETE CASCADE, provider VARCHAR(50) NOT NULL DEFAULT 'SYSTEM', transaction_id VARCHAR(100) UNIQUE NOT NULL, amount NUMERIC(10,2) NOT NULL, payment_method VARCHAR(50) NOT NULL, status VARCHAR(30) NOT NULL DEFAULT 'PENDING', paid_at TIMESTAMPTZ, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW());
       CREATE TABLE IF NOT EXISTS order_items (id SERIAL PRIMARY KEY, order_id INT REFERENCES orders(id) ON DELETE CASCADE, product_id INT REFERENCES products(id) ON DELETE RESTRICT, product_name VARCHAR(255) NOT NULL, unit_price NUMERIC(10,2) NOT NULL, quantity INT NOT NULL CHECK (quantity > 0), subtotal NUMERIC(10,2) NOT NULL);
       CREATE TABLE IF NOT EXISTS order_status_logs (id SERIAL PRIMARY KEY, order_id INT REFERENCES orders(id) ON DELETE CASCADE, from_status VARCHAR(30), to_status VARCHAR(30) NOT NULL, changed_by INT REFERENCES users(id), note TEXT, created_at TIMESTAMPTZ DEFAULT NOW());
       CREATE TABLE IF NOT EXISTS admin_audit_logs (id SERIAL PRIMARY KEY, admin_id INT REFERENCES users(id), action VARCHAR(100) NOT NULL, target_type VARCHAR(50), target_id INT, details JSONB, ip_address VARCHAR(45), created_at TIMESTAMPTZ DEFAULT NOW());
@@ -251,7 +283,8 @@ app.get("/health", (req, res) => {
     timestamp: new Date().toISOString(),
     hostname: os.hostname(),
     uptime: process.uptime(),
-    db_mode: MEMORY_DB.isPgConnected ? "postgresql" : "in-memory-active"
+    db_mode: MEMORY_DB.isPgConnected ? "postgresql" : "in-memory-active",
+    features: ["dark-mode", "state-machine", "automated-payments", "responsive-tables"]
   });
 });
 
@@ -261,6 +294,7 @@ app.get("/api/status", (req, res) => {
     pgConnected: MEMORY_DB.isPgConnected,
     totalProducts: MEMORY_DB.products.length,
     totalOrders: MEMORY_DB.orders.length,
+    totalPayments: MEMORY_DB.payments.length,
     uptime: Math.floor(process.uptime()),
     nodeVersion: process.version
   });
@@ -336,7 +370,7 @@ app.get("/api/products/:id", (req, res) => {
 
 // 5. Orders & Checkout
 app.post("/api/orders", auth, (req, res) => {
-  const { items, shipping_name, shipping_phone, shipping_address, note } = req.body;
+  const { items, shipping_name, shipping_phone, shipping_address, payment_method, note } = req.body;
   if (!items || !items.length) return res.status(400).json({ error: "Cart is empty" });
   if (!shipping_name || !shipping_phone || !shipping_address) return res.status(400).json({ error: "Shipping details required" });
 
@@ -365,6 +399,7 @@ app.post("/api/orders", auth, (req, res) => {
   const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
   const rand = Math.random().toString(16).substring(2, 6).toUpperCase();
   const orderNumber = `ORD-${dateStr}-${rand}`;
+  const selectedMethod = payment_method || "PromptPay QR";
 
   const newOrder = {
     id: MEMORY_DB.orders.length + 1,
@@ -372,44 +407,183 @@ app.post("/api/orders", auth, (req, res) => {
     user_id: req.user.id,
     username: req.user.username,
     total_amount: total,
-    status: "PENDING",
+    status: "PENDING_PAYMENT",
     shipping_name,
     shipping_phone,
     shipping_address,
+    payment_method: selectedMethod,
     tracking_number: null,
     note: note || "",
     created_at: new Date().toISOString(),
     items: verifiedItems,
     timeline: [
-      { from_status: null, to_status: "PENDING", note: "Order placed by customer", created_at: new Date().toISOString() }
+      { from_status: null, to_status: "PENDING_PAYMENT", note: "Order placed. Awaiting customer payment confirmation.", created_at: new Date().toISOString() }
     ]
   };
 
   MEMORY_DB.orders.unshift(newOrder);
-  res.status(201).json({ message: "Order placed successfully", order: newOrder });
+
+  // Initialize Payment Record
+  const newPayment = {
+    id: MEMORY_DB.payments.length + 1,
+    order_id: newOrder.id,
+    order_number: newOrder.order_number,
+    provider: selectedMethod.includes("PromptPay") ? "PROMPTPAY" : (selectedMethod.includes("Card") ? "STRIPE" : "COD"),
+    transaction_id: `TXN-${dateStr}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
+    amount: total,
+    payment_method: selectedMethod,
+    status: "PENDING",
+    paid_at: null,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  };
+  MEMORY_DB.payments.unshift(newPayment);
+
+  res.status(201).json({
+    message: "Order created. Please proceed with payment verification.",
+    order: newOrder,
+    payment: newPayment
+  });
 });
 
 app.get("/api/orders/:id", (req, res) => {
   const query = req.params.id.trim();
   const o = MEMORY_DB.orders.find(x => x.order_number === query || x.id == query);
   if (!o) return res.status(404).json({ error: "Order not found" });
-  res.json({ order: o });
+  
+  const p = MEMORY_DB.payments.find(x => x.order_id === o.id || x.order_number === o.order_number);
+  res.json({ order: o, payment: p || null });
 });
 
-// 6. Admin Endpoints
+// 6. Automated Payment Verification Endpoints
+app.post("/api/payments/verify", (req, res) => {
+  const { order_number, order_id, transaction_id, provider } = req.body;
+  if (!order_number && !order_id) return res.status(400).json({ error: "Order reference required" });
+
+  const order = MEMORY_DB.orders.find(o => (order_number && o.order_number === order_number) || (order_id && o.id == order_id));
+  if (!order) return res.status(404).json({ error: "Order not found" });
+
+  // Idempotency: If already paid, return existing state
+  if (order.status === "PAID" || order.status === "PROCESSING" || order.status === "SHIPPED" || order.status === "DELIVERED") {
+    const existingP = MEMORY_DB.payments.find(p => p.order_id === order.id);
+    return res.json({ message: "Payment already verified", order, payment: existingP, idempotent: true });
+  }
+
+  // Validate state machine
+  if (order.status !== "PENDING_PAYMENT" && order.status !== "PENDING") {
+    return res.status(400).json({ error: `Cannot verify payment for order with status ${order.status}` });
+  }
+
+  let payment = MEMORY_DB.payments.find(p => p.order_id === order.id);
+  const now = new Date().toISOString();
+
+  if (!payment) {
+    payment = {
+      id: MEMORY_DB.payments.length + 1,
+      order_id: order.id,
+      order_number: order.order_number,
+      provider: provider || "SYSTEM",
+      transaction_id: transaction_id || `TXN-${Date.now().toString(36).toUpperCase()}`,
+      amount: order.total_amount,
+      payment_method: order.payment_method || "PromptPay QR",
+      status: "COMPLETED",
+      paid_at: now,
+      created_at: now,
+      updated_at: now
+    };
+    MEMORY_DB.payments.unshift(payment);
+  } else {
+    payment.status = "COMPLETED";
+    payment.paid_at = now;
+    payment.updated_at = now;
+    if (transaction_id) payment.transaction_id = transaction_id;
+  }
+
+  // Automated State Transition: PENDING_PAYMENT -> PAID
+  const prevStatus = order.status;
+  order.status = "PAID";
+  order.timeline.push({
+    from_status: prevStatus,
+    to_status: "PAID",
+    note: `Payment of ฿${order.total_amount.toFixed(2)} automatically verified via ${payment.payment_method} (Ref: ${payment.transaction_id})`,
+    created_at: now
+  });
+
+  // Log system automation event
+  MEMORY_DB.admin_logs.unshift({
+    id: MEMORY_DB.admin_logs.length + 1,
+    admin_name: "SYSTEM_PAYMENT_BOT",
+    action: "AUTOMATED_PAYMENT_VERIFIED",
+    target_type: "order",
+    target_id: order.id,
+    details: { order_number: order.order_number, amount: order.total_amount, transaction_id: payment.transaction_id, provider: payment.provider },
+    ip_address: req.ip || "127.0.0.1",
+    created_at: now
+  });
+
+  res.json({
+    message: "Payment successfully verified and order status transitioned to PAID",
+    order,
+    payment
+  });
+});
+
+// Webhook receiver for automated external payment providers (PromptPay, Stripe, Omise)
+app.post("/api/payments/webhook", (req, res) => {
+  const { event, data } = req.body;
+  // Simulation of webhook verification
+  const orderNumber = data?.order_number || data?.metadata?.order_number;
+  if (!orderNumber) return res.status(400).json({ error: "Missing order reference in webhook payload" });
+
+  const order = MEMORY_DB.orders.find(o => o.order_number === orderNumber);
+  if (!order) return res.status(404).json({ error: "Order not found" });
+
+  if (order.status === "PENDING_PAYMENT" || order.status === "PENDING") {
+    order.status = "PAID";
+    order.timeline.push({
+      from_status: "PENDING_PAYMENT",
+      to_status: "PAID",
+      note: "Webhook notification: Payment confirmed by gateway",
+      created_at: new Date().toISOString()
+    });
+  }
+
+  res.json({ received: true, order_number: orderNumber, status: order.status });
+});
+
+// 7. Admin Endpoints
 app.get("/api/admin/dashboard", auth, adminOnly, (req, res) => {
   const totalRev = MEMORY_DB.orders.filter(o => o.status !== "CANCELLED").reduce((s, o) => s + o.total_amount, 0);
   const lowStock = MEMORY_DB.products.filter(p => p.stock <= 5 && p.is_active).length;
+
+  const countPending = MEMORY_DB.orders.filter(o => o.status === "PENDING_PAYMENT" || o.status === "PENDING").length;
+  const countPaid = MEMORY_DB.orders.filter(o => o.status === "PAID").length;
+  const countProcessing = MEMORY_DB.orders.filter(o => o.status === "PROCESSING").length;
+  const countShipped = MEMORY_DB.orders.filter(o => o.status === "SHIPPED").length;
+  const countDelivered = MEMORY_DB.orders.filter(o => o.status === "DELIVERED").length;
+  const countCancelled = MEMORY_DB.orders.filter(o => o.status === "CANCELLED").length;
+
+  // Orders that require HUMAN administrative attention
+  const ordersRequiringAttention = MEMORY_DB.orders.filter(o => o.status === "PAID" || o.status === "PROCESSING").slice(0, 10);
 
   res.json({
     summary: {
       totalRevenue: totalRev,
       totalOrders: MEMORY_DB.orders.length,
+      pendingPaymentCount: countPending,
+      paidCount: countPaid,
+      processingCount: countProcessing,
+      shippedCount: countShipped,
+      deliveredCount: countDelivered,
+      cancelledCount: countCancelled,
       totalUsers: MEMORY_DB.users.filter(u => u.role === "customer").length,
       totalProducts: MEMORY_DB.products.length,
-      lowStockCount: lowStock
+      lowStockCount: lowStock,
+      attentionRequiredCount: ordersRequiringAttention.length
     },
+    ordersRequiringAttention,
     recentOrders: MEMORY_DB.orders.slice(0, 8),
+    recentLogs: MEMORY_DB.admin_logs.slice(0, 6),
     dbMode: MEMORY_DB.isPgConnected ? "PostgreSQL Connected" : "In-Memory Resilient Store"
   });
 });
@@ -417,7 +591,13 @@ app.get("/api/admin/dashboard", auth, adminOnly, (req, res) => {
 app.get("/api/admin/orders", auth, adminOnly, (req, res) => {
   const { status, search } = req.query;
   let list = [...MEMORY_DB.orders];
-  if (status) list = list.filter(o => o.status === status);
+  if (status && status !== "all") {
+    if (status === "PENDING_PAYMENT") {
+      list = list.filter(o => o.status === "PENDING_PAYMENT" || o.status === "PENDING");
+    } else {
+      list = list.filter(o => o.status === status);
+    }
+  }
   if (search) {
     const s = search.toLowerCase();
     list = list.filter(o => o.order_number.toLowerCase().includes(s) || o.shipping_name.toLowerCase().includes(s));
@@ -430,9 +610,26 @@ app.put("/api/admin/orders/:id/status", auth, adminOnly, (req, res) => {
   if (!o) return res.status(404).json({ error: "Order not found" });
 
   const { status, tracking_number, note } = req.body;
-  const prev = o.status;
+  const currentStatus = o.status;
 
-  if (status === "CANCELLED" && prev !== "CANCELLED") {
+  // Enforce State Machine Transition Rules
+  const allowedNext = VALID_ORDER_TRANSITIONS[currentStatus] || [];
+  if (!allowedNext.includes(status)) {
+    return res.status(400).json({
+      error: `Invalid status transition from ${currentStatus} to ${status}. Allowed transitions: ${allowedNext.join(", ") || "None (Terminal State)"}`
+    });
+  }
+
+  // If transitioning to SHIPPED, validate courier tracking number
+  if (status === "SHIPPED") {
+    if (!tracking_number && !o.tracking_number) {
+      return res.status(400).json({ error: "Courier tracking number is required to mark order as SHIPPED" });
+    }
+    o.tracking_number = tracking_number || o.tracking_number;
+  }
+
+  // If cancelling order, automatically restore product stock
+  if (status === "CANCELLED" && currentStatus !== "CANCELLED") {
     for (const item of o.items) {
       const p = MEMORY_DB.products.find(x => x.id == item.product_id);
       if (p) p.stock += item.quantity;
@@ -440,30 +637,29 @@ app.put("/api/admin/orders/:id/status", auth, adminOnly, (req, res) => {
   }
 
   o.status = status;
-  if (tracking_number) o.tracking_number = tracking_number;
   o.timeline.push({
-    from_status: prev,
+    from_status: currentStatus,
     to_status: status,
-    note: note || `Status updated to ${status}`,
+    note: note || `Admin updated order status to ${status}`,
     created_at: new Date().toISOString()
   });
 
   MEMORY_DB.admin_logs.unshift({
     id: MEMORY_DB.admin_logs.length + 1,
     admin_name: req.user.username,
-    action: "ORDER_STATUS_UPDATE",
+    action: "ORDER_STATUS_TRANSITION",
     target_type: "order",
     target_id: o.id,
-    details: { order_number: o.order_number, from: prev, to: status },
+    details: { order_number: o.order_number, from: currentStatus, to: status, tracking_number: o.tracking_number },
     ip_address: req.ip || "127.0.0.1",
     created_at: new Date().toISOString()
   });
 
-  res.json({ message: "Status updated", order: o });
+  res.json({ message: `Order status successfully updated to ${status}`, order: o });
 });
 
 app.post("/api/admin/products", auth, adminOnly, (req, res) => {
-  const { name, category_id, description, price, stock, image_url } = req.body;
+  const { name, category_id, description, price, stock, image_url, is_active } = req.body;
   if (!name || price === undefined || stock === undefined) return res.status(400).json({ error: "Name, price, and stock required" });
 
   const cat = MEMORY_DB.categories.find(c => c.id == category_id) || MEMORY_DB.categories[0];
@@ -477,7 +673,7 @@ app.post("/api/admin/products", auth, adminOnly, (req, res) => {
     price: parseFloat(price),
     stock: parseInt(stock),
     image_url: image_url || "https://images.unsplash.com/photo-1526738549149-8e07eca6c147?w=600&q=80",
-    is_active: true
+    is_active: is_active !== undefined ? is_active : true
   };
   MEMORY_DB.products.unshift(newP);
   res.status(201).json({ message: "Product created", product: newP });
@@ -516,12 +712,9 @@ app.delete("/api/admin/products/:id", auth, adminOnly, (req, res) => {
   if (idx === -1) return res.status(404).json({ error: "Product not found" });
 
   const p = MEMORY_DB.products[idx];
-  
-  // Check if product is in any existing orders
   const hasOrders = MEMORY_DB.orders.some(o => o.items && o.items.some(i => i.product_id === pid));
 
   if (hasOrders) {
-    // If product has historical orders, deactivate/archive instead of hard deleting to preserve referential integrity
     p.is_active = false;
     MEMORY_DB.admin_logs.unshift({
       id: MEMORY_DB.admin_logs.length + 1,
@@ -533,10 +726,9 @@ app.delete("/api/admin/products/:id", auth, adminOnly, (req, res) => {
       ip_address: req.ip || "127.0.0.1",
       created_at: new Date().toISOString()
     });
-    return res.json({ message: "Product has associated orders. It has been archived and marked inactive.", archived: true, product: p });
+    return res.json({ message: "Product has associated order history. It has been archived and marked inactive.", archived: true, product: p });
   }
 
-  // Safe to permanently delete
   MEMORY_DB.products.splice(idx, 1);
   MEMORY_DB.admin_logs.unshift({
     id: MEMORY_DB.admin_logs.length + 1,
