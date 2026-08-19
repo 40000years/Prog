@@ -1,5 +1,5 @@
 # ============================================================
-# DB Role - Tasks: ติดตั้ง PostgreSQL
+# DB Role - Tasks: Install PostgreSQL
 # ============================================================
 
 - name: Wait for apt locks to be released
@@ -26,7 +26,8 @@
     name:
       - postgresql
       - postgresql-contrib
-      - python3-psycopg2  # จำเป็นสำหรับ Ansible postgresql modules
+      - python3-psycopg2
+      - acl
     state: present
   tags:
     - setup
@@ -69,6 +70,7 @@
   community.postgresql.postgresql_db:
     name: myapp_db
     state: present
+    login_unix_socket: /var/run/postgresql
   tags:
     - setup
     - db
@@ -80,6 +82,7 @@
     name: myapp_user
     password: "{{ db_password | default('SuperSecretPass123!') }}"
     state: present
+    login_unix_socket: /var/run/postgresql
   tags:
     - setup
     - db
@@ -93,6 +96,7 @@
     privs: ALL
     type: database
     state: present
+    login_unix_socket: /var/run/postgresql
   tags:
     - setup
     - db

@@ -1,79 +1,78 @@
 # ============================================================
 # Mega Automation Lab - Master Playbook
 # ============================================================
-# จัดการ Provisioning และ Deployment ทั้งหมดสำหรับ Web & Database
 
 # ------------------------------------------------------------
-# Play 1: ตั้งค่าและปรับแต่ง Database Server (PostgreSQL)
+# Play 1: Configure Database Server (PostgreSQL)
 # ------------------------------------------------------------
-- name: "🗄️ Configure Database Server (PostgreSQL)"
+- name: "Configure Database Server (PostgreSQL)"
   hosts: tag_Role_db
   become: true
   gather_facts: true
 
   pre_tasks:
-    - name: "📢 Announce DB Setup"
+    - name: "Announce DB Setup"
       ansible.builtin.debug:
         msg:
           - "===================================================="
-          - "🚀 Starting Database Server Configuration"
-          - "🌐 Host IP: {{ ansible_default_ipv4.address | default(inventory_hostname) }}"
-          - "💻 OS: {{ ansible_distribution }} {{ ansible_distribution_version }}"
+          - "Starting Database Server Configuration"
+          - "Host IP: {{ ansible_default_ipv4.address | default(inventory_hostname) }}"
+          - "OS: {{ ansible_distribution }} {{ ansible_distribution_version }}"
           - "===================================================="
 
   roles:
     - db
 
   post_tasks:
-    - name: "🔍 Verify PostgreSQL Service is Active"
+    - name: "Verify PostgreSQL Service is Active"
       ansible.builtin.systemd:
         name: postgresql
         state: started
       register: pg_status
 
-    - name: "✅ Check PostgreSQL Port 5432 is Listening"
+    - name: "Check PostgreSQL Port 5432 is Listening"
       ansible.builtin.wait_for:
         port: 5432
         timeout: 10
         msg: "PostgreSQL port 5432 is not open!"
 
-    - name: "🎉 Database Server Ready"
+    - name: "Database Server Ready"
       ansible.builtin.debug:
-        msg: "✅ PostgreSQL Server setup completed and database 'myapp_db' is ready for traffic!"
+        msg: "PostgreSQL Server setup completed and database 'myapp_db' is ready."
 
 # ------------------------------------------------------------
-# Play 2: ตั้งค่าและ Deploy Web Server (Nginx + Node.js + App)
+# Play 2: Configure Web Server & Deploy Application
 # ------------------------------------------------------------
-- name: "🌐 Configure Web Server & Deploy Application"
+- name: "Configure Web Server & Deploy Application"
   hosts: tag_Role_web
   become: true
   gather_facts: true
 
   pre_tasks:
-    - name: "📢 Announce Web Setup"
+    - name: "Announce Web Setup"
       ansible.builtin.debug:
         msg:
           - "===================================================="
-          - "🚀 Starting Web Server & Application Deployment"
-          - "🌐 Host IP: {{ ansible_default_ipv4.address | default(inventory_hostname) }}"
-          - "🗄️ Connected DB Host: {{ db_host | default('127.0.0.1') }}"
+          - "Starting Web Server & Application Deployment"
+          - "Host IP: {{ ansible_default_ipv4.address | default(inventory_hostname) }}"
+          - "Connected DB Host: {{ db_host | default('127.0.0.1') }}"
           - "===================================================="
 
   roles:
     - web
 
   post_tasks:
-    - name: "🔍 Verify Nginx is Running"
+    - name: "Verify Nginx is Running"
       ansible.builtin.systemd:
         name: nginx
         state: started
 
-    - name: "🔍 Verify Node.js Application Service is Running"
+    - name: "Verify Node.js Application Service is Running"
       ansible.builtin.systemd:
         name: myapp
         state: started
 
-    - name: "🏥 Self-Test Application Health Check (Localhost)"
+    - name: "Self-Test Application Health Check (Localhost)"
       ansible.builtin.uri:
         url: "http://127.0.0.1:3000/health"
         status_code: 200
@@ -83,17 +82,17 @@
       delay: 2
       until: health_response.status == 200
 
-    - name: "🏥 Self-Test Nginx Reverse Proxy (Port 80)"
+    - name: "Self-Test Nginx Reverse Proxy (Port 80)"
       ansible.builtin.uri:
         url: "http://127.0.0.1/"
         status_code: [200, 304]
       register: nginx_response
 
-    - name: "🎉 Web Deployment Summary"
+    - name: "Web Deployment Summary"
       ansible.builtin.debug:
         msg:
           - "===================================================="
-          - "🎉 Deployment Successful!"
-          - "🔗 Storefront: http://{{ ansible_default_ipv4.address | default(inventory_hostname) }}"
-          - "🏥 Health Check: {{ health_response.json.status | default('healthy') }}"
+          - "Deployment Successful"
+          - "Storefront: http://{{ ansible_default_ipv4.address | default(inventory_hostname) }}"
+          - "Health Check: {{ health_response.json.status | default('healthy') }}"
           - "===================================================="
