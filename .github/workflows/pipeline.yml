@@ -209,35 +209,6 @@ jobs:
           echo "🔗 Web URL:        http://${WEB_IP}"
           echo "====================================="
 
-      # รอให้ SSH Port 22 บนเครื่อง EC2 พร้อมรับ Connection
-      - name: Wait for SSH to be ready
-        run: |
-          WEB_IP="${{ steps.tf_output.outputs.web_ip }}"
-          echo "🔍 Checking SSH readiness on ${WEB_IP}:22..."
-          for i in {1..20}; do
-            if nc -z -w 3 "$WEB_IP" 22 2>/dev/null; then
-              echo "✅ SSH is ready on ${WEB_IP}!"
-              break
-            fi
-            echo "⏳ Waiting for SSH (attempt $i/20)..."
-            sleep 3
-          done
-
-      # รัน Ansible Playbook เพื่อติดตั้งและ Deploy ทั้งหมด
-      - name: 🚀 Run Ansible Playbook (Full Configuration & Deployment)
-        working-directory: ./ansible
-        run: |
-          echo "===================================================="
-          echo "🚀 Executing Ansible Master Playbook"
-          echo "===================================================="
-          ansible-playbook \
-            -i inventory/aws_ec2.yml \
-            playbook.yml \
-            --private-key /tmp/id_rsa \
-            -u ubuntu \
-            -e "db_host=${{ steps.tf_output.outputs.db_ip }}" \
-            -v
-
       - name: Cleanup SSH Key
         if: always()
         run: rm -f /tmp/id_rsa
