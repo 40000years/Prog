@@ -1,6 +1,16 @@
 # ============================================================
-# Web Role - Tasks: ติดตั้ง Nginx + Node.js + Deploy App
+# Web Role - Tasks: Install Nginx, Node.js, and Deploy App
 # ============================================================
+
+- name: Fix apt sources mirror for reliable regional resolution
+  ansible.builtin.shell: |
+    sed -i -E 's|https?://[^/]+clouds\.ports\.ubuntu\.com/ubuntu-ports/?|http://ports.ubuntu.com/ubuntu-ports/|g' /etc/apt/sources.list /etc/apt/sources.list.d/*.list 2>/dev/null || true
+    echo "nameserver 8.8.8.8" >> /etc/resolv.conf 2>/dev/null || true
+  changed_when: false
+  tags:
+    - setup
+    - nginx
+    - nodejs
 
 - name: Wait for apt locks to be released
   ansible.builtin.shell: |
@@ -16,6 +26,10 @@
   ansible.builtin.apt:
     update_cache: true
     cache_valid_time: 3600
+  register: apt_update_res
+  retries: 5
+  delay: 5
+  until: apt_update_res is success
   tags:
     - setup
 
@@ -27,6 +41,10 @@
       - ca-certificates
       - gnupg
     state: present
+  register: apt_nginx_res
+  retries: 5
+  delay: 5
+  until: apt_nginx_res is success
   tags:
     - setup
     - nginx
@@ -46,6 +64,10 @@
   ansible.builtin.apt:
     name: nodejs
     state: present
+  register: apt_node_res
+  retries: 5
+  delay: 5
+  until: apt_node_res is success
   tags:
     - setup
     - nodejs
