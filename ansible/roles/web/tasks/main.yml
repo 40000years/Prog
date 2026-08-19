@@ -2,44 +2,35 @@
 # Web Role - Tasks: ติดตั้ง Nginx + Node.js + Deploy App
 # ============================================================
 
+- name: Wait for apt locks to be released
+  ansible.builtin.shell: |
+    while fuser /var/lib/dpkg/lock /var/lib/apt/lists/lock /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+      echo "Waiting for apt locks to release..."
+      sleep 3
+    done
+  changed_when: false
+
 - name: Update apt cache
   ansible.builtin.apt:
     update_cache: true
     cache_valid_time: 3600
 
-- name: Install Nginx
-  ansible.builtin.apt:
-    name: nginx
-    state: present
-
-- name: Install Node.js prerequisites
+- name: Install Nginx and prerequisites
   ansible.builtin.apt:
     name:
+      - nginx
       - curl
       - ca-certificates
       - gnupg
     state: present
 
-- name: Add NodeSource GPG key
+- name: Setup NodeSource repository (Node.js 20 LTS)
   ansible.builtin.shell: |
     set -o pipefail
-    mkdir -p /etc/apt/keyrings
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-  args:
-    executable: /bin/bash
-    creates: /etc/apt/keyrings/nodesource.gpg
-
-- name: Add NodeSource repository (Node.js 20 LTS)
-  ansible.builtin.shell: |
-    set -o pipefail
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
   args:
     executable: /bin/bash
     creates: /etc/apt/sources.list.d/nodesource.list
-
-- name: Update apt cache after adding NodeSource
-  ansible.builtin.apt:
-    update_cache: true
 
 - name: Install Node.js
   ansible.builtin.apt:

@@ -2,6 +2,14 @@
 # DB Role - Tasks: ติดตั้ง PostgreSQL
 # ============================================================
 
+- name: Wait for apt locks to be released
+  ansible.builtin.shell: |
+    while fuser /var/lib/dpkg/lock /var/lib/apt/lists/lock /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+      echo "Waiting for apt locks to release..."
+      sleep 3
+    done
+  changed_when: false
+
 - name: Update apt cache
   ansible.builtin.apt:
     update_cache: true
