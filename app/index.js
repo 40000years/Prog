@@ -47,6 +47,15 @@ const VALID_ORDER_TRANSITIONS = {
 };
 
 // ============================================================
+// Promo Code System
+// ============================================================
+const PROMO_CODES = [
+  { code: "MEGA10", type: "percent", value: 10, min_spend: 0, description: "10% off entire hardware order" },
+  { code: "CLOUD500", type: "fixed", value: 500, min_spend: 3000, description: "฿500 off on orders over ฿3,000" },
+  { code: "FREESHIP", type: "fixed", value: 150, min_spend: 500, description: "Free express air courier discount" }
+];
+
+// ============================================================
 // In-Memory Storage & Initial Seed State
 // ============================================================
 const SEED_CATEGORIES = [
@@ -64,6 +73,8 @@ const SEED_PRODUCTS = [
     description: "Augmented Reality Smart Glasses with 4K Micro-OLED and Night Vision telemetry.",
     price: 18900.00,
     stock: 15,
+    rating: 4.9,
+    review_count: 14,
     image_url: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&q=80",
     is_active: true,
     category_name: "Smart Hardware",
@@ -76,6 +87,8 @@ const SEED_PRODUCTS = [
     description: "Gasket mount, wireless 2.4G/BT, Hot-swappable tactile RGB with transparent chassis.",
     price: 4590.00,
     stock: 28,
+    rating: 4.8,
+    review_count: 29,
     image_url: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&q=80",
     is_active: true,
     category_name: "Smart Hardware",
@@ -88,6 +101,8 @@ const SEED_PRODUCTS = [
     description: "Dedicated ARM64 mini edge cluster, 8-core CPU, 32GB LPDDR5, dual 10GbE SFP+ ports.",
     price: 24500.00,
     stock: 8,
+    rating: 5.0,
+    review_count: 8,
     image_url: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80",
     is_active: true,
     category_name: "Cloud & Servers",
@@ -100,6 +115,8 @@ const SEED_PRODUCTS = [
     description: "FIDO2 / U2F Hardware key with encrypted biometrics for zero-trust cloud infrastructure.",
     price: 2190.00,
     stock: 50,
+    rating: 4.9,
+    review_count: 42,
     image_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80",
     is_active: true,
     category_name: "Cloud & Servers",
@@ -112,6 +129,8 @@ const SEED_PRODUCTS = [
     description: "38-inch 144Hz IPS Nano 3840x1600, 98% DCI-P3 color gamut, USB-C 90W PD.",
     price: 32900.00,
     stock: 12,
+    rating: 4.7,
+    review_count: 19,
     image_url: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&q=80",
     is_active: true,
     category_name: "Developer Gear",
@@ -124,11 +143,19 @@ const SEED_PRODUCTS = [
     description: "Neural Compute Module with 8 TOPS AI acceleration, global shutter stereoscopic camera.",
     price: 8900.00,
     stock: 20,
+    rating: 4.8,
+    review_count: 11,
     image_url: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&q=80",
     is_active: true,
     category_name: "AI & Neural Kits",
     category_slug: "ai"
   }
+];
+
+const SEED_REVIEWS = [
+  { id: 1, product_id: 2, username: "Somchai Jaidee", rating: 5, comment: "Solid build quality! Gasket mount feels exceptionally smooth for coding sessions.", created_at: new Date(Date.now() - 86400000).toISOString() },
+  { id: 2, product_id: 3, username: "Cloud Architect", rating: 5, comment: "Low power draw (under 15W idle) and performs brilliantly as an edge Kubernetes worker node.", created_at: new Date(Date.now() - 172800000).toISOString() },
+  { id: 3, product_id: 4, username: "Security Lead", rating: 5, comment: "Seamless FIDO2 authentication on Linux and AWS IAM identity center.", created_at: new Date(Date.now() - 259200000).toISOString() }
 ];
 
 const MEMORY_DB = {
@@ -159,12 +186,16 @@ const MEMORY_DB = {
   ],
   categories: [...SEED_CATEGORIES],
   products: [...SEED_PRODUCTS],
+  reviews: [...SEED_REVIEWS],
   orders: [
     {
       id: 1,
       order_number: "ORD-20260818-INIT",
       user_id: 2,
       username: "demo_user",
+      subtotal_amount: 4590.00,
+      discount_amount: 0.00,
+      promo_code: null,
       total_amount: 4590.00,
       status: "SHIPPED",
       shipping_name: "Somchai Jaidee",
@@ -237,9 +268,10 @@ async function tryInitPostgres() {
       CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username VARCHAR(50) UNIQUE NOT NULL, email VARCHAR(100) UNIQUE NOT NULL, password_hash VARCHAR(255) NOT NULL, role VARCHAR(20) DEFAULT 'customer', full_name VARCHAR(100), phone VARCHAR(20), address TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW());
       CREATE TABLE IF NOT EXISTS categories (id SERIAL PRIMARY KEY, name VARCHAR(100) NOT NULL, slug VARCHAR(100) UNIQUE NOT NULL);
       CREATE TABLE IF NOT EXISTS products (id SERIAL PRIMARY KEY, category_id INT REFERENCES categories(id) ON DELETE SET NULL, name VARCHAR(255) NOT NULL, description TEXT, price NUMERIC(10,2) NOT NULL CHECK (price >= 0), stock INT NOT NULL DEFAULT 0 CHECK (stock >= 0), image_url TEXT, is_active BOOLEAN DEFAULT TRUE, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW());
-      CREATE TABLE IF NOT EXISTS orders (id SERIAL PRIMARY KEY, order_number VARCHAR(32) UNIQUE NOT NULL, user_id INT REFERENCES users(id) ON DELETE RESTRICT, total_amount NUMERIC(10,2) NOT NULL, status VARCHAR(30) DEFAULT 'PENDING_PAYMENT', shipping_name VARCHAR(100) NOT NULL, shipping_phone VARCHAR(20) NOT NULL, shipping_address TEXT NOT NULL, tracking_number VARCHAR(100), payment_method VARCHAR(50), note TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW());
+      CREATE TABLE IF NOT EXISTS orders (id SERIAL PRIMARY KEY, order_number VARCHAR(32) UNIQUE NOT NULL, user_id INT REFERENCES users(id) ON DELETE RESTRICT, subtotal_amount NUMERIC(10,2), discount_amount NUMERIC(10,2) DEFAULT 0, promo_code VARCHAR(50), total_amount NUMERIC(10,2) NOT NULL, status VARCHAR(30) DEFAULT 'PENDING_PAYMENT', shipping_name VARCHAR(100) NOT NULL, shipping_phone VARCHAR(20) NOT NULL, shipping_address TEXT NOT NULL, tracking_number VARCHAR(100), payment_method VARCHAR(50), note TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW());
       CREATE TABLE IF NOT EXISTS payments (id SERIAL PRIMARY KEY, order_id INT REFERENCES orders(id) ON DELETE CASCADE, provider VARCHAR(50) NOT NULL DEFAULT 'SYSTEM', transaction_id VARCHAR(100) UNIQUE NOT NULL, amount NUMERIC(10,2) NOT NULL, payment_method VARCHAR(50) NOT NULL, status VARCHAR(30) NOT NULL DEFAULT 'PENDING', paid_at TIMESTAMPTZ, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW());
       CREATE TABLE IF NOT EXISTS order_items (id SERIAL PRIMARY KEY, order_id INT REFERENCES orders(id) ON DELETE CASCADE, product_id INT REFERENCES products(id) ON DELETE RESTRICT, product_name VARCHAR(255) NOT NULL, unit_price NUMERIC(10,2) NOT NULL, quantity INT NOT NULL CHECK (quantity > 0), subtotal NUMERIC(10,2) NOT NULL);
+      CREATE TABLE IF NOT EXISTS reviews (id SERIAL PRIMARY KEY, product_id INT REFERENCES products(id) ON DELETE CASCADE, username VARCHAR(50) NOT NULL, rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5), comment TEXT, created_at TIMESTAMPTZ DEFAULT NOW());
       CREATE TABLE IF NOT EXISTS order_status_logs (id SERIAL PRIMARY KEY, order_id INT REFERENCES orders(id) ON DELETE CASCADE, from_status VARCHAR(30), to_status VARCHAR(30) NOT NULL, changed_by INT REFERENCES users(id), note TEXT, created_at TIMESTAMPTZ DEFAULT NOW());
       CREATE TABLE IF NOT EXISTS admin_audit_logs (id SERIAL PRIMARY KEY, admin_id INT REFERENCES users(id), action VARCHAR(100) NOT NULL, target_type VARCHAR(50), target_id INT, details JSONB, ip_address VARCHAR(45), created_at TIMESTAMPTZ DEFAULT NOW());
     `);
@@ -258,7 +290,7 @@ tryInitPostgres();
 // ============================================================
 function auth(req, res, next) {
   const token = (req.headers["authorization"] || "").replace("Bearer ", "");
-  if (!token) return res.status(401).json({ error: "Token required" });
+  if (!token) return res.status(401).json({ error: "Authentication token required" });
   try {
     req.user = jwt.verify(token, JWT_SECRET);
     next();
@@ -284,7 +316,7 @@ app.get("/health", (req, res) => {
     hostname: os.hostname(),
     uptime: process.uptime(),
     db_mode: MEMORY_DB.isPgConnected ? "postgresql" : "in-memory-active",
-    features: ["dark-mode", "state-machine", "automated-payments", "responsive-tables"]
+    features: ["dark-mode", "state-machine", "automated-payments", "my-orders", "promo-engine", "shipping-labels"]
   });
 });
 
@@ -314,7 +346,7 @@ app.post("/api/auth/login", (req, res) => {
   res.json({
     message: "Login successful",
     token,
-    user: { id: user.id, username: user.username, email: user.email, role: user.role, full_name: user.full_name }
+    user: { id: user.id, username: user.username, email: user.email, role: user.role, full_name: user.full_name, phone: user.phone, address: user.address }
   });
 });
 
@@ -332,7 +364,7 @@ app.post("/api/auth/register", (req, res) => {
     email: email.trim(),
     password_hash: bcrypt.hashSync(password, 10),
     role: "customer",
-    full_name: full_name || "Customer",
+    full_name: full_name || "Valued Customer",
     phone: phone || "",
     address: address || "",
     created_at: new Date().toISOString()
@@ -343,7 +375,65 @@ app.post("/api/auth/register", (req, res) => {
   res.status(201).json({ message: "Registration successful", token, user: newUser });
 });
 
-// 4. Products & Categories
+// 4. Customer Portal & Profile
+app.get("/api/customer/profile", auth, (req, res) => {
+  const user = MEMORY_DB.users.find(u => u.id === req.user.id);
+  if (!user) return res.status(404).json({ error: "User not found" });
+  res.json({ user: { id: user.id, username: user.username, email: user.email, full_name: user.full_name, phone: user.phone, address: user.address } });
+});
+
+app.put("/api/customer/profile", auth, (req, res) => {
+  const user = MEMORY_DB.users.find(u => u.id === req.user.id);
+  if (!user) return res.status(404).json({ error: "User not found" });
+
+  const { full_name, phone, address } = req.body;
+  if (full_name !== undefined) user.full_name = full_name;
+  if (phone !== undefined) user.phone = phone;
+  if (address !== undefined) user.address = address;
+
+  res.json({ message: "Profile updated successfully", user: { id: user.id, username: user.username, email: user.email, full_name: user.full_name, phone: user.phone, address: user.address } });
+});
+
+app.get("/api/customer/orders", auth, (req, res) => {
+  const userOrders = MEMORY_DB.orders.filter(o => o.user_id === req.user.id || o.username === req.user.username);
+  res.json({ orders: userOrders });
+});
+
+// 5. Promo Codes
+app.post("/api/promo/validate", (req, res) => {
+  const { code, cart_total } = req.body;
+  if (!code) return res.status(400).json({ error: "Promo code required" });
+
+  const total = parseFloat(cart_total) || 0;
+  const promo = PROMO_CODES.find(p => p.code.toUpperCase() === code.trim().toUpperCase());
+
+  if (!promo) {
+    return res.status(404).json({ error: "Invalid discount code" });
+  }
+
+  if (total < promo.min_spend) {
+    return res.status(400).json({ error: `Minimum spend of ฿${promo.min_spend.toLocaleString()} required for this voucher` });
+  }
+
+  let discount = 0;
+  if (promo.type === "percent") {
+    discount = (total * promo.value) / 100;
+  } else {
+    discount = promo.value;
+  }
+
+  discount = Math.min(discount, total);
+
+  res.json({
+    valid: true,
+    code: promo.code,
+    discount_amount: discount,
+    description: promo.description,
+    new_total: Math.max(0, total - discount)
+  });
+});
+
+// 6. Products & Reviews
 app.get("/api/categories", (req, res) => {
   res.json({ categories: MEMORY_DB.categories });
 });
@@ -368,13 +458,47 @@ app.get("/api/products/:id", (req, res) => {
   res.json({ product: p });
 });
 
-// 5. Orders & Checkout
+app.get("/api/products/:id/reviews", (req, res) => {
+  const pid = parseInt(req.params.id);
+  const reviews = MEMORY_DB.reviews.filter(r => r.product_id === pid);
+  res.json({ reviews });
+});
+
+app.post("/api/products/:id/reviews", auth, (req, res) => {
+  const pid = parseInt(req.params.id);
+  const p = MEMORY_DB.products.find(x => x.id === pid);
+  if (!p) return res.status(404).json({ error: "Product not found" });
+
+  const { rating, comment } = req.body;
+  const numRating = parseInt(rating) || 5;
+
+  const newReview = {
+    id: MEMORY_DB.reviews.length + 1,
+    product_id: pid,
+    username: req.user.username || "Customer",
+    rating: Math.max(1, Math.min(5, numRating)),
+    comment: comment || "",
+    created_at: new Date().toISOString()
+  };
+
+  MEMORY_DB.reviews.unshift(newReview);
+
+  // Recalculate average rating
+  const pReviews = MEMORY_DB.reviews.filter(r => r.product_id === pid);
+  const avg = pReviews.reduce((sum, r) => sum + r.rating, 0) / pReviews.length;
+  p.rating = parseFloat(avg.toFixed(1));
+  p.review_count = pReviews.length;
+
+  res.status(201).json({ message: "Review submitted successfully", review: newReview, rating: p.rating, review_count: p.review_count });
+});
+
+// 7. Orders & Checkout
 app.post("/api/orders", auth, (req, res) => {
-  const { items, shipping_name, shipping_phone, shipping_address, payment_method, note } = req.body;
+  const { items, shipping_name, shipping_phone, shipping_address, payment_method, promo_code, note } = req.body;
   if (!items || !items.length) return res.status(400).json({ error: "Cart is empty" });
   if (!shipping_name || !shipping_phone || !shipping_address) return res.status(400).json({ error: "Shipping details required" });
 
-  let total = 0;
+  let subtotal = 0;
   const verifiedItems = [];
 
   for (const item of items) {
@@ -386,7 +510,7 @@ app.post("/api/orders", auth, (req, res) => {
 
     p.stock -= qty;
     const sub = p.price * qty;
-    total += sub;
+    subtotal += sub;
     verifiedItems.push({
       product_id: p.id,
       product_name: p.name,
@@ -396,6 +520,19 @@ app.post("/api/orders", auth, (req, res) => {
     });
   }
 
+  // Calculate discount if promo code was provided
+  let discount = 0;
+  let appliedCode = null;
+  if (promo_code) {
+    const promo = PROMO_CODES.find(p => p.code.toUpperCase() === promo_code.trim().toUpperCase());
+    if (promo && subtotal >= promo.min_spend) {
+      discount = promo.type === "percent" ? (subtotal * promo.value) / 100 : promo.value;
+      discount = Math.min(discount, subtotal);
+      appliedCode = promo.code;
+    }
+  }
+
+  const finalTotal = Math.max(0, subtotal - discount);
   const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
   const rand = Math.random().toString(16).substring(2, 6).toUpperCase();
   const orderNumber = `ORD-${dateStr}-${rand}`;
@@ -406,7 +543,10 @@ app.post("/api/orders", auth, (req, res) => {
     order_number: orderNumber,
     user_id: req.user.id,
     username: req.user.username,
-    total_amount: total,
+    subtotal_amount: subtotal,
+    discount_amount: discount,
+    promo_code: appliedCode,
+    total_amount: finalTotal,
     status: "PENDING_PAYMENT",
     shipping_name,
     shipping_phone,
@@ -415,6 +555,7 @@ app.post("/api/orders", auth, (req, res) => {
     tracking_number: null,
     note: note || "",
     created_at: new Date().toISOString(),
+    expires_at: new Date(Date.now() + 1800000).toISOString(), // 30 mins expiry
     items: verifiedItems,
     timeline: [
       { from_status: null, to_status: "PENDING_PAYMENT", note: "Order placed. Awaiting customer payment confirmation.", created_at: new Date().toISOString() }
@@ -430,7 +571,7 @@ app.post("/api/orders", auth, (req, res) => {
     order_number: newOrder.order_number,
     provider: selectedMethod.includes("PromptPay") ? "PROMPTPAY" : (selectedMethod.includes("Card") ? "STRIPE" : "COD"),
     transaction_id: `TXN-${dateStr}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
-    amount: total,
+    amount: finalTotal,
     payment_method: selectedMethod,
     status: "PENDING",
     paid_at: null,
@@ -440,7 +581,7 @@ app.post("/api/orders", auth, (req, res) => {
   MEMORY_DB.payments.unshift(newPayment);
 
   res.status(201).json({
-    message: "Order created. Please proceed with payment verification.",
+    message: "Order created successfully. Please proceed with payment verification.",
     order: newOrder,
     payment: newPayment
   });
@@ -455,7 +596,37 @@ app.get("/api/orders/:id", (req, res) => {
   res.json({ order: o, payment: p || null });
 });
 
-// 6. Automated Payment Verification Endpoints
+// Printable Invoice / Tax Receipt Data
+app.get("/api/orders/:id/invoice", (req, res) => {
+  const query = req.params.id.trim();
+  const o = MEMORY_DB.orders.find(x => x.order_number === query || x.id == query);
+  if (!o) return res.status(404).json({ error: "Order not found" });
+
+  const p = MEMORY_DB.payments.find(x => x.order_id === o.id);
+  const vatAmount = (o.total_amount * 7) / 107;
+  const netAmount = o.total_amount - vatAmount;
+
+  res.json({
+    company: {
+      name: "Mega Store Technology Co., Ltd.",
+      branch: "Head Office (Cloud Operations Hub)",
+      tax_id: "0105569000123",
+      address: "88 Mega Tower, Sukhumvit Road, Bangkok 10110, Thailand",
+      contact: "support@megastore.cloud"
+    },
+    order: o,
+    payment: p || null,
+    financials: {
+      subtotal: o.subtotal_amount || o.total_amount,
+      discount: o.discount_amount || 0,
+      net_before_vat: parseFloat(netAmount.toFixed(2)),
+      vat_amount: parseFloat(vatAmount.toFixed(2)),
+      total_amount: o.total_amount
+    }
+  });
+});
+
+// 8. Automated Payment Verification Endpoints
 app.post("/api/payments/verify", (req, res) => {
   const { order_number, order_id, transaction_id, provider } = req.body;
   if (!order_number && !order_id) return res.status(400).json({ error: "Order reference required" });
@@ -528,10 +699,9 @@ app.post("/api/payments/verify", (req, res) => {
   });
 });
 
-// Webhook receiver for automated external payment providers (PromptPay, Stripe, Omise)
+// Webhook receiver
 app.post("/api/payments/webhook", (req, res) => {
   const { event, data } = req.body;
-  // Simulation of webhook verification
   const orderNumber = data?.order_number || data?.metadata?.order_number;
   if (!orderNumber) return res.status(400).json({ error: "Missing order reference in webhook payload" });
 
@@ -551,7 +721,7 @@ app.post("/api/payments/webhook", (req, res) => {
   res.json({ received: true, order_number: orderNumber, status: order.status });
 });
 
-// 7. Admin Endpoints
+// 9. Admin Endpoints
 app.get("/api/admin/dashboard", auth, adminOnly, (req, res) => {
   const totalRev = MEMORY_DB.orders.filter(o => o.status !== "CANCELLED").reduce((s, o) => s + o.total_amount, 0);
   const lowStock = MEMORY_DB.products.filter(p => p.stock <= 5 && p.is_active).length;
@@ -565,6 +735,21 @@ app.get("/api/admin/dashboard", auth, adminOnly, (req, res) => {
 
   // Orders that require HUMAN administrative attention
   const ordersRequiringAttention = MEMORY_DB.orders.filter(o => o.status === "PAID" || o.status === "PROCESSING").slice(0, 10);
+
+  // Top selling products computation
+  const itemSales = {};
+  MEMORY_DB.orders.forEach(o => {
+    if (o.status !== "CANCELLED" && o.items) {
+      o.items.forEach(i => {
+        if (!itemSales[i.product_id]) {
+          itemSales[i.product_id] = { product_id: i.product_id, name: i.product_name, units: 0, revenue: 0 };
+        }
+        itemSales[i.product_id].units += i.quantity;
+        itemSales[i.product_id].revenue += i.subtotal || (i.unit_price * i.quantity);
+      });
+    }
+  });
+  const topProducts = Object.values(itemSales).sort((a, b) => b.revenue - a.revenue).slice(0, 5);
 
   res.json({
     summary: {
@@ -581,11 +766,35 @@ app.get("/api/admin/dashboard", auth, adminOnly, (req, res) => {
       lowStockCount: lowStock,
       attentionRequiredCount: ordersRequiringAttention.length
     },
+    topProducts,
     ordersRequiringAttention,
     recentOrders: MEMORY_DB.orders.slice(0, 8),
     recentLogs: MEMORY_DB.admin_logs.slice(0, 6),
     dbMode: MEMORY_DB.isPgConnected ? "PostgreSQL Connected" : "In-Memory Resilient Store"
   });
+});
+
+app.get("/api/admin/customers", auth, adminOnly, (req, res) => {
+  const customers = MEMORY_DB.users.filter(u => u.role === "customer").map(u => {
+    const userOrders = MEMORY_DB.orders.filter(o => o.user_id === u.id || o.username === u.username);
+    const spent = userOrders.filter(o => o.status !== "CANCELLED").reduce((s, o) => s + o.total_amount, 0);
+    const lastOrder = userOrders.length > 0 ? userOrders[0].created_at : null;
+
+    return {
+      id: u.id,
+      username: u.username,
+      email: u.email,
+      full_name: u.full_name,
+      phone: u.phone,
+      address: u.address,
+      order_count: userOrders.length,
+      total_spent: spent,
+      last_order_at: lastOrder,
+      created_at: u.created_at
+    };
+  });
+
+  res.json({ customers });
 });
 
 app.get("/api/admin/orders", auth, adminOnly, (req, res) => {
@@ -672,6 +881,8 @@ app.post("/api/admin/products", auth, adminOnly, (req, res) => {
     description: description || "",
     price: parseFloat(price),
     stock: parseInt(stock),
+    rating: 5.0,
+    review_count: 0,
     image_url: image_url || "https://images.unsplash.com/photo-1526738549149-8e07eca6c147?w=600&q=80",
     is_active: is_active !== undefined ? is_active : true
   };
@@ -748,7 +959,7 @@ app.get("/api/admin/logs", auth, adminOnly, (req, res) => {
   res.json({ logs: MEMORY_DB.admin_logs });
 });
 
-// SPA Route fallback to index.html for client-side routing (/admin, /admin/login, /track, etc.)
+// SPA Route fallback to index.html for client-side routing
 app.get("*", (req, res, next) => {
   if (req.path.startsWith("/api") || req.path.startsWith("/health")) return next();
   const indexPath = path.join(__dirname, "public", "index.html");
