@@ -40,6 +40,7 @@
       - postgresql
       - postgresql-contrib
       - python3-psycopg2
+      - acl
     state: present
     force_apt_get: true
   register: apt_install_res
@@ -83,37 +84,34 @@
 
 - name: Create application database
   become: true
+  become_user: postgres
   community.postgresql.postgresql_db:
     name: myapp_db
     state: present
-    login_user: postgres
-    login_unix_socket: /var/run/postgresql
   tags:
     - setup
     - db
 
 - name: Create application database user
   become: true
+  become_user: postgres
   community.postgresql.postgresql_user:
     name: myapp_user
     password: "{{ db_password | default('SuperSecretPass123!') }}"
     state: present
-    login_user: postgres
-    login_unix_socket: /var/run/postgresql
   tags:
     - setup
     - db
 
 - name: Grant privileges to application database user
   become: true
+  become_user: postgres
   community.postgresql.postgresql_privs:
     db: myapp_db
     role: myapp_user
     privs: ALL
     type: database
     state: present
-    login_user: postgres
-    login_unix_socket: /var/run/postgresql
   tags:
     - setup
     - db

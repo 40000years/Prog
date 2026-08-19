@@ -235,7 +235,7 @@ jobs:
 
           DB_IP="${{ steps.tf_output.outputs.db_ip }}"
 
-          ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
+          ANSIBLE_CONFIG="../ansible/ansible.cfg" ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
             -i /tmp/inventory.json \
             ../ansible/playbook.yml \
             --private-key /tmp/id_rsa \
