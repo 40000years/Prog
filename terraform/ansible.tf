@@ -1,6 +1,4 @@
-# ============================================================
-# Ansible Action Configuration (Terraform Action Block)
-# ============================================================
+
 
 action "ansible_playbook_run" "ansible" {
   config {
