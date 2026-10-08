@@ -9,6 +9,7 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  workflow_dispatch:
 
 env:
   TF_VAR_aws_region: "ap-southeast-7"
