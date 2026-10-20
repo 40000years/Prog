@@ -10,7 +10,7 @@ locals {
   # t4g/m6g/c6g = Graviton ARM64, others = amd64
   is_graviton  = startswith(var.instance_type, "t4g") || startswith(var.instance_type, "m6g") || startswith(var.instance_type, "c6g")
   arch         = local.is_graviton ? "arm64" : "amd64"
-   ssm_ami_path = "/aws/service/canonical/ubuntu/server/26.04/stable/current/${local.arch}/hvm/ebs-gp3/ami-id"
+  ssm_ami_path = "/aws/service/canonical/ubuntu/server/26.04/stable/current/${local.arch}/hvm/ebs-gp3/ami-id"
 }
 
 data "aws_ssm_parameter" "ubuntu" {
