@@ -4,11 +4,11 @@ export type GemGear="weapon"|"bow"|"armor"|"shield"|"tool"|"staff";
 export const gemEffects:Record<string,Record<GemGear,{stat:string;base:number;percent:boolean}>>=defaults.effects;
 export const upgradeCosts=defaults.upgrade;
 export const forgeGrades = [
-  {id:"common",name:"ธรรมดา",en:"COMMON",color:"#b8b5ad",material:"เศษเหล็กหลอม",slots:"0 ช่อง",guaranteed:0,possible:0,materials:2,levels:3},
-  {id:"good",name:"ดี",en:"UNCOMMON",color:"#86ce94",material:"ผลึกใบหยก",slots:"0–1 ช่อง",guaranteed:0,possible:1,materials:2,levels:6},
-  {id:"rare",name:"หายาก",en:"RARE",color:"#81bff3",material:"ชิ้นคริสตัลคราม",slots:"1 ช่อง",guaranteed:1,possible:0,materials:3,levels:10},
-  {id:"epic",name:"มหากาพย์",en:"EPIC",color:"#c5a0ef",material:"เกล็ดอาคมม่วง",slots:"1–2 ช่อง",guaranteed:1,possible:1,materials:3,levels:15},
-  {id:"legendary",name:"ปรัมปรา",en:"MYTHIC",color:"#f7b163",material:"อำพันหลอมเทพ",slots:"2–3 ช่อง",guaranteed:2,possible:1,materials:4,levels:25},
+  {id:"common",name:"Worn",en:"เดิม: ธรรมดา",color:"#b8b5ad",material:"เศษเหล็กหลอม",slots:"0 ช่อง",guaranteed:0,possible:0,materials:2,levels:3},
+  {id:"good",name:"Tempered",en:"เดิม: ดี",color:"#86ce94",material:"ผลึกใบหยก",slots:"0–1 ช่อง",guaranteed:0,possible:1,materials:2,levels:6},
+  {id:"rare",name:"Arcane",en:"เดิม: หายาก",color:"#81bff3",material:"ชิ้นคริสตัลคราม",slots:"1 ช่อง",guaranteed:1,possible:0,materials:3,levels:10},
+  {id:"epic",name:"Exalted",en:"เดิม: มหากาพย์",color:"#c5a0ef",material:"เกล็ดอาคมม่วง",slots:"1–2 ช่อง",guaranteed:1,possible:1,materials:3,levels:15},
+  {id:"legendary",name:"Divine",en:"เดิม: ปรัมปรา",color:"#f7b163",material:"อำพันหลอมเทพ",slots:"2–3 ช่อง",guaranteed:2,possible:1,materials:4,levels:25},
 ];
 export const forgeGems = [
   {id:"fire",name:"เพลิง",color:"#fa9b65",symbol:"✦"},

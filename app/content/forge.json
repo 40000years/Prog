@@ -1,22 +1,22 @@
 {
   "source": {
-    "release": "0.6.0",
-    "releaseUrl": "https://github.com/40000years/Evergarden2/releases/tag/evergarden-forge-v0.6.0",
-    "commit": "4c12523bc594",
-    "checked": "2026-11-04",
-    "scope": "Default config and released source, not the live server config"
+    "release": "0.7.1",
+    "releaseUrl": "https://github.com/40000years/Evergarden2/releases/tag/resources-e2.195-am1.40.0",
+    "commit": "",
+    "checked": "2026-11-06",
+    "scope": "Released 0.7.1 JAR (GemType checked in the class file) and default config, not the live server config"
   },
   "effects": {
     "fire": {
       "weapon": {
         "stat": "ดาเมจโจมตี",
         "percent": false,
-        "base": 0.5
+        "base": 0.75
       },
       "bow": {
         "stat": "ดาเมจลูกธนู",
         "percent": true,
-        "base": 0.04
+        "base": 0.06
       },
       "armor": {
         "stat": "ระยะเวลาติดไฟ",
@@ -36,7 +36,7 @@
       "staff": {
         "stat": "พลังธาตุไฟ",
         "percent": true,
-        "base": 0.03
+        "base": 0.05
       }
     },
     "water": {
@@ -48,7 +48,7 @@
       "bow": {
         "stat": "ดาเมจลูกธนู",
         "percent": true,
-        "base": 0.03
+        "base": 0.045
       },
       "armor": {
         "stat": "ความคล่องในน้ำ",
@@ -68,7 +68,7 @@
       "staff": {
         "stat": "พลังธาตุน้ำและน้ำแข็ง",
         "percent": true,
-        "base": 0.03
+        "base": 0.05
       }
     },
     "wind": {
@@ -100,7 +100,7 @@
       "staff": {
         "stat": "พลังธาตุลม",
         "percent": true,
-        "base": 0.03
+        "base": 0.05
       }
     },
     "earth": {
@@ -112,17 +112,17 @@
       "bow": {
         "stat": "พลังชีวิตสูงสุด",
         "percent": false,
-        "base": 0.4
+        "base": 0.6
       },
       "armor": {
         "stat": "เกราะ",
         "percent": false,
-        "base": 0.4
+        "base": 0.6
       },
       "shield": {
         "stat": "ความแกร่งเกราะ",
         "percent": false,
-        "base": 0.5
+        "base": 0.7
       },
       "tool": {
         "stat": "ประสิทธิภาพการขุด",
@@ -132,7 +132,7 @@
       "staff": {
         "stat": "พลังธาตุดิน",
         "percent": true,
-        "base": 0.03
+        "base": 0.05
       }
     },
     "lightning": {
@@ -164,7 +164,7 @@
       "staff": {
         "stat": "พลังธาตุสายฟ้า",
         "percent": true,
-        "base": 0.03
+        "base": 0.05
       }
     },
     "light": {
@@ -186,7 +186,7 @@
       "shield": {
         "stat": "เกราะ",
         "percent": false,
-        "base": 0.5
+        "base": 0.75
       },
       "tool": {
         "stat": "โชค",
@@ -196,24 +196,24 @@
       "staff": {
         "stat": "พลังธาตุแสง",
         "percent": true,
-        "base": 0.03
+        "base": 0.05
       }
     },
     "dark": {
       "weapon": {
         "stat": "ดาเมจโจมตี",
         "percent": true,
-        "base": 0.025
+        "base": 0.04
       },
       "bow": {
         "stat": "ดาเมจลูกธนู",
         "percent": true,
-        "base": 0.05
+        "base": 0.075
       },
       "armor": {
         "stat": "ความแกร่งเกราะ",
         "percent": false,
-        "base": 0.3
+        "base": 0.45
       },
       "shield": {
         "stat": "ต้านแรงกระเด็นจากระเบิด",
@@ -228,29 +228,29 @@
       "staff": {
         "stat": "พลังธาตุมืด",
         "percent": true,
-        "base": 0.03
+        "base": 0.05
       }
     },
     "life": {
       "weapon": {
         "stat": "พลังชีวิตสูงสุด",
         "percent": false,
-        "base": 0.5
+        "base": 0.75
       },
       "bow": {
         "stat": "พลังชีวิตสูงสุด",
         "percent": false,
-        "base": 0.5
+        "base": 0.75
       },
       "armor": {
         "stat": "พลังชีวิตสูงสุด",
         "percent": false,
-        "base": 0.6
+        "base": 1.0
       },
       "shield": {
         "stat": "พลังชีวิตสูงสุด",
         "percent": false,
-        "base": 0.8
+        "base": 1.2
       },
       "tool": {
         "stat": "พลังชีวิตสูงสุด",
@@ -260,7 +260,7 @@
       "staff": {
         "stat": "พลังรักษา",
         "percent": true,
-        "base": 0.03
+        "base": 0.05
       }
     }
   },
