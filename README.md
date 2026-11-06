@@ -23,7 +23,7 @@ SITE_STATIC_EXPORT=1 npm run build
 
 ## Deploy
 
-GitHub Actions ใช้ `terraform-wiki/` สำหรับ AWS account `858039354188` โดยมี EC2 เว็บหนึ่งเครื่องและ state bucket แยกจากระบบเดิม ตัว pipeline ตรวจ account ID ก่อน deploy และต้องตั้ง GitHub Secrets ของบัญชีเป้าหมายให้ถูกต้อง GitHub Actions จะ build และตรวจ wiki เมื่อมีการแก้ไข จากนั้นเมื่อ push ไป `main` หรือ `master` จะ build อีกครั้งใน job deploy, รัน Terraform และ Ansible แล้วตรวจหน้าแรกกับหน้าคู่มือ AWS credentials และ SSH key ยังคงใช้ GitHub Secrets เดิม การรัน Ansible ด้วยตัวเองต้อง build `app/out/` ก่อนและมี rsync บนเครื่องที่รัน Ansible
+GitHub Actions ใช้ `terraform-wiki/` สำหรับ AWS account `858039354188` โดยมี EC2 เว็บหนึ่งเครื่องและ state bucket แยกจากระบบเดิม ตัว pipeline ตรวจ account ID ก่อน deploy และต้องตั้ง GitHub Secrets ของบัญชีเป้าหมายให้ถูกต้อง GitHub Actions จะ build และตรวจ wiki เมื่อมีการแก้ไข จากนั้นเมื่อ push ไป `main` หรือ `master` จะ build อีกครั้งใน job deploy และรัน Ansible แล้วตรวจหน้าแรกกับหน้าคู่มือ โดยรัน Terraform apply เฉพาะเมื่อมีการแก้ไฟล์ใน `terraform-wiki/` AWS credentials และ SSH key ยังคงใช้ GitHub Secrets เดิม การรัน Ansible ด้วยตัวเองต้อง build `app/out/` ก่อนและมี rsync บนเครื่องที่รัน Ansible
 
 Ansible จะส่งไฟล์ไป `/var/www/evergarden` ตั้ง Nginx ให้ serve ไฟล์ และหยุด/ปิด service `myapp` เดิม ไฟล์ที่ไม่มีใน build ใหม่จะถูกลบจากไดเรกทอรี wiki ระหว่าง deploy
 

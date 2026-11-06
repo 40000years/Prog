@@ -38,3 +38,12 @@
 /* A user can explicitly turn motion back on even with an OS reduction preference. */
 html[data-motion="off"] .kinetic-home *,html[data-motion="off"] .kinetic-home *::before,html[data-motion="off"] .kinetic-home *::after{animation-play-state:paused!important}
 @media(prefers-reduced-motion:reduce){html[data-motion="on"] .collage-float{animation:collage-drift 6.5s ease-in-out infinite!important;animation-delay:var(--delay)!important}html[data-motion="on"] .running-track{animation:running-left 34s linear infinite!important}html[data-motion="on"] .running-type.reverse .running-track{animation-direction:reverse!important}html[data-motion="on"] .reel-track{animation:running-left 100s linear infinite!important}html[data-motion="on"] .magic-diamond{animation:diamond-float 7s ease-in-out infinite!important}}
+
+/* Thai headings need room for tone marks and should not inherit Latin tracking. */
+.kinetic-home .section-kicker,.kinetic-home .hero-chapter-label,.kinetic-home .hero-topline,.kinetic-home .hero-bottomline { letter-spacing: .02em; }
+.kinetic-home .hero-script,.kinetic-home .film-heading h2,.kinetic-home .manifesto h2,.kinetic-home .section-heading h2,.kinetic-home .new-chapter-heading h2,.kinetic-home .new-chapter-card h3,.kinetic-home .magic-left h2,.kinetic-home .guide-index-title h2,.kinetic-home .kinetic-finale h2 { font-family: 'IBM Plex Sans Thai', sans-serif; letter-spacing: 0; line-height: 1.35; overflow-wrap: anywhere; }
+.kinetic-home .hero-script,.kinetic-home .film-heading h2 em,.kinetic-home .manifesto h2 em,.kinetic-home .section-heading h2 em,.kinetic-home .new-chapter-heading h2 em,.kinetic-home .new-chapter-card h3 em,.kinetic-home .magic-left h2 em,.kinetic-home .guide-index-title h2 em,.kinetic-home .kinetic-finale h2 em { font-family: inherit; font-style: normal; line-height: inherit; }
+.kinetic-home .word-mask { padding-block: .12em; }
+@media(max-width: 600px) {
+  .kinetic-home .guide-index-title h2,.kinetic-home .kinetic-finale h2 { font-size: clamp(32px, 9vw, 48px); }
+}

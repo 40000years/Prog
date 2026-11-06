@@ -10,10 +10,10 @@ import "./field-pages.css";
 import "./game-library.css";
 
 export const metadata: Metadata = {
-  title: { default: "Evergarden Wiki — A World Beyond the Ordinary", template: "%s | Evergarden Wiki" },
+  title: { default: "Evergarden Wiki — คู่มือภาษาไทย", template: "%s | Evergarden Wiki" },
   description: `คู่มือ Evergarden ภาษาไทย สำรวจโลกเกาะลอยฟ้า บอส เวทมนตร์ สัตว์เลี้ยง 32 ชนิด และระบบ Forge พร้อมบทความ ${articles.length} หน้า`,
-  metadataBase: new URL("https://evergarden-field-guide.fabledmeadow.chatgpt.site"),
-  openGraph: { title: "Evergarden — A World Beyond the Ordinary", description: "ทุกตำนาน มีจุดเริ่มต้น · คู่มือผู้เล่น Evergarden ภาษาไทย", images: ["/images/evergarden-hero.webp"], locale: "th_TH", type: "website" },
+  metadataBase: new URL("https://www.bowrxn.com"),
+  openGraph: { title: "Evergarden Wiki — คู่มือภาษาไทย", description: "คู่มือบอส เวทมนตร์ สัตว์เลี้ยง และ Forge สำหรับผู้เล่น Evergarden", images: ["/images/evergarden-hero.webp"], locale: "th_TH", type: "website" },
   icons: { icon: "/icon.svg" },
 };
 

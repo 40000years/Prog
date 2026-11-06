@@ -48,7 +48,7 @@ export function Header() {
 
   return <>
     <header className="site-header">
-      <Link href="/" className="brand" aria-label="Evergarden Wiki หน้าแรก"><GardenMark /><span>EVERGARDEN<span className="brand-note">THE FIELD GUIDE</span></span></Link>
+      <Link href="/" className="brand" aria-label="Evergarden Wiki หน้าแรก"><GardenMark /><span>EVERGARDEN<span className="brand-note">คู่มือภาษาไทย</span></span></Link>
       <nav className="desktop-nav" aria-label="เมนูหลัก">
         <Link href="/#explore">สำรวจโลก</Link><Link href="/#bosses">คลังบอส</Link><Link href="/magic">เวทมนตร์</Link><Link href="/pets">สัตว์เลี้ยง</Link><Link href="/forge">Forge</Link>
       </nav>
@@ -65,7 +65,7 @@ export function Header() {
         <div className="search-input-wrap"><Search size={23}/><input ref={input} value={query} onChange={e => setQuery(e.target.value)} placeholder={savedOnly ? "ค้นหาในบทความที่บันทึก…" : "ค้นหาบอส เวทมนตร์ หรือสิ่งที่สงสัย…"} aria-label="คำค้นหา"/><button className="icon-button" onClick={close} aria-label="ปิดการค้นหา"><X size={20}/></button></div>
         <div className="search-filters"><button className={filter === "all" ? "active" : ""} onClick={() => setFilter("all")}>ทั้งหมด</button>{groups.map(g => <button key={g.id} className={filter === g.id ? "active" : ""} onClick={() => setFilter(g.id)}>{g.title}</button>)}</div>
         <div className="search-results">
-          <p className="search-count">{savedOnly ? "SAVED PAGES" : "THE ARCHIVE"} <span>{results.length} บทความ</span></p>
+          <p className="search-count">{savedOnly ? "หน้าที่บันทึก" : "บทความ"} <span>{results.length} บทความ</span></p>
           {results.length ? results.map(a => <Link href={articleHref(a.path)} key={a.path} onClick={close} className="search-result"><div><span className="search-result-group">{a.groupTitle}</span><strong>{a.title}</strong><p>{a.lead}</p></div><ArrowUpRight size={19}/></Link>) : <div className="search-empty"><Bookmark size={30}/><h3>{savedOnly ? "ยังไม่มีบทความที่บันทึก" : "ยังไม่พบสิ่งที่ค้นหา"}</h3><p>{savedOnly ? "เปิดบทความแล้วกดปุ่มบันทึก เพื่อกลับมาอ่านได้ง่ายขึ้น" : "ลองใช้ชื่อบอส ชื่อธาตุ หรือคำสั้น ๆ เช่น มานา"}</p><button onClick={() => { setSavedOnly(false); setQuery(""); setFilter("all"); }}>สำรวจคู่มือทั้งหมด <ArrowUpRight size={15}/></button></div>}
         </div>
         <div className="search-footer"><span><Command size={12}/> K เพื่อค้นหาจากทุกหน้า</span><span>ESC เพื่อปิด</span></div>
