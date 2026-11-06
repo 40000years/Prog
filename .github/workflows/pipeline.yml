@@ -38,7 +38,7 @@ jobs:
         with:
           filters: |
             infra:
-              - 'terraform/**'
+              - 'terraform-wiki/**'
               - '.github/workflows/pipeline.yml'
             ansible:
               - 'ansible/**'
@@ -64,14 +64,15 @@ jobs:
         if: needs.changes.outputs.app == 'true'
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
 
-      - name: Node.js Syntax & Unit Check
+      - name: Build and validate wiki
         if: needs.changes.outputs.app == 'true'
         working-directory: ./app
         run: |
-          npm test
-          node -c index.js
+          npm ci
+          npm run typecheck
+          SITE_STATIC_EXPORT=1 npm run build
 
       # --- Terraform Validation ---
       - name: Setup Terraform
@@ -82,12 +83,12 @@ jobs:
 
       - name: Terraform Format Check
         if: needs.changes.outputs.infra == 'true'
-        working-directory: ./terraform
+        working-directory: ./terraform-wiki
         run: terraform fmt -check -recursive -diff
 
       - name: Terraform Init & Validate
         if: needs.changes.outputs.infra == 'true'
-        working-directory: ./terraform
+        working-directory: ./terraform-wiki
         run: |
           terraform init -backend=false
           terraform validate
@@ -119,11 +120,21 @@ jobs:
 
     outputs:
       web_ip: ${{ steps.tf_output.outputs.web_ip }}
-      db_ip: ${{ steps.tf_output.outputs.db_ip }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Setup Node.js for wiki build
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Build wiki for deployment
+        working-directory: ./app
+        run: |
+          npm ci
+          SITE_STATIC_EXPORT=1 npm run build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -131,6 +142,11 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-southeast-7
+
+      - name: Verify target AWS account
+        run: |
+          ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+          test "$ACCOUNT_ID" = "858039354188" || { echo "Wrong AWS account: $ACCOUNT_ID"; exit 1; }
 
       - name: Setup Python for Ansible Provider
         uses: actions/setup-python@v5
@@ -144,7 +160,7 @@ jobs:
 
       - name: Create S3 bucket for Terraform state
         run: |
-          BUCKET="mega-automation-lab-tfstate"
+          BUCKET="evergarden-wiki-tfstate-858039354188"
           REGION="ap-southeast-7"
           if aws s3api head-bucket --bucket "$BUCKET" 2>/dev/null; then
             echo "S3 bucket '$BUCKET' already exists"
@@ -170,11 +186,11 @@ jobs:
           terraform_wrapper: false
 
       - name: Terraform Init
-        working-directory: ./terraform
+        working-directory: ./terraform-wiki
         run: terraform init
 
       - name: Prepare SSH Key
-        working-directory: ./terraform
+        working-directory: ./terraform-wiki
         run: |
           terraform output -raw private_key_pem > /tmp/id_rsa 2>/dev/null || true
           if [ -s /tmp/id_rsa ]; then
@@ -185,7 +201,7 @@ jobs:
           fi
 
       - name: Terraform Apply
-        working-directory: ./terraform
+        working-directory: ./terraform-wiki
         run: |
           terraform apply -auto-approve
           terraform output -raw private_key_pem > /tmp/id_rsa
@@ -194,18 +210,15 @@ jobs:
 
       - name: Get Terraform Outputs
         id: tf_output
-        working-directory: ./terraform
+        working-directory: ./terraform-wiki
         run: |
           WEB_IP=$(terraform output -raw web_server_public_ip 2>/dev/null || echo "")
-          DB_IP=$(terraform output -raw db_server_public_ip 2>/dev/null || echo "")
           echo "web_ip=${WEB_IP}" >> $GITHUB_OUTPUT
-          echo "db_ip=${DB_IP}" >> $GITHUB_OUTPUT
           echo ""
           echo "====================================="
           echo "Infrastructure Summary"
           echo "====================================="
           echo "Web Server IP: ${WEB_IP}"
-          echo "DB Server IP:  ${DB_IP}"
           echo "Web URL:        http://${WEB_IP}"
           echo "====================================="
 
@@ -223,7 +236,7 @@ jobs:
           done
 
       - name: Run Terraform Action (action.ansible_playbook_run)
-        working-directory: ./terraform
+        working-directory: ./terraform-wiki
         run: |
           echo "===================================================="
           echo "Executing Action: action.ansible_playbook_run.with_inventories"
@@ -261,37 +274,16 @@ jobs:
     needs: provision
 
     steps:
-      - name: Test Health Endpoint (Smart Polling)
+      - name: Test wiki homepage and guide
         run: |
           WEB_IP="${{ needs.provision.outputs.web_ip }}"
-          echo "Testing http://${WEB_IP}/health ..."
-          
-          SUCCESS=0
           for i in {1..15}; do
-            RESPONSE=$(curl -s --max-time 5 "http://${WEB_IP}/health" || echo "")
-            if echo "$RESPONSE" | grep -q "healthy"; then
-              echo "Health check passed on attempt $i!"
-              SUCCESS=1
-              break
+            if curl --fail --silent --max-time 5 "http://${WEB_IP}/" | grep -q "Evergarden" && \
+               curl --fail --silent --max-time 5 "http://${WEB_IP}/guide/getting-started/world" > /dev/null; then
+              echo "Wiki is available"
+              exit 0
             fi
-            echo "Service starting up... retry in 3s ($i/15)"
             sleep 3
           done
-          
-          if [ $SUCCESS -ne 1 ]; then
-            echo "Health check failed after 15 attempts"
-            exit 1
-          fi
-
-      - name: Test Web Homepage
-        run: |
-          WEB_IP="${{ needs.provision.outputs.web_ip }}"
-          echo "Testing http://${WEB_IP} ..."
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 "http://${WEB_IP}/" || echo "000")
-          echo "HTTP Status Code: ${HTTP_STATUS}"
-          if [ "$HTTP_STATUS" -eq 200 ] || [ "$HTTP_STATUS" -eq 304 ]; then
-            echo "Storefront is up and serving traffic (HTTP ${HTTP_STATUS})"
-          else
-            echo "Unexpected HTTP status code: ${HTTP_STATUS}"
-            exit 1
-          fi
+          echo "Wiki smoke test failed"
+          exit 1

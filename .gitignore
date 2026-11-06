@@ -30,3 +30,14 @@ Thumbs.db
 .env
 .env.local
 .aider*
+
+# Next.js build output
+app/.next/
+app/out/
+app/*.tsbuildinfo
+
+# Wiki Terraform state and providers
+terraform-wiki/.terraform/
+terraform-wiki/*.tfstate*
+terraform-wiki/*.tfplan
+terraform-wiki/.terraform.lock.hcl

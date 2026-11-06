@@ -1,0 +1,289 @@
+{
+  "source": {
+    "release": "0.6.0",
+    "releaseUrl": "https://github.com/40000years/Evergarden2/releases/tag/evergarden-forge-v0.6.0",
+    "commit": "4c12523bc594",
+    "checked": "2026-11-04",
+    "scope": "Default config and released source, not the live server config"
+  },
+  "effects": {
+    "fire": {
+      "weapon": {
+        "stat": "ดาเมจโจมตี",
+        "percent": false,
+        "base": 0.5
+      },
+      "bow": {
+        "stat": "ดาเมจลูกธนู",
+        "percent": true,
+        "base": 0.04
+      },
+      "armor": {
+        "stat": "ระยะเวลาติดไฟ",
+        "percent": true,
+        "base": -0.08
+      },
+      "shield": {
+        "stat": "ระยะเวลาติดไฟ",
+        "percent": true,
+        "base": -0.12
+      },
+      "tool": {
+        "stat": "ความเร็วทุบบล็อก",
+        "percent": true,
+        "base": 0.04
+      },
+      "staff": {
+        "stat": "พลังธาตุไฟ",
+        "percent": true,
+        "base": 0.03
+      }
+    },
+    "water": {
+      "weapon": {
+        "stat": "ดาเมจกวาด",
+        "percent": true,
+        "base": 0.06
+      },
+      "bow": {
+        "stat": "ดาเมจลูกธนู",
+        "percent": true,
+        "base": 0.03
+      },
+      "armor": {
+        "stat": "ความคล่องในน้ำ",
+        "percent": true,
+        "base": 0.06
+      },
+      "shield": {
+        "stat": "ต้านแรงกระเด็น",
+        "percent": true,
+        "base": 0.04
+      },
+      "tool": {
+        "stat": "ความเร็วขุดใต้น้ำ",
+        "percent": true,
+        "base": 0.1
+      },
+      "staff": {
+        "stat": "พลังธาตุน้ำและน้ำแข็ง",
+        "percent": true,
+        "base": 0.03
+      }
+    },
+    "wind": {
+      "weapon": {
+        "stat": "ความเร็วเคลื่อนที่",
+        "percent": true,
+        "base": 0.015
+      },
+      "bow": {
+        "stat": "ความเร็วเคลื่อนที่",
+        "percent": true,
+        "base": 0.015
+      },
+      "armor": {
+        "stat": "ระยะตกปลอดภัย",
+        "percent": false,
+        "base": 0.5
+      },
+      "shield": {
+        "stat": "ความเร็วเคลื่อนที่",
+        "percent": true,
+        "base": 0.015
+      },
+      "tool": {
+        "stat": "ความเร็วเคลื่อนที่",
+        "percent": true,
+        "base": 0.015
+      },
+      "staff": {
+        "stat": "พลังธาตุลม",
+        "percent": true,
+        "base": 0.03
+      }
+    },
+    "earth": {
+      "weapon": {
+        "stat": "แรงกระแทก",
+        "percent": false,
+        "base": 0.15
+      },
+      "bow": {
+        "stat": "พลังชีวิตสูงสุด",
+        "percent": false,
+        "base": 0.4
+      },
+      "armor": {
+        "stat": "เกราะ",
+        "percent": false,
+        "base": 0.4
+      },
+      "shield": {
+        "stat": "ความแกร่งเกราะ",
+        "percent": false,
+        "base": 0.5
+      },
+      "tool": {
+        "stat": "ประสิทธิภาพการขุด",
+        "percent": false,
+        "base": 1.0
+      },
+      "staff": {
+        "stat": "พลังธาตุดิน",
+        "percent": true,
+        "base": 0.03
+      }
+    },
+    "lightning": {
+      "weapon": {
+        "stat": "ความเร็วโจมตี",
+        "percent": true,
+        "base": 0.03
+      },
+      "bow": {
+        "stat": "ความเร็วลูกธนู",
+        "percent": true,
+        "base": 0.04
+      },
+      "armor": {
+        "stat": "ความเร็วเคลื่อนที่",
+        "percent": true,
+        "base": 0.01
+      },
+      "shield": {
+        "stat": "ความเร็วเคลื่อนที่",
+        "percent": true,
+        "base": 0.01
+      },
+      "tool": {
+        "stat": "ความเร็วทุบบล็อก",
+        "percent": true,
+        "base": 0.06
+      },
+      "staff": {
+        "stat": "พลังธาตุสายฟ้า",
+        "percent": true,
+        "base": 0.03
+      }
+    },
+    "light": {
+      "weapon": {
+        "stat": "โชค",
+        "percent": false,
+        "base": 0.4
+      },
+      "bow": {
+        "stat": "โชค",
+        "percent": false,
+        "base": 0.4
+      },
+      "armor": {
+        "stat": "ต้านแรงกระเด็น",
+        "percent": true,
+        "base": 0.03
+      },
+      "shield": {
+        "stat": "เกราะ",
+        "percent": false,
+        "base": 0.5
+      },
+      "tool": {
+        "stat": "โชค",
+        "percent": false,
+        "base": 0.5
+      },
+      "staff": {
+        "stat": "พลังธาตุแสง",
+        "percent": true,
+        "base": 0.03
+      }
+    },
+    "dark": {
+      "weapon": {
+        "stat": "ดาเมจโจมตี",
+        "percent": true,
+        "base": 0.025
+      },
+      "bow": {
+        "stat": "ดาเมจลูกธนู",
+        "percent": true,
+        "base": 0.05
+      },
+      "armor": {
+        "stat": "ความแกร่งเกราะ",
+        "percent": false,
+        "base": 0.3
+      },
+      "shield": {
+        "stat": "ต้านแรงกระเด็นจากระเบิด",
+        "percent": true,
+        "base": 0.08
+      },
+      "tool": {
+        "stat": "ประสิทธิภาพการขุด",
+        "percent": false,
+        "base": 0.8
+      },
+      "staff": {
+        "stat": "พลังธาตุมืด",
+        "percent": true,
+        "base": 0.03
+      }
+    },
+    "life": {
+      "weapon": {
+        "stat": "พลังชีวิตสูงสุด",
+        "percent": false,
+        "base": 0.5
+      },
+      "bow": {
+        "stat": "พลังชีวิตสูงสุด",
+        "percent": false,
+        "base": 0.5
+      },
+      "armor": {
+        "stat": "พลังชีวิตสูงสุด",
+        "percent": false,
+        "base": 0.6
+      },
+      "shield": {
+        "stat": "พลังชีวิตสูงสุด",
+        "percent": false,
+        "base": 0.8
+      },
+      "tool": {
+        "stat": "พลังชีวิตสูงสุด",
+        "percent": false,
+        "base": 0.5
+      },
+      "staff": {
+        "stat": "พลังรักษา",
+        "percent": true,
+        "base": 0.03
+      }
+    }
+  },
+  "upgrade": [
+    {
+      "dust": 2,
+      "materials": 1,
+      "gradeIndex": 1
+    },
+    {
+      "dust": 4,
+      "materials": 1,
+      "gradeIndex": 2
+    },
+    {
+      "dust": 8,
+      "materials": 2,
+      "gradeIndex": 3
+    },
+    {
+      "dust": 12,
+      "materials": 2,
+      "gradeIndex": 4
+    }
+  ]
+}

@@ -118,15 +118,6 @@ resource "aws_security_group" "web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Node.js App (port 3000) - ใช้สำหรับ Nginx reverse proxy
-  ingress {
-    description = "Node.js App"
-    from_port   = 3000
-    to_port     = 3000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   egress {
     from_port   = 0
     to_port     = 0
@@ -187,9 +178,9 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [aws_security_group.web_sg.id]
   key_name               = aws_key_pair.deployer.key_name
 
-  # t4g.micro ใช้ unlimited by default, standard ต้องระบุเฉพาะ non-Graviton เท่านั้น
+  # Standard mode avoids surplus CPU credit charges for burstable instances.
   dynamic "credit_specification" {
-    for_each = local.is_graviton ? [] : [1]
+    for_each = can(regex("^t[234]", var.instance_type)) ? [1] : []
     content {
       cpu_credits = "standard"
     }

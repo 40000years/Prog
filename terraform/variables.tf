@@ -21,7 +21,7 @@ variable "public_subnet_cidr" {
 }
 
 variable "instance_type" {
-  description = "ประเภท EC2 Instance"
+  description = "ประเภท EC2 Instance (t4g.micro เป็นขนาดเล็กที่ระบุว่า Free Tier eligible)"
   type        = string
   default     = "t4g.micro" # Graviton2 ARM - Free Tier eligible in ap-southeast-7
 }

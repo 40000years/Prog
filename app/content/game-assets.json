@@ -1,0 +1,2943 @@
+{
+  "source": {
+    "release": "resources-e2.183-am1.38.3",
+    "url": "https://github.com/40000years/Evergarden2/releases/tag/resources-e2.183-am1.38.3",
+    "commit": "4c12523bc5949731e6e48aa410c243778bc0c8f6",
+    "packSha1": {
+      "magic": "82167f061a3bbf4c067719a55aa1ae4cfa32bb4c",
+      "world": "01756997c5e3e117e4a8b0227a26a8f2f22ffeb6"
+    },
+    "checked": "2026-11-04"
+  },
+  "items": [
+    {
+      "id": "staff-fire",
+      "name": "Fire Staff",
+      "thai": "คทาธาตุไฟ",
+      "category": "staff",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/elemental_staffs/fire_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "b22e87853ee5c6d79dd136cb6ae471a894e4777a813f1aa70ecc746ee540762e"
+      },
+      "guide": "/guide/magic/staffs",
+      "description": "คทาธาตุเริ่มที่ Apprentice อัปเกรดเป็น Arcane และ Mythic ได้",
+      "element": "fire"
+    },
+    {
+      "id": "staff-water",
+      "name": "Water Staff",
+      "thai": "คทาธาตุน้ำ",
+      "category": "staff",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/elemental_staffs/water_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "b7259d71bc003078c3e9869388c37e9d89ae1a38aeb8ee329ef1655a71eb4813"
+      },
+      "guide": "/guide/magic/staffs",
+      "description": "คทาธาตุเริ่มที่ Apprentice อัปเกรดเป็น Arcane และ Mythic ได้",
+      "element": "water"
+    },
+    {
+      "id": "staff-ice",
+      "name": "Ice Staff",
+      "thai": "คทาธาตุน้ำแข็ง",
+      "category": "staff",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/elemental_staffs/ice_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "ac67f2ba174a0f32210b62fd080427ab9e65104577e84975c209e726bf2e70b1"
+      },
+      "guide": "/guide/magic/staffs",
+      "description": "คทาธาตุเริ่มที่ Apprentice อัปเกรดเป็น Arcane และ Mythic ได้",
+      "element": "ice"
+    },
+    {
+      "id": "staff-wind",
+      "name": "Wind Staff",
+      "thai": "คทาธาตุลม",
+      "category": "staff",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/elemental_staffs/wind_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "a889bcbd935741b01ae1bbcc5fdaf465b80d693686a508615292ef8900539543"
+      },
+      "guide": "/guide/magic/staffs",
+      "description": "คทาธาตุเริ่มที่ Apprentice อัปเกรดเป็น Arcane และ Mythic ได้",
+      "element": "wind"
+    },
+    {
+      "id": "staff-earth",
+      "name": "Earth Staff",
+      "thai": "คทาธาตุดิน",
+      "category": "staff",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/elemental_staffs/earth_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "666051875ab74b4b170db533a1bc327a04e0d6040b0287fe0888b66ade9814f0"
+      },
+      "guide": "/guide/magic/staffs",
+      "description": "คทาธาตุเริ่มที่ Apprentice อัปเกรดเป็น Arcane และ Mythic ได้",
+      "element": "earth"
+    },
+    {
+      "id": "staff-lightning",
+      "name": "Lightning Staff",
+      "thai": "คทาธาตุสายฟ้า",
+      "category": "staff",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/elemental_staffs/lightning_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "cc46eb3e50bb7bce0b370bb7553587f1331c34debc6357a89a5e0f4a9637209d"
+      },
+      "guide": "/guide/magic/staffs",
+      "description": "คทาธาตุเริ่มที่ Apprentice อัปเกรดเป็น Arcane และ Mythic ได้",
+      "element": "lightning"
+    },
+    {
+      "id": "staff-light",
+      "name": "Light Staff",
+      "thai": "คทาธาตุแสง",
+      "category": "staff",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/elemental_staffs/light_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "438be8570c254a7e1f5eeb631b11073380db33b2d854757fc169662503fc29e0"
+      },
+      "guide": "/guide/magic/staffs",
+      "description": "คทาธาตุเริ่มที่ Apprentice อัปเกรดเป็น Arcane และ Mythic ได้",
+      "element": "light"
+    },
+    {
+      "id": "staff-dark",
+      "name": "Dark Staff",
+      "thai": "คทาธาตุมืด",
+      "category": "staff",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/elemental_staffs/dark_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "ac82b1718714ff671247cb7e6674d5da211c6197c39e67191779253fb1ddf7c3"
+      },
+      "guide": "/guide/magic/staffs",
+      "description": "คทาธาตุเริ่มที่ Apprentice อัปเกรดเป็น Arcane และ Mythic ได้",
+      "element": "dark"
+    },
+    {
+      "id": "staff-wood",
+      "name": "Amethystwood Staff",
+      "thai": "คทาไม้",
+      "category": "staff",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/wooden_staff/wood_icon.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "aea5fbde8c401f69d788d606f79069ecaeb120f385aee5bd82e600bacfc6de5e"
+      },
+      "guide": "/guide/magic/staffs",
+      "description": "คทาเริ่มต้นที่ไม่มีธาตุ คราฟต์ด้วย Amethyst Shard และ Blaze Rod"
+    },
+    {
+      "id": "excalibur",
+      "name": "Excalibur",
+      "thai": "ดาบศักดิ์สิทธิ์แห่งราชัน",
+      "category": "legendary",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/legendary_weapons/excalibur_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "e26422934905cae5de7a6f0e2be5998fd372863d18d66a97d14910908e2b518d"
+      },
+      "guide": "/forge",
+      "description": "อาวุธตำนานของ Advance Magic รองรับรีฟอร์จและ Gem ใน Forge 0.6.0 แต่ย่อยไม่ได้"
+    },
+    {
+      "id": "longinus",
+      "name": "Longinus",
+      "thai": "หอกศักดิ์สิทธิ์ผูกผ้าแดง",
+      "category": "legendary",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/legendary_weapons/longinus_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "f07786cd37ee498b27f17251455b9bb7f652f842d0fd8e900d41cf18801bf9eb"
+      },
+      "guide": "/forge",
+      "description": "อาวุธตำนานของ Advance Magic รองรับรีฟอร์จและ Gem ใน Forge 0.6.0 แต่ย่อยไม่ได้"
+    },
+    {
+      "id": "tyrfing",
+      "name": "Tyrfing",
+      "thai": "ดาบต้องสาป อักขระกลืนวิญญาณ",
+      "category": "legendary",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/legendary_weapons/tyrfing_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "fd5bdfa0739d776227c6df5df3aa5cea41c3339b1d548980ba1f1d4d65197d98"
+      },
+      "guide": "/forge",
+      "description": "อาวุธตำนานของ Advance Magic รองรับรีฟอร์จและ Gem ใน Forge 0.6.0 แต่ย่อยไม่ได้"
+    },
+    {
+      "id": "mjolnir",
+      "name": "Mjolnir",
+      "thai": "ค้อนอัสนีแห่งทวยเทพ",
+      "category": "legendary",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/legendary_weapons/mjolnir_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "225f788ca51089ed3bfe17bbfde7e41b76993cfc44de5a20cf31bfe323e119a3"
+      },
+      "guide": "/forge",
+      "description": "อาวุธตำนานของ Advance Magic รองรับรีฟอร์จและ Gem ใน Forge 0.6.0 แต่ย่อยไม่ได้"
+    },
+    {
+      "id": "vajra",
+      "name": "Vajra",
+      "thai": "วัชระ อัญมณีสายฟ้าศักดิ์สิทธิ์",
+      "category": "legendary",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/legendary_weapons/vajra_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "eb8347edaab72c5b7cbc9a0d3d352c3a1f98e823e7b39b1684fd0d2c49be2e55"
+      },
+      "guide": "/forge",
+      "description": "อาวุธตำนานของ Advance Magic รองรับรีฟอร์จและ Gem ใน Forge 0.6.0 แต่ย่อยไม่ได้"
+    },
+    {
+      "id": "emberfang",
+      "name": "Emberfang",
+      "thai": "เขี้ยวถ่านอเวจี",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/emberfang_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "2769c5be6b68b917387532b468ed50515c7446d2b4d233bc291310bf0021fc7a"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Blade of the Ashen Hunt"
+    },
+    {
+      "id": "stormpiercer",
+      "name": "Stormpiercer",
+      "thai": "หอกทะลวงพายุ",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/stormpiercer_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "41d436246eede5e0d91bcad62f8a5fc313d8143e6894753b8550918c855a8bfd"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Lancer of Open Skies"
+    },
+    {
+      "id": "ironbloom",
+      "name": "Ironbloom",
+      "thai": "ขวานพฤกษาเหล็ก",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/ironbloom_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "2c930480b5cfbdb6e298b69148216c44cb855d750a67afa989ac24d57cc67177"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Axe of the Wild Forge"
+    },
+    {
+      "id": "frostveil",
+      "name": "Frostveil",
+      "thai": "กริชม่านเหมันต์",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/frostveil_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "9a4ca7aa19592a9492be5e18767599c48b44a8b5605f461ca2dae7b993400e7c"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Dagger of Silent Winter"
+    },
+    {
+      "id": "sunflare",
+      "name": "Sunflare",
+      "thai": "ลูกตุ้มรัศมีรุ่งอรุณ",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/sunflare_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "37b954253eab2eea8517ec493e8e2804152d4e886c7b3476f8b9120a7ed4a8a2"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Morningstar of Dawn"
+    },
+    {
+      "id": "moonrift",
+      "name": "Moonrift",
+      "thai": "ดาบโค้งผ่าจันทร์",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/moonrift_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "d4ed58cbedd0ecf6dab5be65dc8379e34e65ee6d32b1237b283844379205fd0d"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Saber of Dusk Trails"
+    },
+    {
+      "id": "bramblepike",
+      "name": "Bramblepike",
+      "thai": "ทวนหนามพงไพร",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/bramblepike_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "9af5de197156d649c304c4deb3e0324ff413be01895526368f79114cfd440ff2"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Halberd of the Green March"
+    },
+    {
+      "id": "tidehook",
+      "name": "Tidehook",
+      "thai": "ตรีศูลเกลียวสมุทร",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/tidehook_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "80f7d44d75ad3f67ac983b2cfac339a9aa8582d57e7ea1f7840d6178cbb79394"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Trident of the Deep Run"
+    },
+    {
+      "id": "ashcleaver",
+      "name": "Ashcleaver",
+      "thai": "ดาบใหญ่ผ่าเถ้าถ่าน",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/ashcleaver_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "f69d5b69217f999797b9316a8ebdf80ca5d7f28889822d4a5802714461ed56b2"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Greatsword of Black Trails"
+    },
+    {
+      "id": "glimmermaul",
+      "name": "Glimmermaul",
+      "thai": "ค้อนศึกเหล็กประกายแสง",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/glimmermaul_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "bbd95db6742fb9a4b4cac2d8e64288ad8f99d581849910364141215906cb9b1f"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Hammer of Bright Steel"
+    },
+    {
+      "id": "thornwhisper",
+      "name": "Thornwhisper",
+      "thai": "ธนูกระซิบพงหนาม",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/thornwhisper_icon.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "459325ff837cf00c4b366f954688ad66ebdaca353884cda9336f2c1c544cb90a"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Bow of Hidden Groves"
+    },
+    {
+      "id": "runelock",
+      "name": "Runelock",
+      "thai": "หน้าไม้สลักอักษรรูน",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/runelock_icon.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "47ded992541b3040f5fc38e87a348c9a3684aafb47c891b519f68615d5246713"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Crossbow of Arcane Hunts"
+    },
+    {
+      "id": "mistcaller",
+      "name": "Mistcaller",
+      "thai": "พลองสายหมอกดารา",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/mistcaller_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "8c85c06c5b68530a099e93857fcc7d177cfcf0f7d24785bb67f24c665d52f979"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Staff of Veiled Paths"
+    },
+    {
+      "id": "silvershiv",
+      "name": "Silvershiv",
+      "thai": "มีดสั้นเงาเงิน",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/silvershiv_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "ff64c863157c0dbfb4a18cf95815f42d944a1d8a349d21bc3998669c48b13d2b"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Knife of Quiet Steps"
+    },
+    {
+      "id": "stoneheart",
+      "name": "Stoneheart",
+      "thai": "กระบองหัวใจศิลา",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/stoneheart_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "46baecda33ed58b8e6b70c587c4a0f911650968c9b27994022e7f86555fa436b"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Mace of the Iron Hold"
+    },
+    {
+      "id": "nightbloom",
+      "name": "Nightbloom",
+      "thai": "เคียวบุปผารัตติกาล",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/nightbloom_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "b949a4c9af87f96b60851fdf075dd8838a97f4da184be62a98e058ae8ff43741"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Scythe of Shadow Fields"
+    },
+    {
+      "id": "ironwave",
+      "name": "Ironwave",
+      "thai": "ง้าวคลื่นเหล็กกล้า",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/ironwave_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "bd6327830e6a300c8e2b0213974d3aefb76e5dd6878e7c047162267202024c47"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Glaive of Tidal Steel"
+    },
+    {
+      "id": "starfang",
+      "name": "Starfang",
+      "thai": "เรเปียร์เขี้ยวดารา",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/starfang_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "44ca8ed159f9192aa548e2a1b47b024bffd7e7360aec2da74de140044e1cc935"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Rapier of Bright Dusk"
+    },
+    {
+      "id": "rootspire",
+      "name": "Rootspire",
+      "thai": "กระบองรากไม้โบราณ",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/rootspire_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "6ba4a28e90291b7dc4c602b9556489644ad92eeb24a94cd2f0eee742b3defbec"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Club of the Old Warden"
+    },
+    {
+      "id": "voidreel",
+      "name": "Voidreel",
+      "thai": "กงจักรสายลมรัตติกาล",
+      "category": "adventurer",
+      "texture": {
+        "src": "/game/voidscape/textures/item/adventurer_weapons/voidreel_icon.png",
+        "width": 128,
+        "height": 1024,
+        "frameHeight": 128,
+        "frames": 8,
+        "frametime": 2,
+        "sha256": "f898b7aaa57003b6db93f883c9a530390c748f7de59ca5c88ef6a805653c7f1d"
+      },
+      "guide": "/guide/bosses/vault-bosses",
+      "description": "The Chakram of Midnight Wind"
+    },
+    {
+      "id": "seraph-helm",
+      "name": "Seraph Helm",
+      "thai": "หมวกเซราฟ",
+      "category": "armor",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/seraph/helm_icon.png",
+        "width": 64,
+        "height": 64,
+        "frameHeight": 64,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "20d5fb2251afd16cc5acd5d8c6424c5f1f152007c5a335eb9469775467464ae1"
+      },
+      "guide": "/forge",
+      "description": "ชุด Seraph / Revenant รองรับรีฟอร์จและ Gem ใน Forge 0.6.0 แต่ย่อยไม่ได้"
+    },
+    {
+      "id": "seraph-chestplate",
+      "name": "Seraph Chestplate",
+      "thai": "เสื้อเกราะเซราฟ",
+      "category": "armor",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/seraph/chestplate_icon.png",
+        "width": 64,
+        "height": 64,
+        "frameHeight": 64,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "8b9a5ce11d919f1f642757a947091da8b0ff045a62e64958e490f6e899a56dff"
+      },
+      "guide": "/forge",
+      "description": "ชุด Seraph / Revenant รองรับรีฟอร์จและ Gem ใน Forge 0.6.0 แต่ย่อยไม่ได้"
+    },
+    {
+      "id": "seraph-leggings",
+      "name": "Seraph Leggings",
+      "thai": "กางเกงเกราะเซราฟ",
+      "category": "armor",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/seraph/leggings_icon.png",
+        "width": 64,
+        "height": 64,
+        "frameHeight": 64,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "273e8706dddfc4d3b1e1ea38ba2b18b28ee2103e1cc788c501a589bfb203da5a"
+      },
+      "guide": "/forge",
+      "description": "ชุด Seraph / Revenant รองรับรีฟอร์จและ Gem ใน Forge 0.6.0 แต่ย่อยไม่ได้"
+    },
+    {
+      "id": "seraph-boots",
+      "name": "Seraph Boots",
+      "thai": "รองเท้าเซราฟ",
+      "category": "armor",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/seraph/boots_icon.png",
+        "width": 64,
+        "height": 64,
+        "frameHeight": 64,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "58569902f571cf6255be2a69601168319e3318b5cb1c29b043b08c831ad7bf6a"
+      },
+      "guide": "/forge",
+      "description": "ชุด Seraph / Revenant รองรับรีฟอร์จและ Gem ใน Forge 0.6.0 แต่ย่อยไม่ได้"
+    },
+    {
+      "id": "revenant-helm",
+      "name": "Revenant Helm",
+      "thai": "หมวกเรเวแนนต์",
+      "category": "armor",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/revenant/helm_icon.png",
+        "width": 64,
+        "height": 64,
+        "frameHeight": 64,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "9edf36720867bfd6e7eeca94ce1ccd0dd18e7a22c596a90e00ce78ee676a6d4a"
+      },
+      "guide": "/forge",
+      "description": "ชุด Seraph / Revenant รองรับรีฟอร์จและ Gem ใน Forge 0.6.0 แต่ย่อยไม่ได้"
+    },
+    {
+      "id": "revenant-chestplate",
+      "name": "Revenant Chestplate",
+      "thai": "เสื้อเกราะเรเวแนนต์",
+      "category": "armor",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/revenant/chestplate_icon.png",
+        "width": 64,
+        "height": 64,
+        "frameHeight": 64,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "cebe12807cb01dd22a23e2e463c15af23cdebb971f4ebacdff16ff7bb921c4de"
+      },
+      "guide": "/forge",
+      "description": "ชุด Seraph / Revenant รองรับรีฟอร์จและ Gem ใน Forge 0.6.0 แต่ย่อยไม่ได้"
+    },
+    {
+      "id": "revenant-leggings",
+      "name": "Revenant Leggings",
+      "thai": "กางเกงเกราะเรเวแนนต์",
+      "category": "armor",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/revenant/leggings_icon.png",
+        "width": 64,
+        "height": 64,
+        "frameHeight": 64,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "7d8f62b76689d2fc4c413d1fdbfb8f8355b9ba286c4ffc62a729aab3c9c2bc2b"
+      },
+      "guide": "/forge",
+      "description": "ชุด Seraph / Revenant รองรับรีฟอร์จและ Gem ใน Forge 0.6.0 แต่ย่อยไม่ได้"
+    },
+    {
+      "id": "revenant-boots",
+      "name": "Revenant Boots",
+      "thai": "รองเท้าเรเวแนนต์",
+      "category": "armor",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/revenant/boots_icon.png",
+        "width": 64,
+        "height": 64,
+        "frameHeight": 64,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "13e7f84f7ae7e27fb1c7b92672924a0fa0384921cdc3816c5d7074749480266b"
+      },
+      "guide": "/forge",
+      "description": "ชุด Seraph / Revenant รองรับรีฟอร์จและ Gem ใน Forge 0.6.0 แต่ย่อยไม่ได้"
+    },
+    {
+      "id": "mana-potion-low",
+      "name": "Mana Potion · Low",
+      "thai": "ยามานาระดับต่ำ",
+      "category": "supplies",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/mana_potion_low.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "de00cd6681cf27f22a4481e5d46c0485a1e9a8e1c8f5299b687dde16cf3b1387"
+      },
+      "guide": "/guide/magic/mana",
+      "description": ""
+    },
+    {
+      "id": "mana-potion-medium",
+      "name": "Mana Potion · Medium",
+      "thai": "ยามานาระดับกลาง",
+      "category": "supplies",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/mana_potion_medium.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "98071ce06c46b9924f88c6664014306b999136995920228d0ec06aba0f1183ef"
+      },
+      "guide": "/guide/magic/mana",
+      "description": ""
+    },
+    {
+      "id": "mana-potion-good",
+      "name": "Mana Potion · Good",
+      "thai": "ยามานาระดับดี",
+      "category": "supplies",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/mana_potion_good.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "bdf311297aacb5d330a9dd2dc9e3b66d3e794bfe799fad98d659c26bc0b57427"
+      },
+      "guide": "/guide/magic/mana",
+      "description": ""
+    },
+    {
+      "id": "mana-potion-supreme",
+      "name": "Mana Potion · Supreme",
+      "thai": "ยามานาระดับสูงสุด",
+      "category": "supplies",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/mana_potion_supreme.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "65f6460b2e41f8136db80513318fb691b738c2a61c6bd5f915c2fef5b5de0831"
+      },
+      "guide": "/guide/magic/mana",
+      "description": ""
+    },
+    {
+      "id": "orb-acheron",
+      "name": "Acheron Soul Orb",
+      "thai": "Soul Orb · Acheron",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/boss_orb_acheron.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "d925d8627c56bef6c863657cb5d8c55b8ee37d02bdb2f8feb4fc06710d7b09ce"
+      },
+      "guide": "/guide/bosses/acheron",
+      "description": ""
+    },
+    {
+      "id": "orb-phlegethon",
+      "name": "Phlegethon Soul Orb",
+      "thai": "Soul Orb · Phlegethon",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/boss_orb_phlegethon.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "9c794f9f9f64345ba0d022d75c07c0acf0616b2fad239302d754c576c1c69c9c"
+      },
+      "guide": "/guide/bosses/phlegethon",
+      "description": ""
+    },
+    {
+      "id": "orb-cocytus",
+      "name": "Cocytus Soul Orb",
+      "thai": "Soul Orb · Cocytus",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/boss_orb_cocytus.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "8594ef0c3db4a624a38277ba19d716140d77aae9b1b3cd706171e61dbf199afa"
+      },
+      "guide": "/guide/bosses/cocytus",
+      "description": ""
+    },
+    {
+      "id": "orb-banshee",
+      "name": "Banshee Soul Orb",
+      "thai": "Soul Orb · Banshee",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/boss_orb_banshee.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "165effdc7be7b18ea07f7638f27a74d3788873ec84659bf1b47db3e68d155471"
+      },
+      "guide": "/guide/bosses/banshee",
+      "description": ""
+    },
+    {
+      "id": "orb-malefeasance",
+      "name": "Malefeasance Soul Orb",
+      "thai": "Soul Orb · Malefeasance",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/boss_orb_malefeasance.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "c3825cf2a9bbbdc3798c069329991eb086f6ee9daee7d0f74f6a2cd652820895"
+      },
+      "guide": "/guide/bosses/malefeasance",
+      "description": ""
+    },
+    {
+      "id": "orb-styx",
+      "name": "Styx Soul Orb",
+      "thai": "Soul Orb · Styx",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/boss_orb_styx.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "744fdc0ec0575101b97ee11ece69fa414915a98e5a936d2283876b508aedaf21"
+      },
+      "guide": "/guide/bosses/styx",
+      "description": ""
+    },
+    {
+      "id": "core-cinder_colossus",
+      "name": "Cinder Colossus Core",
+      "thai": "แกนมิติ · Cinder Colossus",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/realm_core_cinder_colossus.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "f5414a72fb136c5002a39a8303110a0454ca61d167b610c5d9609475cc3b2a7e"
+      },
+      "guide": "/guide/bosses/cinder-colossus",
+      "description": ""
+    },
+    {
+      "id": "core-soul_hound",
+      "name": "Soul-Eater Hound Core",
+      "thai": "แกนมิติ · Soul-Eater Hound",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/realm_core_soul_hound.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "419da12c6b12c9b8e0277fed07cbd00efa30d72c184b02cbdd6c418324b066d9"
+      },
+      "guide": "/guide/bosses/soul-hound",
+      "description": ""
+    },
+    {
+      "id": "core-crystal_moth",
+      "name": "Crystal Moth Queen Core",
+      "thai": "แกนมิติ · Crystal Moth Queen",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/realm_core_crystal_moth.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "a83aa4b7823c456059f5762f9f5ce33b41fafcd60ef774e0b48f3a38c49be14c"
+      },
+      "guide": "/guide/bosses/crystal-moth",
+      "description": ""
+    },
+    {
+      "id": "core-unlit_sun",
+      "name": "Unlit Sun Core",
+      "thai": "แกนมิติ · Unlit Sun",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/realm_core_unlit_sun.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "b9b9b1bec5d29ed31bb98e37f85f091681d7e0908d7960154dec1cc180da65b3"
+      },
+      "guide": "/guide/bosses/unlit-sun",
+      "description": ""
+    },
+    {
+      "id": "core-seraph",
+      "name": "Core of Seraph",
+      "thai": "Core of Seraph",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/core_of_seraph.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "ef9ca4d114ae598774ede80d06186dc561f9d4a8aa2be15aca61aef8f78a36a2"
+      },
+      "guide": "/guide/bosses/seraphon",
+      "description": ""
+    },
+    {
+      "id": "core-revenant",
+      "name": "Core of Revenant",
+      "thai": "Core of Revenant",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/core_of_revenant.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "8a3cc1192ab8bf6d83721e4c8970ee136d6cbfe3bf5b3cd9cce3886519f07696"
+      },
+      "guide": "/forge",
+      "description": ""
+    },
+    {
+      "id": "core-legend",
+      "name": "Core of Legend",
+      "thai": "Core of Legend",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/core_of_legend.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "160c9a4684d72d375aaedf57d106287f2748d0adb0b566f0a09549278687f05e"
+      },
+      "guide": "/forge",
+      "description": ""
+    },
+    {
+      "id": "seraph_feather",
+      "name": "Seraph Feather",
+      "thai": "ขนนกเซราฟ",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/seraph_feather.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "863c82829e352e8ab7ebda91fe8de0773b02985dd2ccfbfcb5fb214827aaf785"
+      },
+      "guide": "/guide/bosses/seraphon",
+      "description": ""
+    },
+    {
+      "id": "seraph_feather_golden",
+      "name": "Seraph Feather Golden",
+      "thai": "ขนนกเซราฟสีทอง",
+      "category": "drops",
+      "texture": {
+        "src": "/game/voidscape/textures/item/seraph_feather_golden.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "f7f95ff057515f6810f89ede47b27fa37abe0dcd8bd98441fd960919ca2d7475"
+      },
+      "guide": "/guide/bosses/seraphon",
+      "description": ""
+    },
+    {
+      "id": "scroll_eternity",
+      "name": "Scroll Eternity",
+      "thai": "Scroll of Eternity",
+      "category": "supplies",
+      "texture": {
+        "src": "/game/voidscape/textures/item/scroll_eternity.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "dcfaecbcbc9716f9a8fa655836e19103ee9ce0f24d920ad64c7ec2c57f03e6bf"
+      },
+      "guide": "/guide/magic/scrolls",
+      "description": ""
+    },
+    {
+      "id": "scroll_limit_break",
+      "name": "Scroll Limit Break",
+      "thai": "Limit Break Scroll",
+      "category": "supplies",
+      "texture": {
+        "src": "/game/voidscape/textures/item/scroll_limit_break.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "d9a6111a7e357125d07c35876bd2c135cdfb22eac8b14b1fbc3117eff99a97b1"
+      },
+      "guide": "/guide/magic/spell-levels",
+      "description": ""
+    },
+    {
+      "id": "scroll_unique",
+      "name": "Scroll Unique",
+      "thai": "Unique Scroll",
+      "category": "supplies",
+      "texture": {
+        "src": "/game/voidscape/textures/item/scroll_unique.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "09de34b21b80711c3cdf97b630b108f5f3bc1f6e35aab96c4099992d9b54bffe"
+      },
+      "guide": "/guide/magic/scrolls",
+      "description": ""
+    },
+    {
+      "id": "pet_egg",
+      "name": "Pet Egg",
+      "thai": "ไข่สัตว์เลี้ยง",
+      "category": "supplies",
+      "texture": {
+        "src": "/game/voidscape/textures/item/pet_egg.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "8aeb17daa0a3c99b98f394a743abbe55ecd754347f8edee1a0475b96a65ff754"
+      },
+      "guide": "/guide/pets/breeding",
+      "description": ""
+    }
+  ],
+  "spells": [
+    {
+      "id": "fireball",
+      "name": "Fireball",
+      "element": "fire",
+      "rarity": "Basic",
+      "mana": "12",
+      "cooldown": "4",
+      "multiplier": "1.2",
+      "damage": "14.4",
+      "description": "ระเบิดรัศมี 2.5 บล็อก และสะสม Burn",
+      "guide": "/guide/magic/spells-fire",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_fireball.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "81fff2d0dfcfc4edc709cc2843eb64039e12f998f871fb7a4d58c46717291980"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_fireball.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "adec8bd4049a690d724b7145ff557cf33c3ed088f318b6203bbfd3b7b79d1766"
+      }
+    },
+    {
+      "id": "flame_burst",
+      "name": "Flame Burst",
+      "element": "fire",
+      "rarity": "Basic",
+      "mana": "18",
+      "cooldown": "8",
+      "multiplier": "1.3",
+      "damage": "15.6",
+      "description": "ระเบิดเปลวรอบตัวรัศมี 4 ผลักศัตรูและติด Burn 2 ชั้น",
+      "guide": "/guide/magic/spells-fire",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_flame_burst.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "ccd864afce5e13c01d22992e1daedd1366550cc95c12a1babd778bdd2678b1e3"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_flame_burst.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "b1805e6ba7ebb508bf163e2c8b6138d758e426d08b84c3c18a4b062a08cdbbc3"
+      }
+    },
+    {
+      "id": "burning_ground",
+      "name": "Burning Ground",
+      "element": "fire",
+      "rarity": "Rare",
+      "mana": "25",
+      "cooldown": "14",
+      "multiplier": "2",
+      "damage": "24",
+      "description": "พื้นที่ไฟ 5 วินาที",
+      "guide": "/guide/magic/spells-fire",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_burning_ground.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "33ac8b5bb78d448696b5925cea73482f3136ec1f185a7566428450bd6392c1fa"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_burning_ground.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "693cca26f8731ef135d9aec5afe3daa0659f83a48e7b47ccb28a99c06be3174b"
+      }
+    },
+    {
+      "id": "flame_dash",
+      "name": "Flame Dash",
+      "element": "fire",
+      "rarity": "Rare",
+      "mana": "18",
+      "cooldown": "12",
+      "multiplier": "1.4",
+      "damage": "16.8",
+      "description": "พุ่ง 6 บล็อกทิ้งทางเพลิง 3 วินาที ศัตรูบนทางโดนเผา เพื่อนที่เหยียบทางได้พลังโจมตี +15% และ Speed",
+      "guide": "/guide/magic/spells-fire",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_flame_dash.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "299515ac195e8ef221f949ee31bf9a95436f896a80fea7ddb37426805fecbc9f"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_flame_dash.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "923c0093ef38295d96b50b2372b4acfc483c3ebb17a17f1391f38889727f7a4a"
+      }
+    },
+    {
+      "id": "inferno_spear",
+      "name": "Inferno Spear",
+      "element": "fire",
+      "rarity": "Rare",
+      "mana": "30",
+      "cooldown": "10",
+      "multiplier": "2.4",
+      "damage": "28.8",
+      "description": "หอกไฟทะลุสูงสุด 4 เป้าหมาย",
+      "guide": "/guide/magic/spells-fire",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_inferno_spear.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "277265a9fbfc70bb81c8adfa97cc62d79020021be32cf0f914078c0379632977"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_inferno_spear.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "a5adbcbb6d0ba821ba80672cfa2998a0492d0305952526515c1837cdc465ba55"
+      }
+    },
+    {
+      "id": "magma_eruption",
+      "name": "Magma Eruption",
+      "element": "fire",
+      "rarity": "Epic",
+      "mana": "35",
+      "cooldown": "18",
+      "multiplier": "3",
+      "damage": "36",
+      "description": "ลาวาปะทุหลังเตือน 0.8 วินาที",
+      "guide": "/guide/magic/spells-fire",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_magma_eruption.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "7e3f1d9391da4b388ec5d7abb4642d6b5fff9a912b5d835782a82cb44c056cfc"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_magma_eruption.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "17ee589f417015f00afad5dc436f4707ee4c76d2206d134f86531f3d584e1fe0"
+      }
+    },
+    {
+      "id": "hellfire_chain",
+      "name": "Hellfire Chain",
+      "element": "fire",
+      "rarity": "Rare",
+      "mana": "28",
+      "cooldown": "13",
+      "multiplier": "2.2",
+      "damage": "26.4",
+      "description": "ไฟชิ่งสูงสุด 5 เป้าหมาย",
+      "guide": "/guide/magic/spells-fire",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_hellfire_chain.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "32e699c51e4706ed7337823591bc75f5b3af2aa870d92b900b9ad068e7726029"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_hellfire_chain.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "891944cf243e54bffe4a387438ed587d3ad42abe74b2d8ac031c1ed7385997c4"
+      }
+    },
+    {
+      "id": "scorching_vortex",
+      "name": "Scorching Vortex",
+      "element": "fire",
+      "rarity": "Epic",
+      "mana": "42",
+      "cooldown": "22",
+      "multiplier": "3.6",
+      "damage": "43.2",
+      "description": "พายุไฟดูดศัตรู 5 วินาที",
+      "guide": "/guide/magic/spells-fire",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_scorching_vortex.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "54dd36ecf114888905806f11752eaa5b26b98fae0ada4ff698611316d9265666"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_scorching_vortex.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "8d23514920b42625609954539eae55f0e238d70dda0f8897d24d90b0d30f4443"
+      }
+    },
+    {
+      "id": "meteor_rain",
+      "name": "Meteor Rain",
+      "element": "fire",
+      "rarity": "Legendary (Ultimate)",
+      "mana": "65",
+      "cooldown": "45",
+      "multiplier": "16",
+      "damage": "192",
+      "description": "อุกกาบาตเล็ก 6 ลูกตกรอบวง แล้วลูกใหญ่กระแทกกลาง รัศมี 6",
+      "guide": "/guide/magic/spells-fire",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_meteor_rain.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "af5d512fed43ea841f6d606b8ff44f3265159429486e52ce9f69ceeb9fcd31ed"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_meteor_rain.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "cbe5ab2b425cad6bc48d7632896f332b802a4f3260e30e097a6de4ce358beaf5"
+      }
+    },
+    {
+      "id": "phoenix_rebirth",
+      "name": "Phoenix Rebirth",
+      "element": "fire",
+      "rarity": "Legendary (Ultimate)",
+      "mana": "80",
+      "cooldown": "120",
+      "multiplier": "2.5",
+      "damage": "30",
+      "description": "ป้องกันความตายอัตโนมัติเมื่อถือคทาที่ประทับไว้",
+      "guide": "/guide/magic/spells-fire",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_phoenix_rebirth.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "3c6c75df382aac9891955b8d71a584bebebb6f844a700f4b13057b9a2cd8328d"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_phoenix_rebirth.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "913f74ca8ccdcc28e039ea77c58ee7f56553509161699beacf848cdf66079e19"
+      }
+    },
+    {
+      "id": "aqua_bullet",
+      "name": "Aqua Bullet",
+      "element": "water",
+      "rarity": "Basic",
+      "mana": "10",
+      "cooldown": "3",
+      "multiplier": "0.9",
+      "damage": "10.8",
+      "description": "กระสุนน้ำและ Wet 5 วินาที",
+      "guide": "/guide/magic/spells-water",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_aqua_bullet.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "5dd1818d8a3a8d45b55534ecfca54ececd1c79da41c92f9919f9ded999f3ceee"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_aqua_bullet.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "178ef7bbb49f8c5f21ca7b633976f8c77ca40a364a70eb6477e4a3980d4fa787"
+      }
+    },
+    {
+      "id": "water_blade",
+      "name": "Water Blade",
+      "element": "water",
+      "rarity": "Basic",
+      "mana": "16",
+      "cooldown": "6",
+      "multiplier": "1.4",
+      "damage": "16.8",
+      "description": "คมมีดน้ำโจมตีแนวตรง",
+      "guide": "/guide/magic/spells-water",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_water_blade.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "3d16edcedf312eb07d3e20c2e41c6056d52f3dc456dfd755e9193f5d0d617a8c"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_water_blade.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "828145196a4a9dfba43d3a962153433d23c4021294fd24d6b415500a5022c08c"
+      }
+    },
+    {
+      "id": "healing_spring",
+      "name": "Healing Spring",
+      "element": "water",
+      "rarity": "Rare",
+      "mana": "25",
+      "cooldown": "16",
+      "multiplier": "2.5",
+      "damage": "30",
+      "description": "บ่อน้ำศักดิ์สิทธิ์รัศมี 5 ฮีลพันธมิตร 5 ครั้งใน 5 วินาที และล้าง Burn/Slow",
+      "guide": "/guide/magic/spells-water",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_healing_spring.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "bcdb6e5fbf893592a742d37b5760982cce6c7476f5fe4a25acdce8acc546b9b4"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_healing_spring.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "c8f43713c987742a1e2d57381e1bffd492701ec6be7ed9d182c057430e9b8406"
+      }
+    },
+    {
+      "id": "bubble_prison",
+      "name": "Bubble Prison",
+      "element": "water",
+      "rarity": "Rare",
+      "mana": "30",
+      "cooldown": "20",
+      "multiplier": "1",
+      "damage": "12",
+      "description": "ขังศัตรูในฟอง 3 วินาที (ผู้เล่น 1.5 วินาที) ฟองแตกทำดาเมจซ้ำและติด Wet",
+      "guide": "/guide/magic/spells-water",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_bubble_prison.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "58e269991e18fba03b8e1a8752cfdd1665d67027f52c4b5c27af6585e49771c5"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_bubble_prison.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "6a824df660cdf08bc558dbe4808e64cae2538340ea7338410e11952604f0bb29"
+      }
+    },
+    {
+      "id": "tidal_push",
+      "name": "Tidal Push",
+      "element": "water",
+      "rarity": "Rare",
+      "mana": "24",
+      "cooldown": "10",
+      "multiplier": "1.5",
+      "damage": "18",
+      "description": "คลื่นกรวย 8 บล็อก ผลักแรงและติด Wet ดับไฟและเร่งความเร็วเพื่อนในแนวคลื่น",
+      "guide": "/guide/magic/spells-water",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_tidal_push.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "a3246fca3e57070215fcec8564781564be4af86fd6a126c2650128363b6d27ad"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_tidal_push.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "c56c9fabc7a91cf1231d0c76a0f2d49153669ad27d8c90304735eb657158d676"
+      }
+    },
+    {
+      "id": "aqua_shield",
+      "name": "Aqua Shield",
+      "element": "water",
+      "rarity": "Rare",
+      "mana": "32",
+      "cooldown": "18",
+      "multiplier": "1.8",
+      "damage": "21.6",
+      "description": "โล่น้ำให้ตัวเองและพันธมิตรรัศมี 6 นาน 8 วินาที",
+      "guide": "/guide/magic/spells-water",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_aqua_shield.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "b49e299baf1b34b7729334ce03d22e357afdf034d0809b3285c16cdfa44af01f"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_aqua_shield.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "6709ad414dc2444d61f3ef1e08ea759c13de9ec458160d6e4e70d4080d022ab3"
+      }
+    },
+    {
+      "id": "rain_blessing",
+      "name": "Rain Blessing",
+      "element": "water",
+      "rarity": "Epic",
+      "mana": "42",
+      "cooldown": "30",
+      "multiplier": "3.5",
+      "damage": "42",
+      "description": "ฝนศักดิ์สิทธิ์รอบตัวรัศมี 7 ฮีลพันธมิตรต่อเนื่อง 8 วินาที",
+      "guide": "/guide/magic/spells-water",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_rain_blessing.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "7bd44a06547fc87ac540c48e5ef6ff6bbb98d03f80403443a41e9040cd76f919"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_rain_blessing.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "de7b8b3b8b7ecce8d204c515bd40eb85ec8726218dbb156833cee24bf38dc0f8"
+      }
+    },
+    {
+      "id": "whirlpool",
+      "name": "Whirlpool",
+      "element": "water",
+      "rarity": "Epic",
+      "mana": "35",
+      "cooldown": "19",
+      "multiplier": "2.2",
+      "damage": "26.4",
+      "description": "วังน้ำวนดูดศัตรู 4 วินาที",
+      "guide": "/guide/magic/spells-water",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_whirlpool.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "e2310ab3217f0211bce6d5648df375f97471561b0cb257cb71a27760cea52d87"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_whirlpool.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "e93d5e4596fe2ac3c15f100036ee04711a788c521d40ed0d507162af016875c8"
+      }
+    },
+    {
+      "id": "tsunami",
+      "name": "Tsunami",
+      "element": "water",
+      "rarity": "Legendary (Ultimate)",
+      "mana": "58",
+      "cooldown": "40",
+      "multiplier": "9",
+      "damage": "108",
+      "description": "คลื่นยักษ์ยาว 16 บล็อก ผลักศัตรูและติด Wet",
+      "guide": "/guide/magic/spells-water",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_tsunami.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "5f89fbec032b658c92a829c3911b45fdf83276d1d52fc8047fa07517ca528810"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_tsunami.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "c56c9fabc7a91cf1231d0c76a0f2d49153669ad27d8c90304735eb657158d676"
+      }
+    },
+    {
+      "id": "leviathans_wrath",
+      "name": "Leviathan's Wrath",
+      "element": "water",
+      "rarity": "Legendary (Ultimate)",
+      "mana": "75",
+      "cooldown": "65",
+      "multiplier": "16",
+      "damage": "192",
+      "description": "คลื่นมังกรน้ำ 5 ระลอก ยาว 24 บล็อก ผลักและทำให้ช้า",
+      "guide": "/guide/magic/spells-water",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_leviathans_wrath.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "d4bd03215756387eaec835db08a4384e97bab1862fbf26afd393bc6df8b7d225"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_leviathans_wrath.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "469a2d87f0ddb895ac01a4237da91ec5dcd5554ce2926dbddf6fd25877b91b62"
+      }
+    },
+    {
+      "id": "frost_bolt",
+      "name": "Frost Bolt",
+      "element": "ice",
+      "rarity": "Basic",
+      "mana": "12",
+      "cooldown": "4",
+      "multiplier": "1",
+      "damage": "12",
+      "description": "Slow 20% นาน 3 วินาที",
+      "guide": "/guide/magic/spells-ice",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_frost_bolt.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "6d29a5f71dd4fe2b420952b25d5490b25a33b0a714a964638cefa841371dbd55"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_frost_bolt.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "e8065469ff7210cd3fdbc169b8785d6ea9999e4cff3cb2b54aa5a6e6fc13f127"
+      }
+    },
+    {
+      "id": "ice_spike",
+      "name": "Ice Spike",
+      "element": "ice",
+      "rarity": "Rare",
+      "mana": "22",
+      "cooldown": "8",
+      "multiplier": "1.8",
+      "damage": "21.6",
+      "description": "หนามน้ำแข็งจากพื้น",
+      "guide": "/guide/magic/spells-ice",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_ice_spike.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "a1d530f543e8dd17d883395122663db111fc0d4048d6eb50ba0729943955592e"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_ice_spike.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "e8065469ff7210cd3fdbc169b8785d6ea9999e4cff3cb2b54aa5a6e6fc13f127"
+      }
+    },
+    {
+      "id": "frozen_armor",
+      "name": "Frozen Armor",
+      "element": "ice",
+      "rarity": "Rare",
+      "mana": "26",
+      "cooldown": "20",
+      "multiplier": "—",
+      "damage": "—",
+      "description": "เกราะน้ำแข็งให้ทีมรัศมี 6 ลดดาเมจ 20% นาน 8 วินาที ผู้ที่ตีเข้ามาติด Frost",
+      "guide": "/guide/magic/spells-ice",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_frozen_armor.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "3447081000aa0591c44e8bc024e389936b3506c254de23909eb7d1baf8818ba9"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_frozen_armor.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "680701e8341a0623ac41b223c7be57588bba636729f90887095dd801db790c5c"
+      }
+    },
+    {
+      "id": "glacial_path",
+      "name": "Glacial Path",
+      "element": "ice",
+      "rarity": "Rare",
+      "mana": "20",
+      "cooldown": "12",
+      "multiplier": "1",
+      "damage": "12",
+      "description": "ทางน้ำแข็ง 10 บล็อก 5 วินาที ศัตรูบนทางช้าลงและติด Frost เพื่อนบนทางวิ่งเร็วขึ้น",
+      "guide": "/guide/magic/spells-ice",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_glacial_path.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "014fe4e9a4d8d1e37a3981feed5ebd4a3cadb499e43aedd1be441e52fd1e1e00"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_glacial_path.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "fc11f2c25c718d6510194f3b44d16026dce068afb2e6c85222fe505c545c2b69"
+      }
+    },
+    {
+      "id": "crystal_prison",
+      "name": "Crystal Prison",
+      "element": "ice",
+      "rarity": "Epic",
+      "mana": "38",
+      "cooldown": "26",
+      "multiplier": "1.5",
+      "damage": "18",
+      "description": "ขังศัตรูในผลึก 3 วินาที (ผู้เล่น 1.5 วินาที) ผลึกแตกเป็นระเบิดน้ำแข็งรอบตัว",
+      "guide": "/guide/magic/spells-ice",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_crystal_prison.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "167ab413d6f5c90d512bf596387cf2c88d316dec70c9c2640b90ebf31ecabb2b"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_crystal_prison.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "77718c1232a837eb0ec5783993ee1a792484b6889130f6b6ce2298f7c3d912cf"
+      }
+    },
+    {
+      "id": "blizzard",
+      "name": "Blizzard",
+      "element": "ice",
+      "rarity": "Epic",
+      "mana": "46",
+      "cooldown": "26",
+      "multiplier": "3.5",
+      "damage": "42",
+      "description": "พายุหิมะรัศมี 6 บล็อก 6 วินาที",
+      "guide": "/guide/magic/spells-ice",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_blizzard.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "5ce38682f32d78f6968df9c1bbd60f8a8fd72a049b73c77998ea826f6f92fe8b"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_blizzard.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "8c214813f9aba1ab00785c1927d4687b4862d1150920ddfea4af04d4b2a2e3e9"
+      }
+    },
+    {
+      "id": "absolute_zero",
+      "name": "Absolute Zero",
+      "element": "ice",
+      "rarity": "Legendary (Ultimate)",
+      "mana": "80",
+      "cooldown": "75",
+      "multiplier": "16",
+      "damage": "192",
+      "description": "สนามเยือกแข็งรัศมี 6 ชะลอ แช่แข็ง แล้วระเบิดแรงขึ้นตามชั้น Frost",
+      "guide": "/guide/magic/spells-ice",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_absolute_zero.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "96cbe196ece19922989358e40c90ca2ae5586a271eee8f3a7e9870892f4b0fbd"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_absolute_zero.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "6f9b5863708b8bf7b0188d5883f55cf2c04a3fbf60a633bded6865909fab7089"
+      }
+    },
+    {
+      "id": "wind_cutter",
+      "name": "Wind Cutter",
+      "element": "wind",
+      "rarity": "Basic",
+      "mana": "10",
+      "cooldown": "3",
+      "multiplier": "0.9",
+      "damage": "10.8",
+      "description": "ใบมีดลมระยะ 18 บล็อก",
+      "guide": "/guide/magic/spells-wind",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_wind_cutter.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "bc7f40ee5ef3e7d8949c3cce244b54e6d02d074dd30a61f61ba60c744e3f8593"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_wind_cutter.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "f22fc49be98963c8571d4fa68611b87e63ac6016efe0bff16997c5d1f0a16504"
+      }
+    },
+    {
+      "id": "gale_step",
+      "name": "Gale Step",
+      "element": "wind",
+      "rarity": "Basic",
+      "mana": "14",
+      "cooldown": "8",
+      "multiplier": "0.4",
+      "damage": "4.8",
+      "description": "พุ่ง 7 บล็อก ปล่อยลมผลักศัตรูรอบจุดเดิม และได้ Speed II 3 วินาที",
+      "guide": "/guide/magic/spells-wind",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_gale_step.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "52c8df41471dd73bd88fa9e23ed487cb53bcf7688d60349c8cfdefd8c2a722cd"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_gale_step.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "b9b0e93cd0358ac44f44cd0ee75e47de6d3f3aa9037918bd1a5e3da42a1bd30a"
+      }
+    },
+    {
+      "id": "updraft",
+      "name": "Updraft",
+      "element": "wind",
+      "rarity": "Rare",
+      "mana": "22",
+      "cooldown": "14",
+      "multiplier": "1.2",
+      "damage": "14.4",
+      "description": "ยกศัตรูรัศมี 5 ขึ้นฟ้าและติด Air 2 ชั้น",
+      "guide": "/guide/magic/spells-wind",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_updraft.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "5e839ed697d8fa47f25a60e7060ac22501d22ddfa52d5593c30128c002fd5f87"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_updraft.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "1b1ef13394ceb7862bb3d3b0d49b61a3f655f7ae5821406f039d7e8878aefa3c"
+      }
+    },
+    {
+      "id": "wind_barrier",
+      "name": "Wind Barrier",
+      "element": "wind",
+      "rarity": "Rare",
+      "mana": "25",
+      "cooldown": "18",
+      "multiplier": "—",
+      "damage": "—",
+      "description": "ม่านลมให้ทีมรัศมี 8 กันดาเมจกระสุน 50% และ Speed นาน 8 วินาที พร้อมผลักศัตรูใกล้ตัว",
+      "guide": "/guide/magic/spells-wind",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_wind_barrier.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "b5bbeb1b66b8f4641a35420e8515f5eb79f4434506f2690d81e30518d008e6f2"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_wind_barrier.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "7d7535cb1b57f24819a5fba94be28be309907af3c8bd661fac3e781db3b8c1e1"
+      }
+    },
+    {
+      "id": "cyclone_trap",
+      "name": "Cyclone Trap",
+      "element": "wind",
+      "rarity": "Epic",
+      "mana": "35",
+      "cooldown": "20",
+      "multiplier": "2",
+      "damage": "24",
+      "description": "ดูดศัตรูเข้าศูนย์กลาง 4 วินาที",
+      "guide": "/guide/magic/spells-wind",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_cyclone_trap.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "5cebd9b29eedefbd1d6790a318c7a01b18eab1897fe24ad620d4a93c2a327353"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_cyclone_trap.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "c029fba3e4d46a2ad1f6060d30e6bc48a2b317846b3713edb0b7d00d7ba44251"
+      }
+    },
+    {
+      "id": "thousand_wind_blades",
+      "name": "Thousand Wind Blades",
+      "element": "wind",
+      "rarity": "Epic",
+      "mana": "42",
+      "cooldown": "24",
+      "multiplier": "3.6",
+      "damage": "43.2",
+      "description": "ใบมีดลม 12 ใบ แบ่งความเสียหายรวม",
+      "guide": "/guide/magic/spells-wind",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_thousand_wind_blades.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "e253b94354376a08ca2614375c9d89997c5cbc7543915cbf42da38fe74294958"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_thousand_wind_blades.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "2569fb2c4ca6802ad70a3bfc29b841d55ba1c60ea2e4e68496c4c5f51b412388"
+      }
+    },
+    {
+      "id": "tempest_dominion",
+      "name": "Tempest Dominion",
+      "element": "wind",
+      "rarity": "Legendary (Ultimate)",
+      "mana": "75",
+      "cooldown": "65",
+      "multiplier": "16",
+      "damage": "192",
+      "description": "พายุรัศมี 7 นาน 6 วินาที ตีทุกวินาทีและเหวี่ยงศัตรูวนรอบ",
+      "guide": "/guide/magic/spells-wind",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_tempest_dominion.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "8a7516d23341554f8bf147c89ccf9fc83dc9f082238d537a0ce50c0c36fb8c10"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_tempest_dominion.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "5cad9ea5974489f653ecd5daf98c0317ca6fcab06ec1f864ea327d7c999c45d5"
+      }
+    },
+    {
+      "id": "stone_bullet",
+      "name": "Stone Bullet",
+      "element": "earth",
+      "rarity": "Basic",
+      "mana": "12",
+      "cooldown": "4",
+      "multiplier": "1.2",
+      "damage": "14.4",
+      "description": "กระสุนหินผลักเป้าหมาย",
+      "guide": "/guide/magic/spells-earth",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_stone_bullet.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "0cf27181f7cbadb56d231afd56621e9c575c2c252131edf8af9d5d5b9d82e7e6"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_stone_bullet.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "2d97bdd9f2092c5e50bbb2814997e2d3dbbdf1d9c89c32ca67d0211c9915862c"
+      }
+    },
+    {
+      "id": "earth_spike",
+      "name": "Earth Spike",
+      "element": "earth",
+      "rarity": "Rare",
+      "mana": "22",
+      "cooldown": "9",
+      "multiplier": "1.9",
+      "damage": "22.8",
+      "description": "หนามหินจากพื้น",
+      "guide": "/guide/magic/spells-earth",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_earth_spike.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "5804c1ff202c11c0cfff8e47a57cefb1dadb1a42fa2a99b0b49d65852548dcd5"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_earth_spike.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "29e80b8c51325e031fdb9d85e6b0b135e918c0dc75917eb98b82bc456fd0f159"
+      }
+    },
+    {
+      "id": "stone_wall",
+      "name": "Stone Wall",
+      "element": "earth",
+      "rarity": "Rare",
+      "mana": "26",
+      "cooldown": "22",
+      "multiplier": "—",
+      "damage": "—",
+      "description": "กำแพงจำลองกั้นกระสุน 6 วินาที",
+      "guide": "/guide/magic/spells-earth",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_stone_wall.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "4a74da28aa239bbfdab886370f15d98ee5579cf68c7b7f9cf247764d3c935b32"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_stone_wall.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "69f134c3365b38e0d1f642c22e6cc0d6cab020d8412ef5dfc8358e80f1d52b53"
+      }
+    },
+    {
+      "id": "iron_skin",
+      "name": "Iron Skin",
+      "element": "earth",
+      "rarity": "Rare",
+      "mana": "28",
+      "cooldown": "24",
+      "multiplier": "—",
+      "damage": "—",
+      "description": "ผิวเหล็กให้ทีมรัศมี 6 ลดดาเมจ 25% และกันแรงผลักนาน 8 วินาที",
+      "guide": "/guide/magic/spells-earth",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_iron_skin.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "cc2cdf467d083777a2f0992689612d9872bbf46fb6c3bed0968d1e1b094d08b6"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_iron_skin.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "0261555e6430a0416bc6272147469a93a4488dcbd52aeca74bff50670db512d6"
+      }
+    },
+    {
+      "id": "quicksand",
+      "name": "Quicksand",
+      "element": "earth",
+      "rarity": "Rare",
+      "mana": "26",
+      "cooldown": "16",
+      "multiplier": "1.2",
+      "damage": "14.4",
+      "description": "ทรายดูดรัศมี 4 ดึงศัตรูลงพื้น Slow 50% นาน 5 วินาที",
+      "guide": "/guide/magic/spells-earth",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_quicksand.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "28e227334e53fd2ab53d8c483cf0affb11922dc4465c6d3f104590436f7f012f"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_quicksand.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "794f272aeb6689f2270feff733b7a657549fbddbddfb1fc7ef0574674f572a0f"
+      }
+    },
+    {
+      "id": "seismic_slam",
+      "name": "Seismic Slam",
+      "element": "earth",
+      "rarity": "Epic",
+      "mana": "36",
+      "cooldown": "18",
+      "multiplier": "2.8",
+      "damage": "33.6",
+      "description": "กระแทกพื้นและสะสม Stagger",
+      "guide": "/guide/magic/spells-earth",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_seismic_slam.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "f9b49eda7163376bbaac40cff3f143afe6aea163bf2211998876c628a9701c65"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_seismic_slam.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "b2bdc9db865a895b7434f47b64b7e79bef22d6ffae4f447fc93c1be5e5b6b6af"
+      }
+    },
+    {
+      "id": "golem_guardian",
+      "name": "Golem Guardian",
+      "element": "earth",
+      "rarity": "Epic",
+      "mana": "50",
+      "cooldown": "45",
+      "multiplier": "3",
+      "damage": "36",
+      "description": "โกเลมผู้พิทักษ์เดินไล่ตีศัตรู ดึงความสนใจมอนสเตอร์จากทีม 15 วินาที",
+      "guide": "/guide/magic/spells-earth",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_golem_guardian.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "5208ee41c83ef1d6807e167b71c27a2ee8eba6f083d501bcd8cfbcfe5ab74c0e"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_golem_guardian.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "e85976b6658197050b911e808c9ac34f879e10361c63bd4d2b47a4fd7c9a47ad"
+      }
+    },
+    {
+      "id": "titans_judgment",
+      "name": "Titan's Judgment",
+      "element": "earth",
+      "rarity": "Legendary (Ultimate)",
+      "mana": "80",
+      "cooldown": "70",
+      "multiplier": "16",
+      "damage": "192",
+      "description": "หินยักษ์ตกกระแทกรัศมี 6 ผลักศัตรูและทำให้ช้า",
+      "guide": "/guide/magic/spells-earth",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_titans_judgment.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "f6eb8818935bd84be87d2dfa5fd52a8cdf17bda8154022342d884118f3e8dc5c"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_titans_judgment.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "414ee5deef3921668da6b434f51df33fd10e3eaa3f990bff7244f478af336c5a"
+      }
+    },
+    {
+      "id": "spark_shot",
+      "name": "Spark Shot",
+      "element": "lightning",
+      "rarity": "Basic",
+      "mana": "11",
+      "cooldown": "3",
+      "multiplier": "1",
+      "damage": "12",
+      "description": "กระสุนไฟฟ้าและ Shock Stack",
+      "guide": "/guide/magic/spells-lightning",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_spark_shot.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "094599eb98a6f25f2d2f874d493e5f5fc3ea5a0c7eb0c72062ee888c86d7707d"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_spark_shot.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "016892847926de0d73bea816069d73896cf59a6a035059922005a6a1a240f4c9"
+      }
+    },
+    {
+      "id": "lightning_chain",
+      "name": "Lightning Chain",
+      "element": "lightning",
+      "rarity": "Rare",
+      "mana": "25",
+      "cooldown": "9",
+      "multiplier": "2",
+      "damage": "24",
+      "description": "สายฟ้าชิ่งสูงสุด 4 เป้าหมาย",
+      "guide": "/guide/magic/spells-lightning",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_lightning_chain.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "c4b4bd33b5e32975ceaeb4580f904acf2319f494308df2b8ff9de62582d2f83b"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_lightning_chain.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "016892847926de0d73bea816069d73896cf59a6a035059922005a6a1a240f4c9"
+      }
+    },
+    {
+      "id": "thunder_dash",
+      "name": "Thunder Dash",
+      "element": "lightning",
+      "rarity": "Rare",
+      "mana": "20",
+      "cooldown": "11",
+      "multiplier": "1.2",
+      "damage": "14.4",
+      "description": "พุ่ง 7 บล็อกและโจมตีระหว่างทาง",
+      "guide": "/guide/magic/spells-lightning",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_thunder_dash.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "23a96c154105d4bf23089c64f6a1be1381573e1cc642f07eadae86fc55e57f54"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_thunder_dash.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "31a7a771d419c8d60cc8eeb8e50acb84427c69f47b6e3fc3ff6349f75e71968a"
+      }
+    },
+    {
+      "id": "static_field",
+      "name": "Static Field",
+      "element": "lightning",
+      "rarity": "Epic",
+      "mana": "32",
+      "cooldown": "17",
+      "multiplier": "2.5",
+      "damage": "30",
+      "description": "สนามไฟฟ้า 5 วินาที ช็อตศัตรู เพื่อนในสนามได้ Speed และพลังโจมตี +10%",
+      "guide": "/guide/magic/spells-lightning",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_static_field.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "c109f2d9f315361ca87956ee1f4b63acb7641ce59b910bed276ae0b0d112292a"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_static_field.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "f2c9162df7766152df8481d4acdf84671615beb0740ee5fab17c8b622ea4bee3"
+      }
+    },
+    {
+      "id": "thunder_spear",
+      "name": "Thunder Spear",
+      "element": "lightning",
+      "rarity": "Epic",
+      "mana": "40",
+      "cooldown": "18",
+      "multiplier": "3",
+      "damage": "36",
+      "description": "หอกสายฟ้าทะลวงเป้าหมาย",
+      "guide": "/guide/magic/spells-lightning",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_thunder_spear.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "449281996ee1f63ae13390f6db8a7c96125c0cd70e290efa052aa0d08d11a4d0"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_thunder_spear.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "acd18958d25cc9efd007d18758721493998d04bdc7e17b3e0dfae3260a2bc973"
+      }
+    },
+    {
+      "id": "wrath_of_raijin",
+      "name": "Wrath of Raijin",
+      "element": "lightning",
+      "rarity": "Legendary (Ultimate)",
+      "mana": "80",
+      "cooldown": "70",
+      "multiplier": "16",
+      "damage": "192",
+      "description": "พายุสายฟ้ารัศมี 6 ฟ้าผ่าชิ่งทุกวินาที ปิดท้ายด้วยเสาสายฟ้า",
+      "guide": "/guide/magic/spells-lightning",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_wrath_of_raijin.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "8224f6a9fa5750990c71b4f2865241d539b95805721025a9cef067e8eb1f9ddc"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_wrath_of_raijin.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "405b8b4a62f603e840af8905936730c78d66a6ccf2544b8afa1c8fad031172e5"
+      }
+    },
+    {
+      "id": "radiant_bolt",
+      "name": "Radiant Bolt",
+      "element": "light",
+      "rarity": "Basic",
+      "mana": "12",
+      "cooldown": "4",
+      "multiplier": "1.1",
+      "damage": "13.2",
+      "description": "กระสุนแสงและ Radiance Mark",
+      "guide": "/guide/magic/spells-light",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_radiant_bolt.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "e8398a9b5f540e66cd4d4d3607f4e1a2d6721ea998de6e2e3b95d90ed4ca7f5b"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_radiant_bolt.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "a53e8683c25f6d83c49ed3f22196c49f457f940ef1ee2a244e9b4f0e100fae69"
+      }
+    },
+    {
+      "id": "holy_sanctuary",
+      "name": "Holy Sanctuary",
+      "element": "light",
+      "rarity": "Epic",
+      "mana": "40",
+      "cooldown": "28",
+      "multiplier": "2.5",
+      "damage": "30",
+      "description": "เขตศักดิ์สิทธิ์รัศมี 6 ฮีลและลดดาเมจทีม 15% นาน 6 วินาที",
+      "guide": "/guide/magic/spells-light",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_holy_sanctuary.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "873fb3ae9d2aaf956aa1cf4a1fd2523845bb482167c7dfb8cca19070741ccd18"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_holy_sanctuary.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "813a7e05499168b5d794fc154609e3e863a24f1ab6e4341ead818d6e07521fa4"
+      }
+    },
+    {
+      "id": "purification",
+      "name": "Purification",
+      "element": "light",
+      "rarity": "Rare",
+      "mana": "25",
+      "cooldown": "18",
+      "multiplier": "1.5",
+      "damage": "18",
+      "description": "ชำระล้างทีมรัศมี 8 ล้างสถานะเสียทั้งหมด ฮีล และลดดาเมจ 20% นาน 3 วินาที",
+      "guide": "/guide/magic/spells-light",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_purification.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "02b7a1dcb7f569abb73df42d9cd8dd0265df64db34c28aaa7f9de6787d52ddb2"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_purification.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "2d345c246b196dd55d6c6fed9ddeca18dcf627f07aac94d9512f1bcd38cfd769"
+      }
+    },
+    {
+      "id": "divine_judgment",
+      "name": "Divine Judgment",
+      "element": "light",
+      "rarity": "Epic",
+      "mana": "46",
+      "cooldown": "25",
+      "multiplier": "3.8",
+      "damage": "45.6",
+      "description": "เสาแสงโจมตีและระเบิด Radiance Mark",
+      "guide": "/guide/magic/spells-light",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_divine_judgment.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "f48db25fbfbafa35a0362026f100d753538dea08be91d26b506da4713000b61a"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_divine_judgment.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "d9481bc8ee33fa1b98de9669896d0012781d49ceaecfcd9ec8291252b1616504"
+      }
+    },
+    {
+      "id": "heavens_descent",
+      "name": "Heaven's Descent",
+      "element": "light",
+      "rarity": "Legendary (Ultimate)",
+      "mana": "85",
+      "cooldown": "90",
+      "multiplier": "16",
+      "damage": "192",
+      "description": "ลำแสงพิพากษาสีทองยิงต่อเนื่อง บังคับทิศทางได้ ไกล 48 บล็อก ฮีลพันธมิตรในแนวลำแสง",
+      "guide": "/guide/magic/spells-light",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_heavens_descent.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "dd7d85b879820aaa1a12bc79aac646998974fe34c47978cb021fdeca1f5b6558"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_heavens_descent.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "ba059e899396d5fc70e43af8e07f5aaabc402f1586bfce06366bf80ee1b1f466"
+      }
+    },
+    {
+      "id": "shadow_bolt",
+      "name": "Shadow Bolt",
+      "element": "dark",
+      "rarity": "Basic",
+      "mana": "12",
+      "cooldown": "4",
+      "multiplier": "1",
+      "damage": "12",
+      "description": "กระสุนเงาและ Curse Stack",
+      "guide": "/guide/magic/spells-dark",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_shadow_bolt.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "66c073ccb210cb430c45f2b815766cc089b2a03d4d99d15e8eacba3692bb4736"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_shadow_bolt.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "929c39fe8410fcf72065af3d2a9a0f88ea7d2ca3d6b3a3455ef156d69f1fa0d1"
+      }
+    },
+    {
+      "id": "life_drain",
+      "name": "Life Drain",
+      "element": "dark",
+      "rarity": "Rare",
+      "mana": "28",
+      "cooldown": "12",
+      "multiplier": "2",
+      "damage": "24",
+      "description": "ดูดเลือด 40% ของดาเมจจริง แบ่งครึ่งหนึ่งฮีลเพื่อนรัศมี 6",
+      "guide": "/guide/magic/spells-dark",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_life_drain.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "7931bd2629b3d54436c4c3b03a03da2e451875ca5160c1130c76868866b1c7ec"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_life_drain.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "c9e6d2cde8460a064d858b24eb4e5b50d3ab14181894ff2c9176c9a3e7183717"
+      }
+    },
+    {
+      "id": "cursed_mark",
+      "name": "Cursed Mark",
+      "element": "dark",
+      "rarity": "Rare",
+      "mana": "24",
+      "cooldown": "18",
+      "multiplier": "—",
+      "damage": "—",
+      "description": "สาปศัตรูรัศมี 3 รอบเป้า รับดาเมจเพิ่ม 15% นาน 8 วินาที และติด Curse 3 ชั้น",
+      "guide": "/guide/magic/spells-dark",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_cursed_mark.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "e2bec9146b13b34e625ae3fa1b147f0ac65aa57e2cdc0d32d206d49a0e498640"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_cursed_mark.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "a8969c9dd1c6839d44cc801ab8afed5b271aaf15c886d12069a9b4f307b97135"
+      }
+    },
+    {
+      "id": "shadow_doppelganger",
+      "name": "Shadow Doppelganger",
+      "element": "dark",
+      "rarity": "Epic",
+      "mana": "45",
+      "cooldown": "35",
+      "multiplier": "3",
+      "damage": "36",
+      "description": "ร่างเงาคัดลอกเวท 50% นาน 8 วินาที ไม่คัดลอก Ultimate",
+      "guide": "/guide/magic/spells-dark",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_shadow_doppelganger.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "c002db589db40f2d2f5e7a7011962c0e59357262e7ac5c1980d1a2cd3d7b2da7"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_shadow_doppelganger.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "f904ec2c86ac50d0ff79f16e87756adea78239548c42c9ebf37c7b9abfeeb45f"
+      }
+    },
+    {
+      "id": "abyssal_collapse",
+      "name": "Abyssal Collapse",
+      "element": "dark",
+      "rarity": "Legendary (Ultimate)",
+      "mana": "80",
+      "cooldown": "75",
+      "multiplier": "16",
+      "damage": "192",
+      "description": "หลุมมิติรัศมี 6 แช่แข็งศัตรูแล้วยุบระเบิด แรงขึ้นตามชั้น Curse",
+      "guide": "/guide/magic/spells-dark",
+      "texture": {
+        "src": "/game/advance_magic/textures/item/scroll_abyssal_collapse.png",
+        "width": 128,
+        "height": 128,
+        "frameHeight": 128,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "06986de1b53c8b1282f1efa05fde314d684e9e4a8d2aa5bc88b2ad9882b4bc7a"
+      },
+      "effect": {
+        "src": "/game/advance_magic/textures/effect/elemental_abyssal_collapse.png",
+        "width": 256,
+        "height": 256,
+        "frameHeight": 256,
+        "frames": 1,
+        "frametime": 1,
+        "sha256": "bd4ec424d968a816d09dd5c08ab8e1a1087f8c8b2980006be6ac7ffb92e080d1"
+      }
+    }
+  ],
+  "elementIcons": {
+    "fire": {
+      "src": "/game/advance_magic/textures/item/skilltree/icon_fire.png",
+      "width": 32,
+      "height": 32,
+      "frameHeight": 32,
+      "frames": 1,
+      "frametime": 1,
+      "sha256": "f416d2b2b14b08fe7c95e114388012c02e4628f7c6647ffb7c95778c41966b9f"
+    },
+    "water": {
+      "src": "/game/advance_magic/textures/item/skilltree/icon_water.png",
+      "width": 32,
+      "height": 32,
+      "frameHeight": 32,
+      "frames": 1,
+      "frametime": 1,
+      "sha256": "a3a4e06f6e56d2e1484a58b50893a9b4f56f519e74aa8652c2bae49823800636"
+    },
+    "ice": {
+      "src": "/game/advance_magic/textures/item/skilltree/icon_ice.png",
+      "width": 32,
+      "height": 32,
+      "frameHeight": 32,
+      "frames": 1,
+      "frametime": 1,
+      "sha256": "be9010d1ee7e8a1659391264d9070d03a8bc130e65acf3b88d3470df833357e8"
+    },
+    "wind": {
+      "src": "/game/advance_magic/textures/item/skilltree/icon_wind.png",
+      "width": 32,
+      "height": 32,
+      "frameHeight": 32,
+      "frames": 1,
+      "frametime": 1,
+      "sha256": "c5a53efa133900baf6e1459839e68bb53ff99d8bac86336bf51fa2cd2409d62c"
+    },
+    "earth": {
+      "src": "/game/advance_magic/textures/item/skilltree/icon_earth.png",
+      "width": 32,
+      "height": 32,
+      "frameHeight": 32,
+      "frames": 1,
+      "frametime": 1,
+      "sha256": "e9d28691f814edac66b07d96f815726ee29b5eba276346558f39a9c2bd0891a8"
+    },
+    "lightning": {
+      "src": "/game/advance_magic/textures/item/skilltree/icon_lightning.png",
+      "width": 32,
+      "height": 32,
+      "frameHeight": 32,
+      "frames": 1,
+      "frametime": 1,
+      "sha256": "48f2d015392e86e891b797fa7eea72acb5034744f6f057de3adbd3e36fede82d"
+    },
+    "light": {
+      "src": "/game/advance_magic/textures/item/skilltree/icon_light.png",
+      "width": 32,
+      "height": 32,
+      "frameHeight": 32,
+      "frames": 1,
+      "frametime": 1,
+      "sha256": "6bd3377055d65f0091ced7ba1b0231088fde7d85c4a61c85f2de2b09311adcf9"
+    },
+    "dark": {
+      "src": "/game/advance_magic/textures/item/skilltree/icon_dark.png",
+      "width": 32,
+      "height": 32,
+      "frameHeight": 32,
+      "frames": 1,
+      "frametime": 1,
+      "sha256": "7dcab6fb2d2292ca3fd21c82a9bfd2ec09af9a2af592771b84c01a3bc1836e7a"
+    }
+  }
+}

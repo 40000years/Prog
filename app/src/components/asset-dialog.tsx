@@ -1,0 +1,14 @@
+"use client";
+import Link from "next/link";
+import {useEffect,useRef} from "react";
+import {ArrowUpRight,Clock3,Droplets,X} from "lucide-react";
+import {elements} from "@/lib/wiki";
+import {itemCategories,type Spell,type GameItem} from "@/lib/game-assets";
+import {GameTexture} from "./game-texture";
+
+export function AssetDialog({selected,onClose}:{selected:Spell|GameItem|null;onClose:()=>void}){
+ const dialog=useRef<HTMLDialogElement>(null);
+ useEffect(()=>{const d=dialog.current;if(!d)return;if(selected&&!d.open)d.showModal();else if(!selected&&d.open)d.close();},[selected]);
+ const isSpell=selected&&"mana" in selected,element=isSpell?elements.find(e=>e.id===selected.element):null;
+ return <dialog ref={dialog} className="asset-dialog" aria-label={selected?.name||"รายละเอียดไอเท็ม"} onClose={onClose} onCancel={onClose} onClick={e=>{if(e.target===e.currentTarget)onClose();}}>{selected&&<div data-lenis-prevent><button className="asset-dialog-close" onClick={onClose} aria-label="ปิดรายละเอียด"><X size={21}/></button><div className="asset-detail-heading"><span className="section-kicker">{isSpell?`THE GRIMOIRE / ${element?.english}`:itemCategories.find(c=>c.id===selected.category)?.en}</span><h2>{selected.name}</h2><p>{isSpell?`เวทธาตุ${element?.name} · ${selected.rarity}`:selected.thai}</p></div><div className={`asset-detail-art ${isSpell?"spell-detail-art":""}`}><GameTexture texture={selected.texture} alt={selected.name} animate="always" priority/>{isSpell&&<div className="spell-effect-reference"><GameTexture texture={selected.effect} alt={`เท็กซ์เจอร์เอฟเฟกต์ ${selected.name}`} animate="always"/><span>EFFECT TEXTURE / {selected.name}</span></div>}</div><p className="asset-detail-description">{selected.description||"ภาพไอเท็มจาก resource pack ที่ปล่อยพร้อมเกม"}</p>{isSpell?<><div className="spell-detail-stats"><span><Droplets size={16}/> มานา<strong>{selected.mana}<small> MP</small></strong></span><span><Clock3 size={16}/> คูลดาวน์<strong>{selected.cooldown}<small> วินาที</small></strong></span><span>ตัวคูณทั้งการร่าย<strong>{selected.multiplier}</strong></span><span>ผลที่ Spell Power 12<strong>{selected.damage}</strong></span></div><p className="asset-detail-note">{selected.rarity.startsWith("Legendary")?"Ultimate ไม่มีระดับ ต้องใช้คทา Mythic":"ค่าจากตารางเวทระดับ V ที่ Spell Power 12"} · ก่อนคิดธาตุคทา Skill Tree Gem และการป้องกัน ภาพด้านข้างเป็นเท็กซ์เจอร์เอฟเฟกต์จากแพ็กเกม</p></>:<p className="asset-detail-note">{selected.texture.frames>1?"ไอคอนเคลื่อนไหวตามเฟรมและจังหวะใน resource pack":"ไอคอนต้นฉบับจาก resource pack"} · อ่านกลไกและเงื่อนไขเพิ่มเติมในคู่มือที่เกี่ยวข้อง</p>}<div className="asset-detail-links"><Link href={selected.guide}>อ่านคู่มือที่เกี่ยวข้อง <ArrowUpRight size={15}/></Link><a href={selected.texture.src} target="_blank" rel="noopener noreferrer">ดูไฟล์ภาพต้นฉบับ <ArrowUpRight size={15}/></a></div></div>}</dialog>;
+}

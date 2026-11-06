@@ -1,183 +1,74 @@
-# ============================================================
-# Web Role - Tasks: Install Nginx, Node.js, and Deploy App
-# ============================================================
-
-- name: Fix apt sources mirror for reliable regional resolution
-  ansible.builtin.shell: |
-    sed -i -E 's|https?://[^/]+clouds\.ports\.ubuntu\.com/ubuntu-ports/?|http://ports.ubuntu.com/ubuntu-ports/|g' /etc/apt/sources.list /etc/apt/sources.list.d/*.list 2>/dev/null || true
-    echo "nameserver 8.8.8.8" >> /etc/resolv.conf 2>/dev/null || true
-  changed_when: false
-  tags:
-    - setup
-    - nginx
-    - nodejs
-
-- name: Wait for apt locks to be released
-  ansible.builtin.shell: |
-    while fuser /var/lib/dpkg/lock /var/lib/apt/lists/lock /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
-      echo "Waiting for apt locks to release..."
-      sleep 3
-    done
-  changed_when: false
-  tags:
-    - setup
-
-- name: Force update apt cache
-  ansible.builtin.apt:
-    update_cache: true
-    force_apt_get: true
-  register: apt_update_res
-  retries: 5
-  delay: 5
-  until: apt_update_res is success
-  tags:
-    - setup
-
-- name: Install Nginx and prerequisites
+---
+- name: Install Nginx
   ansible.builtin.apt:
     name:
       - nginx
-      - curl
-      - ca-certificates
-      - gnupg
+      - rsync
     state: present
-  register: apt_nginx_res
+    update_cache: true
+    cache_valid_time: 3600
+  register: nginx_install
   retries: 5
   delay: 5
-  until: apt_nginx_res is success
-  tags:
-    - setup
-    - nginx
+  until: nginx_install is success
 
-- name: Setup NodeSource repository (Node.js 20 LTS)
-  ansible.builtin.shell: |
-    set -o pipefail
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-  args:
-    executable: /bin/bash
-    creates: /etc/apt/sources.list.d/nodesource.list
-  tags:
-    - setup
-    - nodejs
-
-- name: Install Node.js
-  ansible.builtin.apt:
-    name: nodejs
-    state: present
-  register: apt_node_res
-  retries: 5
-  delay: 5
-  until: apt_node_res is success
-  tags:
-    - setup
-    - nodejs
-
-- name: Create application directory
+- name: Create wiki directory
   ansible.builtin.file:
-    path: /opt/myapp
+    path: /var/www/evergarden
     state: directory
-    owner: www-data
-    group: www-data
+    owner: root
+    group: root
     mode: "0755"
-  tags:
-    - setup
-    - deploy
-    - app
 
-- name: Copy entire application directory to server
-  ansible.builtin.copy:
-    src: "{{ playbook_dir }}/../app/"
-    dest: /opt/myapp/
-    owner: www-data
-    group: www-data
-    mode: "0755"
-  notify: Restart Node App
-  tags:
-    - deploy
-    - app
+- name: Synchronize built wiki to server
+  ansible.posix.synchronize:
+    src: "{{ playbook_dir }}/../app/out/"
+    dest: /var/www/evergarden/
+    delete: true
+    recursive: true
+    archive: false
+    checksum: true
+    rsync_opts:
+      - "--chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r"
 
-- name: Install Node.js dependencies
-  community.general.npm:
-    path: /opt/myapp
-    state: present
-  become: true
-  become_user: root
-  tags:
-    - deploy
-    - app
+- name: Check existing services
+  ansible.builtin.service_facts:
 
-- name: Create systemd service for Node.js app
-  ansible.builtin.copy:
-    content: |
-      [Unit]
-      Description=Mega Automation Lab Node.js App
-      After=network.target
+- name: Stop and disable the old store service
+  ansible.builtin.systemd:
+    name: myapp
+    state: stopped
+    enabled: false
+  when: "'myapp.service' in ansible_facts.services"
 
-      [Service]
-      Type=simple
-      User=www-data
-      WorkingDirectory=/opt/myapp
-      ExecStart=/usr/bin/node /opt/myapp/index.js
-      Restart=on-failure
-      RestartSec=10
-      Environment=NODE_ENV=production
-      Environment=PORT=3000
-      Environment=DB_HOST={{ db_host | default((groups['tag_Role_db'] is defined and groups['tag_Role_db'] | length > 0) | ternary(hostvars[groups['tag_Role_db'][0]]['private_ip_address'] | default(groups['tag_Role_db'][0], true), '127.0.0.1')) }}
-      Environment=DB_NAME=myapp_db
-      Environment=DB_USER=myapp_user
-      Environment=DB_PASSWORD={{ db_password | default('SuperSecretPass123!') }}
-
-      [Install]
-      WantedBy=multi-user.target
-    dest: /etc/systemd/system/myapp.service
-    mode: "0644"
-  notify: Restart Node App
-  tags:
-    - deploy
-    - app
-
-- name: Configure Nginx as reverse proxy
+- name: Configure Nginx to serve the wiki
   ansible.builtin.copy:
     content: |
       server {
           listen 80 default_server;
           listen [::]:80 default_server;
           server_name _;
+          root /var/www/evergarden;
+          index index.html;
+          error_page 404 /404.html;
 
           location / {
-              proxy_pass http://127.0.0.1:3000;
-              proxy_http_version 1.1;
-              proxy_set_header Upgrade $http_upgrade;
-              proxy_set_header Connection 'upgrade';
-              proxy_set_header Host $host;
-              proxy_set_header X-Real-IP $remote_addr;
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_set_header X-Forwarded-Proto $scheme;
-              proxy_cache_bypass $http_upgrade;
+              try_files $uri $uri.html $uri/ =404;
           }
       }
     dest: /etc/nginx/sites-available/default
     mode: "0644"
-  notify: Restart Nginx
-  tags:
-    - setup
-    - nginx
+  notify: Reload Nginx
+
+- name: Validate Nginx configuration
+  ansible.builtin.command: nginx -t
+  changed_when: false
 
 - name: Enable and start Nginx
   ansible.builtin.systemd:
     name: nginx
     enabled: true
     state: started
-  tags:
-    - setup
-    - nginx
 
-- name: Enable and restart Node.js app
-  ansible.builtin.systemd:
-    name: myapp
-    enabled: true
-    state: restarted
-    daemon_reload: true
-  tags:
-    - deploy
-    - app
+- name: Apply Nginx configuration before verification
+  ansible.builtin.meta: flush_handlers

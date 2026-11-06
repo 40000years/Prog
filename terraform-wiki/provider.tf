@@ -1,0 +1,38 @@
+# ============================================================
+# Provider Configuration
+# ============================================================
+
+terraform {
+  required_version = ">= 1.15.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "~> 4.0"
+    }
+    ansible = {
+      source  = "ansible/ansible"
+      version = "~> 1.5.0"
+    }
+  }
+
+  # S3 Backend - เก็บ state เพื่อไม่ให้สร้าง EC2 ใหม่ทุก push
+  backend "s3" {
+    bucket                 = "evergarden-wiki-tfstate-858039354188"
+    key                    = "terraform.tfstate"
+    region                 = "ap-southeast-7"
+    encrypt                = true
+    skip_region_validation = true
+  }
+}
+
+provider "aws" {
+  region              = var.aws_region
+  allowed_account_ids = ["858039354188"]
+}
+
+provider "tls" {}
