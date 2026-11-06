@@ -7,7 +7,7 @@
   post_tasks:
     - name: Verify wiki homepage through Nginx
       ansible.builtin.uri:
-        url: http://127.0.0.1/
+        url: http://127.0.0.1/evergardenwiki/
         status_code: 200
         return_content: true
       register: wiki_home
@@ -15,5 +15,5 @@
 
     - name: Verify a wiki guide page
       ansible.builtin.uri:
-        url: http://127.0.0.1/guide/getting-started/world
+        url: http://127.0.0.1/evergardenwiki/guide/getting-started/world
         status_code: 200

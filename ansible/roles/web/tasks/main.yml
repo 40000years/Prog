@@ -52,8 +52,21 @@
           index index.html;
           error_page 404 /404.html;
 
-          location / {
+          location = / {
+              return 302 /evergardenwiki/;
+          }
+
+          location = /evergardenwiki {
+              return 301 /evergardenwiki/;
+          }
+
+          location /evergardenwiki/ {
+              rewrite ^/evergardenwiki/(.*)$ /$1 break;
               try_files $uri $uri.html $uri/ =404;
+          }
+
+          location / {
+              try_files $uri =404;
           }
       }
     dest: /etc/nginx/sites-available/default

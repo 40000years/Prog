@@ -278,8 +278,8 @@ jobs:
         run: |
           WEB_IP="${{ needs.provision.outputs.web_ip }}"
           for i in {1..15}; do
-            if curl --fail --silent --max-time 5 "http://${WEB_IP}/" | grep -q "Evergarden" && \
-               curl --fail --silent --max-time 5 "http://${WEB_IP}/guide/getting-started/world" > /dev/null; then
+            if curl --fail --silent --max-time 5 "http://${WEB_IP}/evergardenwiki/" | grep -q "Evergarden" && \
+               curl --fail --silent --max-time 5 "http://${WEB_IP}/evergardenwiki/guide/getting-started/world" > /dev/null; then
               echo "Wiki is available"
               exit 0
             fi

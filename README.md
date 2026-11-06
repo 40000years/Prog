@@ -1,6 +1,6 @@
 # Evergarden Wiki บน EC2
 
-โปรเจกต์นี้สร้าง EC2 ด้วย Terraform และใช้ Ansible ติดตั้ง Nginx เพื่อให้บริการ Evergarden Wiki แบบ static โดยไม่ต้องใช้ backend สำหรับ wiki
+โปรเจกต์นี้สร้าง EC2 ด้วย Terraform และใช้ Ansible ติดตั้ง Nginx เพื่อให้บริการ Evergarden Wiki แบบ static ที่ path `/evergardenwiki/` โดยไม่ต้องใช้ backend สำหรับ wiki
 
 ## พัฒนาและ build
 
