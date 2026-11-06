@@ -47,6 +47,11 @@
     path: /etc/letsencrypt/live/www.bowrxn.com/fullchain.pem
   register: wiki_certificate
 
+- name: Check for the root domain TLS certificate
+  ansible.builtin.stat:
+    path: /etc/letsencrypt/live/bowrxn.com/fullchain.pem
+  register: wiki_root_certificate
+
 - name: Create certificate renewal hook directory
   ansible.builtin.file:
     path: /etc/letsencrypt/renewal-hooks/deploy
@@ -64,6 +69,30 @@
 - name: Configure Nginx to serve the wiki
   ansible.builtin.copy:
     content: |
+      server {
+          listen 80;
+          listen [::]:80;
+          server_name bowrxn.com;
+
+          location ^~ /.well-known/acme-challenge/ {
+              root /var/www/evergarden;
+          }
+
+          location / {
+              return 301 https://www.bowrxn.com$request_uri;
+          }
+      }
+      {% if wiki_root_certificate.stat.exists %}
+      server {
+          listen 443 ssl;
+          listen [::]:443 ssl;
+          server_name bowrxn.com;
+          ssl_certificate /etc/letsencrypt/live/bowrxn.com/fullchain.pem;
+          ssl_certificate_key /etc/letsencrypt/live/bowrxn.com/privkey.pem;
+          return 301 https://www.bowrxn.com$request_uri;
+      }
+      {% endif %}
+
       server {
           listen 80 default_server;
           listen [::]:80 default_server;
