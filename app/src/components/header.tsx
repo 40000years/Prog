@@ -50,7 +50,7 @@ export function Header() {
     <header className="site-header">
       <Link href="/" className="brand" aria-label="Evergarden Wiki หน้าแรก"><GardenMark /><span>EVERGARDEN<span className="brand-note">คู่มือภาษาไทย</span></span></Link>
       <nav className="desktop-nav" aria-label="เมนูหลัก">
-        <Link href="/#explore">สำรวจโลก</Link><Link href="/#bosses">คลังบอส</Link><Link href="/magic">เวทมนตร์</Link><Link href="/pets">สัตว์เลี้ยง</Link><Link href="/forge">Forge</Link>
+        <Link href="/#explore">สำรวจโลก</Link><Link href="/#bosses">คลังบอส</Link><Link href="/magic">เวทมนตร์</Link><Link href="/pets">สัตว์เลี้ยง</Link><Link href="/forge">Forge</Link><Link href="/tierlist">Tier List</Link>
       </nav>
       <div className="header-actions">
         <button className="header-search" onClick={() => showSearch()} aria-label="ค้นหาคู่มือ"><Search size={16} /><span>ค้นหาคู่มือ</span><kbd>⌘ K</kbd></button>
@@ -59,7 +59,7 @@ export function Header() {
         <button className="icon-button mobile-menu-button" onClick={() => setMobile(!mobile)} aria-expanded={mobile} aria-label={mobile ? "ปิดเมนู" : "เปิดเมนู"}>{mobile ? <X size={22}/> : <Menu size={22}/>}</button>
       </div>
     </header>
-    {mobile && <nav className="mobile-nav" aria-label="เมนูมือถือ"><Link href="/#explore" onClick={() => setMobile(false)}>สำรวจโลก</Link><Link href="/#bosses" onClick={() => setMobile(false)}>คลังบอส</Link><Link href="/magic" onClick={() => setMobile(false)}>เวทมนตร์</Link><Link href="/pets" onClick={() => setMobile(false)}>สัตว์เลี้ยง</Link><Link href="/forge" onClick={() => setMobile(false)}>ระบบ Forge</Link><button onClick={() => showSearch()}>ค้นหาคู่มือ <Search size={18}/></button></nav>}
+    {mobile && <nav className="mobile-nav" aria-label="เมนูมือถือ"><Link href="/#explore" onClick={() => setMobile(false)}>สำรวจโลก</Link><Link href="/#bosses" onClick={() => setMobile(false)}>คลังบอส</Link><Link href="/magic" onClick={() => setMobile(false)}>เวทมนตร์</Link><Link href="/pets" onClick={() => setMobile(false)}>สัตว์เลี้ยง</Link><Link href="/forge" onClick={() => setMobile(false)}>ระบบ Forge</Link><Link href="/tierlist" onClick={() => setMobile(false)}>จัด Tier List</Link><button onClick={() => showSearch()}>ค้นหาคู่มือ <Search size={18}/></button></nav>}
     <dialog ref={dialog} className="search-dialog" onCancel={close} onClose={close} aria-label={savedOnly ? "บทความที่บันทึกไว้" : "ค้นหา Evergarden Wiki"} onClick={e => { if(e.target === e.currentTarget) close(); }}>
       <div className="search-box" data-lenis-prevent>
         <div className="search-input-wrap"><Search size={23}/><input ref={input} value={query} onChange={e => setQuery(e.target.value)} placeholder={savedOnly ? "ค้นหาในบทความที่บันทึก…" : "ค้นหาบอส เวทมนตร์ หรือสิ่งที่สงสัย…"} aria-label="คำค้นหา"/><button className="icon-button" onClick={close} aria-label="ปิดการค้นหา"><X size={20}/></button></div>
