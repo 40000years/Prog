@@ -4,6 +4,7 @@
     name:
       - nginx
       - rsync
+      - certbot
     state: present
     update_cache: true
     cache_valid_time: 3600
@@ -41,6 +42,25 @@
     enabled: false
   when: "'myapp.service' in ansible_facts.services"
 
+- name: Check for the wiki TLS certificate
+  ansible.builtin.stat:
+    path: /etc/letsencrypt/live/www.bowrxn.com/fullchain.pem
+  register: wiki_certificate
+
+- name: Create certificate renewal hook directory
+  ansible.builtin.file:
+    path: /etc/letsencrypt/renewal-hooks/deploy
+    state: directory
+    mode: "0755"
+
+- name: Install certificate renewal hook
+  ansible.builtin.copy:
+    dest: /etc/letsencrypt/renewal-hooks/deploy/reload-nginx
+    content: |
+      #!/bin/sh
+      systemctl reload nginx
+    mode: "0755"
+
 - name: Configure Nginx to serve the wiki
   ansible.builtin.copy:
     content: |
@@ -48,6 +68,12 @@
           listen 80 default_server;
           listen [::]:80 default_server;
           server_name _;
+      {% if wiki_certificate.stat.exists %}
+          listen 443 ssl;
+          listen [::]:443 ssl;
+          ssl_certificate /etc/letsencrypt/live/www.bowrxn.com/fullchain.pem;
+          ssl_certificate_key /etc/letsencrypt/live/www.bowrxn.com/privkey.pem;
+      {% endif %}
           root /var/www/evergarden;
           index index.html;
           error_page 404 /404.html;

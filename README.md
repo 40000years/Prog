@@ -34,3 +34,7 @@ Ansible จะส่งไฟล์ไป `/var/www/evergarden` ตั้ง Ngi
 ค่าเริ่มต้นคือ `t4g.micro` ซึ่งอยู่ในรายการ Free Tier eligible ของ AWS และใช้ CPU credit แบบ standard สำหรับ web เพื่อหลีกเลี่ยงค่า surplus credit หาก CPU credit หมด เครื่องอาจตอบสนองช้าลง ค่าใช้จ่ายอื่น เช่น EBS และ public IPv4 ยังอาจเกิดขึ้น ตรวจสอบ AWS Billing ตาม account และ region ที่ใช้งานจริง
 
 การปรับ Free plan เป็น Paid plan เป็นการตัดสินใจใน AWS Console ของเจ้าของบัญชี และอาจทำให้เกิดค่าใช้จ่ายจริงเมื่อเครดิตหมด หมดอายุ หรือไม่ครอบคลุมบริการ ตรวจวันหมดอายุเครดิตแต่ละรายการก่อนตัดสินใจ
+
+## โดเมนและ HTTPS
+
+เว็บไซต์อยู่ที่ https://www.bowrxn.com/evergardenwiki/ โดย DNS ของ `www` ชี้ไป public IP ของ EC2 ใบรับรอง Let’s Encrypt เก็บบนเครื่องและ Certbot ต่ออายุอัตโนมัติพร้อม reload Nginx หาก IP เปลี่ยนต้องแก้ DNS ให้ตรงกับ IP ใหม่
